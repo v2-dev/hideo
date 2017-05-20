@@ -1,0 +1,1441 @@
+SO_KEEPALIVE impostata
+SO_KEEPALIVE è ON
+
+[91232700]	[4]	Thread connesso
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+[91232700]	[4]	Mimetype: text/html
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/99z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/163z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/110z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/80z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/117z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/82z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/167z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/136z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/32z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/24z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/66z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/135z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/88z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/2z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/19z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/90z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/171z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/69z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/44z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/56z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/127z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /bgr.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/91z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/34z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/50z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/22z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/97z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/61z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/162z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/139z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/68z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/78z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/92z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/166z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/57z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/25z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/5z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/29z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/113z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/168z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/141z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/93z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/115z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/1z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/87z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/109z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/33z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/8z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/62z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Chiusura connessione
+[91232700]	[4]	Thread connesso
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/138z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/156z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/6z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/47z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/7z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/72z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/30z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/119z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/146z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/43z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/102z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/96z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/36z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/23z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/11z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/169z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/52z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/74z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/35z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/53z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/39z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/157z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/107z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/103z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/151z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/98z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/172z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/67z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/58z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/145z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/118z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/37z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/41z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/42z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/26z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/71z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/10z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/133z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/73z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/12z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/114z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/165z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/121z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/140z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/38z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/164z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/59z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/134z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/21z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/75z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Chiusura connessione
+[91232700]	[4]	Thread connesso
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/120z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/170z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/106z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/150z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/65z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/17z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/13z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/85z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/60z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/152z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/28z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/142z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/15z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/116z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/147z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/125z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/16z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/9z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/148z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/100z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/153z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/89z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/154z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/55z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/130z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/83z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/128z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/95z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/40z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/94z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/159z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/3z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/129z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/81z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/126z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/137z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/70z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/158z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/18z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/84z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/131z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/132z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/45z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/4z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/105z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/64z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/143z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/122z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/104z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/111z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Chiusura connessione
+[91232700]	[4]	Thread connesso
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/101z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/108z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/112z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/149z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/46z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/155z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/76z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/173z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/49z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/31z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/86z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/14z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/160z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/48z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/123z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/51z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/161z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/79z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/27z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/124z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/144z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+#N = -1
+[91232700]	[4]	Chiusura connessione
+[91232700]	[4]	Thread connesso
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/174z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+#N = -1
+[91232700]	[4]	Chiusura connessione
+[91232700]	[4]	Thread connesso
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/20z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+#N = -1
+[91232700]	[4]	Chiusura connessione
+[91232700]	[4]	Thread connesso
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/63z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+#N = -1
+[91232700]	[4]	Chiusura connessione
+[91232700]	[4]	Thread connesso
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/54z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+#N = -1
+[91232700]	[4]	Chiusura connessione
+[91232700]	[4]	Thread connesso
+[91232700]	[4]	Servendo il client
+[91232700]	[4]	Metodo GET
+[91232700]	[4]	Header HTTP OK
+[91232700]	[4]	Path richiesto: /thumbs/500/77z.gif
+[91232700]	[4]	User Agent = Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/56.0.2924.76 Chrome/56.0.2924.76 Safari/537.36
+[91232700]	[4]	Accept = image/webp,image/*,*/*;q=0.8
+[91232700]	[4]	Mimetype: image/gif
+[91232700]	[4]	File servito
+[91232700]	[4]	Servendo il client
+#N = -1
+[91232700]	[4]	Chiusura connessione
