@@ -34,7 +34,6 @@ Config config_file;
 
 int				listenfd;
 socklen_t		addrlen;
-pthread_mutex_t *mtx;
 
 /*Error handlers*/
 void err_exit(const char *errmsg, int errnum);
@@ -49,11 +48,6 @@ ssize_t	writen(int fd, const void *buf, size_t n);
 
 int match(const char *, const char *);
 void usage(char *);
-
-/*thread functions*/
-int lock(pthread_mutex_t *);
-int unlock(pthread_mutex_t *);
-int mtx_init(pthread_mutex_t *);
 
 /*configuration file functions*/
 void init_parameters();

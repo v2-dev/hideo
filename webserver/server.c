@@ -22,7 +22,8 @@
 #define BACKLOG	10
 #define MAXTHREADS 10
 
-pthread_mutex_t *mtx;
+pthread_mutex_t mtx;
+
 int listensd;
 /*
 void serve_request(int socket_int){
@@ -35,6 +36,21 @@ void serve_request(int socket_int){
 
 }
 */
+
+
+void lock(pthread_mutex_t * mtx)
+{
+	if (pthread_mutex_lock(mtx) != 0)
+		err_exit("Error on pthread_mutex_lock", errno);
+}
+
+void unlock(pthread_mutex_t * mtx)
+{
+	if (pthread_mutex_unlock(mtx) != 0)
+		err_exit("Error on pthread_mutex_unlock", errno);
+}
+
+
 int serve_request(struct conndata * cdata)
 {
 	struct httpread * httpr;
@@ -94,34 +110,34 @@ void * thread_main()
 	while(1)
 	{
 		int c = 0;
-		c = lock(mtx);
 		if ((socket_int = accept(listensd, (struct sockaddr *)NULL, NULL)) < 0)
 			perror("errore in accept");
-		c = unlock(mtx);
-			struct timeval tv;
-			tv.tv_sec = 2;
-			tv.tv_usec = 0;
-			if (setsockopt(socket_int, SOL_SOCKET, SO_RCVTIMEO, (const char *)&tv,sizeof(struct timeval)) < 0)
+
+		struct timeval tv;
+		tv.tv_sec = 2;
+		tv.tv_usec = 0;
+		if (setsockopt(socket_int, SOL_SOCKET, SO_RCVTIMEO, (const char *)&tv,sizeof(struct timeval)) < 0)
 			{
 				perror("errore in setsockopt");
 				close(socket_int);
 				break;
 			}
-			if (setsockopt(socket_int, SOL_SOCKET, SO_SNDTIMEO, (const char *)&tv,sizeof(struct timeval)) < 0)
+		if (setsockopt(socket_int, SOL_SOCKET, SO_SNDTIMEO, (const char *)&tv,sizeof(struct timeval)) < 0)
 			{
 				perror("errore in setsockopt");
 				close(socket_int);
 				break;
 			}
-			j = 0;
-			cdata = create_conndata();
-			cdata->process_id = pthread_sid;
-			cdata->socketint = socket_int;
-			cdata->keepalmaxn = 5;
-			strcpy(cdata->messages, "Thread connesso");
-			print_message(cdata);
-			while(1)
-			{
+
+		j = 0;
+		cdata = create_conndata();
+		cdata->process_id = pthread_sid;
+		cdata->socketint = socket_int;
+		cdata->keepalmaxn = 5;
+		strcpy(cdata->messages, "Thread connesso");
+		print_message(cdata);
+		while(1)
+		{
 				strcpy(cdata->messages, "Servendo il client");
 				print_message(cdata);
 				retval = serve_request(cdata);
@@ -130,12 +146,12 @@ void * thread_main()
 				if ( j > 2 ) break;
 				cdata->keepalmaxn--;
 				if (cdata->keepalmaxn == 0) break;
-			}
-			strcpy(cdata->messages, "Chiusura connessione");
-			print_message(cdata);
-			close(socket_int);
-			free(cdata);
 		}
+		strcpy(cdata->messages, "Chiusura connessione");
+		print_message(cdata);
+		close(socket_int);
+		free(cdata);
+	}
 
 	return EXIT_SUCCESS;
 }
@@ -214,8 +230,10 @@ int main(int argc, char * argv[])
 	//setsockopt(listensd, SOL_SOCKET, SO_NOSIGPIPE, (void *)&set, sizeof(int));
 
 	//creazione dei thread
-	if(mtx_init(mtx) != 0)
-		fprintf(stderr, "error\n");
+	if(pthread_mutex_init(&mtx, NULL) != 0){
+		perror("");
+		exit(EXIT_FAILURE);
+	}
 
 	pthread_t replythread;
 	int i;

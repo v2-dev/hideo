@@ -22,32 +22,6 @@ void printerr_and_exit(const char *errmsg)
 	exit(EXIT_FAILURE);
 }
 
-int mtx_init(pthread_mutex_t *mtx)
-{
-	int c = 0;
-
-	c = pthread_mutex_init(mtx, NULL);
-	return c;
-
-}
-
-int lock(pthread_mutex_t *mtx)
-{
-	int c = 0;
-
-	c = pthread_mutex_lock(mtx);
-	return c;
-}
-
-int unlock(pthread_mutex_t *mtx)
-{
-		int c = 0;
-
-		c = pthread_mutex_unlock(mtx);
-		return c;
-
-}
-
 
 size_t recv_msg(int fd, char *usr_buff, size_t nbytes)
 {
