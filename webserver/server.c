@@ -37,7 +37,6 @@ void serve_request(int socket_int){
 }
 */
 
-
 void lock(pthread_mutex_t * mtx)
 {
 	if (pthread_mutex_lock(mtx) != 0)
@@ -99,7 +98,7 @@ void * thread_main()
 {
 	int pthread_sid;
 	pthread_sid = pthread_self() / 256;
-	printf("\nCreato thread [%x]", pthread_sid);
+	printf("\nThread created [%x]", pthread_sid);
 	fflush(stdout);
 
 	int socket_int;
@@ -111,7 +110,7 @@ void * thread_main()
 	{
 		int c = 0;
 		if ((socket_int = accept(listensd, (struct sockaddr *)NULL, NULL)) < 0)
-			perror("errore in accept");
+			perror("error in accept\n");
 
 		struct timeval tv;
 		tv.tv_sec = 2;
