@@ -4,17 +4,16 @@
 #include "hconvert.h"
 
 /*
-
 	 NB: Il programma deve essere eseguito nella directory contenente la cartella res
 		(res è la cartella contente le immagini originali)
 
-
 */
 
+
+/* separa il nome della cartella dal nome del file */
 void file_extension(char * path, char * res, char * name){
 
 	int len = strlen(path);
-
 	int nbyte_directory = 0;
 	char * last_slash;
 
@@ -29,6 +28,7 @@ void file_extension(char * path, char * res, char * name){
 }
 
 
+/* toglie l'estensione dal nome del file */
 void file_name(char *filename)
 {
 	int i;
@@ -41,22 +41,18 @@ void file_name(char *filename)
 			break;
 		}
 	}
-
 }
 
-
+/* converte l'immagine */
 void file_convert(char * path, char * ext, int width, int height, int q){
-
 
 	char res[10];
 	char name[50];
 	file_extension(path, res,name);
 
-	char name_alt[50];
+	char name_alt[50]; /* nome del file senza estensione */
 	strcpy(name_alt, name);
 	file_name(name);
-	printf("%s\n", res);
-	printf("new file  is %s\n", name);
 
 	char quality[5];
 	char x[5];
@@ -77,12 +73,10 @@ void file_convert(char * path, char * ext, int width, int height, int q){
 	sprintf(x, "%d", width);
 	sprintf(quality, "%d", q);
 
+	/* 1280x720 */
 	strncpy(resolution, x, strlen(x)+1);
 	strncat(resolution, "x", 1);
 	strncat(resolution, y, strlen(y));
-
-	printf("la %s %s la\n", x, y);
-	printf("%s\n", resolution);
 
 	strcpy(destination, "cache/");
 	strcat(destination, name);
@@ -92,24 +86,24 @@ void file_convert(char * path, char * ext, int width, int height, int q){
 	strcat(destination, y);
 	strcat(destination, "/");
 	strcat(destination, quality);
-	fprintf(stdout, "%s\n", destination);
 
+	/* fino a qua ci sta la costruzione di destination*/
+	
 	int len2 = strlen(destination) + strlen("mkdir -p ") + 5;
 	char * create_folder_command = malloc(len2*sizeof(char));
-
+	
 	strncpy(create_folder_command, "mkdir -p ", strlen("mkdir -p ")+1);
 	strncat(create_folder_command, destination, strlen(destination));
-	printf("%s\n", create_folder_command);
 	system(create_folder_command);
-
-
- 	nConvert(res, destination, name_alt, ext, resolution, 0, q);
-
-
+	
+	nConvert(res, destination, name_alt, ext, resolution, 0, q);
+	
+	free(destination);
+	free(create_folder_command);
 }
 
-
-/*int main(){
+/*
+int main(){
 
 
 	char path[] = "res/a.jpg";
@@ -122,4 +116,4 @@ void file_convert(char * path, char * ext, int width, int height, int q){
 
 	return EXIT_SUCCESS;
 
-}*/
+} */

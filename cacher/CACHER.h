@@ -13,41 +13,41 @@
 #define RESET  "\x1B[0m"
 #define GREEN   "\x1B[32m"
 
-#define SIZE_HASH_TABLE 3
-#define SIZE_RAM_CACHE 3
-#define NAME_SIZE 300
-/*
-						[CACHE]
-						
-	            .------------------------------------------------------------------------------.
-	            |                                                                              |
-	            |  .------------------------------------------------------------------------.  |
-	.-----.	   \./ |                                                                        |  |
-	|  0  |-->|file1|-->|file4|                                                             |  |
-	|-----|							                                						|  |
-	|/\/\/                                                                                  |  |
-	  ...		.-------------------------------------------------------.	 [LRU TABLE]	|  |				
-	 /\/\/|	    |  .-------------------------------------------------.  |                   |  |
-	|-----|	    | \./					          					 | \./                 \./ |
-	|  6  |-->|file7|												.-----.--->.-----.--->.-----.
-	|-----|							   						   .--->|file7|	   |file9|    |file1|<----.
-	|  7  |							 						   |	'-----'<---'-----'<---'-----'	  |
-	|-----|													   |	   |	     | /.\	 	|	  	  | 
-	|  8  |-->|file3|-->|file9|-->|file15|					.-----.	   |	     |	|	 	|      .-----.
-	|-----|		         | /.\			   					|front|<---·         |  |       ·----->|rear |
-	|  9  |		         |  |			   					'-----'	             |  |              '-----'
-	 \/\/\|              |  |                                             	     |  |
-	                     |  '----------------------------------------------------'  |
- [TABELLA HASH]   	     |                                                     		|
-                         ·----------------------------------------------------------·
-*/
+#define SIZE_HASH_TABLE 4
+#define SIZE_RAM_CACHE 2
 
+/*   
+						CACHE
+	
+	           |-------------------------------------------------------------------------------|
+	           |                                                                               |
+	           |   |------------------------------------------------------------------------|  |
+	|-----|	   |   v                                                                        |  |
+	|  0  |-->|file1|-->|file4|                                                             |  |
+	|-----|							                                |  |
+	|  2  |                                                                                 |  |
+	|-----|	    |-------------------------------------------------------|	   LRU TABLE	|  |				
+	|  3  |	    |  |--------------------------------------------------| |                   |  |
+	|-----|	    |  v					          | v                   |  v
+	|  4  |-->|file7|						|-----|--->|-----|--->|-----|
+	|-----|							   |--->|file7|	   |file9|    |file1|<----|
+	|  5  |							   |	|-----|<---|-----|<---|-----|	  |
+	|-----|							   |	   |	     ^	|	 |	  | 
+	|  6  |-->|file3|-->|file9|-->|file15|			|-----|	   |	     |	|	 |      |-----|
+	|-----|		      ^	 |				|front|<---|         |  |        |----->|rear |
+	|  7  |		      |  |				|-----|	             |  |               |-----|
+	|-----|               |  |                                                   |  |
+	                      |  |---------------------------------------------------|  |
+      TABELLA HASH            |                                                         |
+                    	      |---------------------------------------------------------|	
+
+*/
 
 int n = 2; /* variabile per fare alcuni test */
 
 struct hashNode { 	/* un hashNode rappresenta un file presente nell'hard disk */
 	
-	char name[NAME_SIZE];
+	char name[300];
 	struct hashNode * next;
 	struct ramNode * refram;
 
@@ -55,7 +55,7 @@ struct hashNode { 	/* un hashNode rappresenta un file presente nell'hard disk */
 
 struct ramNode{ 	/* un ramNode rappresenta un file caricato in ram */
 
-	char name[NAME_SIZE];
+	char name[300];
 	struct ramNode * next;
 	struct ramNode * prev;
 	struct hashNode * refhash;
@@ -75,6 +75,7 @@ struct cache { 		/* la cache è formata dalla tabella HASH e dalla tabella LRU *
 	
 	struct hashNode ** ht;
 	struct lruTable * lt;
+	pthread_mutex_t cmutex;
 
 };
 
@@ -105,6 +106,7 @@ int insertFile(struct cache *, char *, int);
 void summary_cache(struct cache *);
 void summary_cache2(struct cache * myCache);
 void clearScreen();
+
 int openFittizia(){ /* serve solo per fare alcuni test velocemente */
 	
 	n++;
@@ -135,6 +137,8 @@ struct cache * create_cache(){		/* crea una nuova cache */
 	
 	myCache->ht = create_hashTable();
 	myCache->lt = create_lruTable(); 
+	
+	pthread_mutex_init(&(myCache->cmutex), NULL); //inizializzo il mutex
 	
 	return myCache;
 }
@@ -357,8 +361,8 @@ void delete_ramNode(struct lruTable * lt, struct ramNode * ramNodeToDel){ /* eli
 	printf("Eliminato dalla ram il file '%s' e perso il suo fileDescriptor: %d \n", ramNodeToDel->name,ramNodeToDel->fd);
 		
 	/*   ----------->QUI BISOGNA AGGIUNGERE LA CLOSE DEL FILE, MOLTO IMPORTANTE!!!!!<-----------   */
-		close(ramNodeToDel->fd);
-
+	close(ramNodeToDel->fd);
+	
 	free_ramNode(ramNodeToDel); /* libera la memoria del ramNode */	
 }
 
@@ -406,8 +410,11 @@ void summary_cache(struct cache * myCache){	/* stampa varie informazioni sullo s
 	/* visit_lruTable(myCache->lt); ulteriore test per vedere se i puntatori sono correttamente agganciati */
 }
 
+
 int getFile(struct cache * myCache,char * stringFile){	/* ritorna il descrittore del file con il nome scelto, se NON c'è ritorna -1 */
-	
+		
+	pthread_mutex_lock(&(myCache->cmutex)); /* acquisisco mutex */
+
 	printf("Hai richiesto il file '%s'. Processando...\n", stringFile);
 
 	struct hashNode * hn = get_hashNode(myCache->ht, stringFile);
@@ -418,6 +425,7 @@ int getFile(struct cache * myCache,char * stringFile){	/* ritorna il descrittore
 			
 			printf("Il file '%s' si trova già in ram. Ti restituisco il suo fileDescriptor: %d\n", hn->name, hn->refram->fd);
 			moveOnTop_ramNode(myCache->lt, hn->refram);
+			pthread_mutex_lock(&(myCache->cmutex)); /* acquisisco mutex */
 			return hn->refram->fd;
 		}
 	
@@ -434,35 +442,32 @@ int getFile(struct cache * myCache,char * stringFile){	/* ritorna il descrittore
 			controlSize_lruTable(myCache->lt);
 		
 			printf("Il file '%s' è stato caricato in ram. Ti restituisco il suo fileDescriptor: %d\n", rn->name, rn->fd);
-			
+			pthread_mutex_lock(&(myCache->cmutex)); /* acquisisco mutex */
 			return fd;
 		}
 	}
 	
-	else {
-		printf("Non ho il file '%s' da te richiesto, mi dispiace! Ti restituisco un fileDescriptor di errore: -1\n", stringFile);
-		return -1;
-	}
+	printf("Non ho il file '%s' da te richiesto, mi dispiace! Ti restituisco un fileDescriptor di errore: -1\n", stringFile);
+	pthread_mutex_lock(&(myCache->cmutex)); /* acquisisco mutex */
+	return -1;
 }
 
 int insertFile(struct cache * myCache, char * name, int fd){ /* inserisce un nuovo file in cache */
-/*
-struct hashNode * hnt = get_hashNode(myCache->ht, name);
-	if ((hnt != NULL) && (hnt->refram != NULL))
-	{
-		return hnt->refram->fd;
-	}
-*/	
+	
+	pthread_mutex_lock(&(myCache->cmutex)); /* acquisisco mutex */
+	
 	struct hashNode * hn = create_hashNode(name);	/* creazione e inserimento nella tabella hash dell'hashNode relativo al file */
 	insert_hashNode(myCache->ht, hn);
 	
-	struct ramNode * rn = create_ramNode(name, fd);	/* creazione e inserimento nella testa della tabella LRU del ramNode relativo al file */	
+	struct ramNode * rn = create_ramNode(name, fd);	/* creazione e inserimento nella testa della tabella LRU del ramNode relativo al file */		
 	insert_ramNode(myCache->lt, rn, hn);
 	
 	printf("Il file '%s' è stato inserito nell'HDD. E' stato anche inserito nella ram con fileDescriptor: %d \n", rn->name, rn->fd);
 	
 	controlSize_lruTable(myCache->lt);
 	
+	pthread_mutex_unlock(&(myCache->cmutex)); /* acquisisco mutex */
+
 	return fd;
 }
 
