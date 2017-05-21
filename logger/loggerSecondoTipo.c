@@ -16,7 +16,6 @@
 
 struct logger {
 
-	int count;
 	FILE *f;
 	pthread_mutex_t lmutex;
 	
@@ -42,10 +41,8 @@ struct logger * alloc_logger(void){	/* alloca la memoria per un logger */
 struct logger * create_logger(char * logPath){	/* crea un nuovo logger, che scriverà nel file di log indicato da logPath */
 		
 	struct logger * myLogger = alloc_logger();
-		
-	myLogger->count = 0;
 	
-	myLogger->f = fopen(logPath, "w");
+	myLogger->f = fopen(logPath, "w+");
 	
 	pthread_mutex_init(&(myLogger->lmutex), NULL); //inizializzo il mutex
 	
@@ -70,15 +67,8 @@ void * example(void *p){
 		pthread_mutex_lock(&(myLogger->lmutex)); /* acquisisco mutex */
 		
 		fprintf(myLogger->f, "%s\n", randomString); /* scrivo il messaggio randomString nel file di log
-								(il sistema operativo lo scriverà solo in ram per ora, in una coda da lui gestita) */
-		(myLogger->count)++;
-		
-		/* se la coda è diventata piu grande di SIZE_TO_FFLUSH, allora fai fflush cosi viene scritto tutto nell'hd */
-		if (myLogger->count > SIZE_TO_FFLUSH) { 
-			fflush(myLogger->f);
-			myLogger->count = 0;
-		}
-		
+								(il sistema operativo lo scriverà solo in ram per ora, in una coda da lui 									gestita) */
+	
 		pthread_mutex_unlock(&(myLogger->lmutex)); /* rilascio mutex */
 		
 		sleep(1);
@@ -103,6 +93,6 @@ int main(){
 	pthread_t t3;
 	pthread_create(&t3,NULL, example,myLogger);
 
-	sleep(500); /* il main dorme per 500 secondi, perche se muore lui si chiudono tutti i thread */
+	pthread_exit(0); /* il main dorme per 500 secondi, perche se muore lui si chiudono tutti i thread */
 	return 0;
 }

@@ -106,7 +106,7 @@ struct logger * create_logger(char * pathLog){	/* crea un logger che scrive nel 
 
 	myLogger->count = 0;
 	
-	myLogger->f = fopen(pathLog, "w");
+	myLogger->f = fopen(pathLog, "w+");
 
 	pthread_mutex_init(&(myLogger->lmutex), NULL); //inizializzo il mutex
 
