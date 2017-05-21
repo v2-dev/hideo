@@ -1,4 +1,5 @@
 int conndf_rv;
+#include "hpglobal.h"
 
 struct conndata
 {
@@ -10,70 +11,77 @@ struct conndata
 	char acceptfld[256];	//accept field
 	char messages[3000];	//
 	int msgtype;			//
-
 	int get1head2;
-
 	int keepalmaxn;
 	char imgext[8];			//image extension
 	float quality;			//image quality
+	int quality_factor;
 	char options[3000];		//k
 	int return_code;		//Return code
 	char return_path[256];	//Return path
 	int isImage;			//IS THIS REAL IMAGE? IS THIS JUST FANTASY?
 };
-
-
-static void http_200(int, struct st_trx *);
-static void http_404(int, struct st_trx *);
-static void http_500(int, struct st_trx *);
-static void http_501(int, struct st_trx *);
-//static int test_method(struct wb_req *);
-
-
-static void http_200(int fd, struct conndata *conn)
+static void http_200(struct conndata *conn)
 {
 	char buff[1024];
 
 	sprintf(buff, "HTTP/1.0 200 OK\r\n");
-	sprintf(buff, "%sServer: xWebserver\r\n", buff);
-	sprintf(buff, "%sContent-length:%d\r\n", buff, conn->);
-	sprintf(buff, "%sContent-type:%s\r\n\r\n", buff, wb_trx->file_type);
+	sprintf(buff, "%sServer: Hideo\r\n", buff);
 
-	send_msg(fd, buff);
+	send_msg(conn->socketint, buff);
 }
 
-static void http_500(int fd, struct st_trx *wb_trx)
+static void http_500(struct conndata *conn)
 {
 	char buff[DATLEN];
 
 	sprintf(buff, "HTTP/1.0 500 INTERNAL SERVER ERROR\r\n");
-	sprintf(buff, "%sServer: xWebserver\r\n", buff);
+	sprintf(buff, "%sServer: Hideo\r\n", buff);
 
-	send_msg(fd, buff);
+	send_msg(conn->socketint, buff);
 }
 
-static void http_501(int fd, struct st_trx *wb_trx)
+static void http_501(struct conndata *conn)
 {
 	char buff[DATLEN];
 
 	sprintf(buff, "HTTP/1.0 501 NOT IMPLEMENTED\r\n");
-	sprintf(buff, "%sServer: xWebserver\r\n", buff);
+	sprintf(buff, "%sServer: Hideo\r\n", buff);
 
-	send_msg(fd, buff);
+	send_msg(conn->socketint, buff);
 }
 
-static void http_404(int fd, struct st_trx *wb_trx)
+static void http_404(int fd, struct conndata *conn)
 {
 	char buff[DATLEN];
 
 	sprintf(buff, "HTTP/1.0 404 NOT FOUND\r\n");
-	sprintf(buff, "%sServer: xWebserver\r\n\r\n", buff);
+	sprintf(buff, "%sServer: Hideo\r\n\r\n", buff);
 	sprintf(buff, "%s<html><head><title>404 Not Found</title></head>"
 		,buff);
 	sprintf(buff, "%s<body><h1>404 File Not found</h1></body></html>\r\n",
 		buff);
 
-	send_msg(fd, buff);
+	send_msg(conn->socketint, buff);
+}
+
+
+
+int find_quality(char * accept){
+
+	int q;
+	char * lastQ = strrchr(accept, 'q');
+
+	if (lastQ == NULL) return 0;
+	if (*(lastQ+1) != '=') return 0;
+	if (*(lastQ+2) == '1') return 1;
+	if (*(lastQ+2) != '0') return 0;
+	if (*(lastQ+3) != '.') return 0;
+
+	q = *(lastQ+4);
+	if (!((q>'1')&&(q<'9'))) return 0;
+
+	return ((q-'0')*10);
 }
 
 
@@ -171,6 +179,9 @@ int accheck(char *optstring, struct conndata *p)
 		buf_idx++;
 	}
 	strcpy(p->acceptfld, optstring+8);
+
+	p->quality_factor = find_quality(p->acceptfld);
+	fprintf(stdout, "quality factor %d\n", p->quality_factor);
 	/*
 	strcpy(p->useragent, "");
 	for (buf_idx = 11; buf_idx <= strlen(optstring); buf_idx++) strcat(p->useragent, optstring[buf_idx]);
@@ -181,6 +192,7 @@ int accheck(char *optstring, struct conndata *p)
 	return 1;
 
 }
+
 
 int method_parse(char *optstring, struct conndata *p)
 {
@@ -199,7 +211,7 @@ int method_parse(char *optstring, struct conndata *p)
 	if ( !strncmp(optstring, "GET ", 4) )
 	{
 		strcpy(p->method_r, "GET");
-		strcpy(p->messages, "Metodo GET");
+		strcpy(p->messages, "GET method\n");
 		print_message(p);
 		p->get1head2 = 1;
 		return 1;
@@ -208,7 +220,7 @@ int method_parse(char *optstring, struct conndata *p)
 	else if ( !strncmp(optstring, "HEAD ", 5) )
 	{
 		strcpy(p->method_r, "HEAD");
-		strcpy(p->messages, "Metodo HEAD");
+		strcpy(p->messages, "HEAD method\n");
 		print_message(p);
 		p->get1head2 = 2;
 		return 2;
@@ -219,6 +231,7 @@ int method_parse(char *optstring, struct conndata *p)
 	/*return BAD_REQUEST*/
 	return 0;
 }
+
 int path_parse(char *optstring, struct conndata *p)
 {
 	/*
@@ -261,85 +274,11 @@ int path_parse(char *optstring, struct conndata *p)
 	//strcpy(p->path_r, path_r);
 	return 0;
 }
-/*
-int options_parse(struct conndata *p)
-{
-	//
-	 * Parse del campo options
-	 * Ritorna 0 in assenza di errori.
-	//
-
-	//strcpy(p->options, "");
-
-	size_t buf_idx = 0;
-	char buf[400] = { 0 };
-	char endl[] = "\r\n";
-	unsigned int i = 0;
-	//char options[3000];
-	strcpy(p->acceptfld, "");
-	strcpy(p->useragent, "");
-	for (int exitv = 0; exitv < 150; exitv++)
-	//
-	// Parse di 150 linee di opzioni (Apache 2.3 per sicurezza
-	// pone questo valore a circa 100 richieste)
-	//
-	{
-		buf_idx = 0;
-		read(p->socketint, &buf[0], 2);
-		buf_idx = 2;
-		if ((buf[0] == endl[0]) && (buf[1] == endl[1])) break;
 
 
-		for (;;)
-		{
-			read(p->socketint, &buf[buf_idx], 1);
-			if (buf[buf_idx - 1] == endl[0] && buf[buf_idx] == endl[1])
-			{
-				buf[buf_idx - 1] = '\0';
-				buf[buf_idx] = '\0';
-				buf_idx--;
-				if ( accheck(buf) == 1)
-				{
-					int sbuf_idx = 7;
-					if (buf[7] == ' ') sbuf_idx++;
-					for (i = 0;i<buf_idx-sbuf_idx;i++) buf[i] = buf[sbuf_idx+i];
-					buf[buf_idx-sbuf_idx] = '\0';
-					strcpy(p->acceptfld, buf);
-				}
-				if ( uacheck(buf) == 1)
-				{
-					int sbuf_idx = 11;
-					if (buf[11] == ' ') sbuf_idx++;
-					for (i = 0;i<buf_idx-sbuf_idx;i++) buf[i] = buf[sbuf_idx+i];
-					buf[buf_idx-sbuf_idx] = '\0';
-					strcpy(p->useragent, buf);
-				}
-
-				break;
-			}
-			buf_idx++;
-		}
-	}
-	//printf("\nEnd of HTTP GET/HEAD! All options are:");
-	//printf("%s", p->options);
-	strcpy(p->messages, "User Agent: ");
-	strcat(p->messages, p->useragent);
-	print_message(p);
-	strcpy(p->messages, "Campo Accept: ");
-	strcat(p->messages, p->acceptfld);
-	print_message(p);
-	return 0;
-
-}
-*/
 int send_response(struct conndata *p)
 {
-	//char *header200html = "HTTP/1.1 200 OK\nServer: ProgettoIIW-IS\nContent-type: text/html\n";
-
-	//char *header200gif = "HTTP/1.1 200 OK\nServer: ProgettoIIW-IS\nContent-type: image/gif\n";
-	//char *header200html = "HTTP/1.1 200 OK\nServer: ProgettoIIW-IS\nContent-type: text/html\n\r\n";
-	//char *header200gif = "HTTP/1.1 200 OK\nServer: ProgettoIIW-IS\nContent-type: image/gif\n\r\n";
-
+	
 	char header200[150] = "HTTP/1.1 200 OK\r\nServer: ProgettoIIWIS\r\nConnection: keep-alive\r\nContent-type: ";
 	//char *header400 = "HTTP/1.1 400 Bad Request\nServer: ProgettoIIW-IS\nContent-type: text/html\r\n";
 	//char *header404 = "HTTP/1.1 404 Not Found\nServer: ProgettoIIW-IS\nContent-type: text/html\r\n";

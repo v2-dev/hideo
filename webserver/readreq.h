@@ -3,6 +3,9 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/file.h>
+#include <errno.h>
+
+#define BUFSIZE 4096
 
 struct httpread
 {
@@ -14,11 +17,11 @@ void * create_httpread()
 {
 	struct httpread * httpr;
 	httpr = malloc(sizeof(struct httpread));
-	
-	if (httpr == NULL) 
+
+	if (httpr == NULL)
 	{
 		fprintf(stderr, "Memory allocation error\n");
-		exit(EXIT_FAILURE);        
+		exit(EXIT_FAILURE);
 	}
 
 	httpr->dimArray = 0;
@@ -37,6 +40,30 @@ void destroy_httpread(struct httpread * httpr)
 	free(httpr);
 }
 
+
+char * read_string(int fd)
+{
+	int n = 0;
+	int size = 0;
+
+	char *tmpString = malloc(sizeof(char) * BUFSIZE);
+	if(tmpString == NULL){
+		fprintf(stderr, "error on malloc\n");
+		return NULL;
+	}
+
+	n = readn(fd, tmpString, BUFSIZE);
+	if (n==-1)
+		return NULL;
+
+	size += n;
+	tmpString[size -1] = '\0';
+
+	return tmpString;
+
+}
+
+
 struct httpread * read_request(int fd)
 {
 	struct httpread * httpr = create_httpread();
@@ -50,35 +77,29 @@ struct httpread * read_request(int fd)
 	{
 		//------------
 		n = readn(fd, tmpString+index, 1);
-		if (n==-1) 
+		if (n==-1)
 		{
-			//printf("\n#N = -1");
-			fflush(stdout);
 			httpr->dimArray = -1;
 			break;
 		}
-		if (n==0) 
-		{
-			//printf("\n#N = -0");
-			fflush(stdout);
+		if (n==0)
 			break;
-		}
-		//printf("%c", *(tmpString+index));
+
 		if (index==1)
 		{
-			if ((*(tmpString+index) == '\n')&&(*(tmpString+index-1) == '\r')) break;	
+			if ((*(tmpString+index) == '\n')&&(*(tmpString+index-1) == '\r')) break;
 		}
-		
+
 		if (*(tmpString+index) == '\n') {
-			
-			if (*(tmpString+index-1) != '\r') 
+
+			if (*(tmpString+index-1) != '\r')
 			{
 				//free(tmpString);
 				//destroy_httpread(httpr);
 				break;
 				//return NULL;
 			}
-		
+
 			*(tmpString+index) = '\0';
 			*(tmpString+index-1) = '\0';
 			*(tmpArray) = tmpString; //copio
@@ -88,13 +109,13 @@ struct httpread * read_request(int fd)
 			tmpString = malloc(sizeof(char)*300);
 			index = 0;
 		}
-	
+
 		else index++;
 
 
 
 	}
-	
+
 	free(tmpString);
 	return httpr;
 

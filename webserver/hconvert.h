@@ -17,7 +17,7 @@ char *getcresol(char *filepath)
 {
 	//int value = 0;
 	char *valuec;
-	if ((valuec = malloc (10)) == NULL) 
+	if ((valuec = malloc (10)) == NULL)
 		{
 			perror("malloc error on getcwidth");
 			return NULL;
@@ -26,12 +26,13 @@ char *getcresol(char *filepath)
 	strcpy(strCmd, "identify -format \"%wx%h\" ");
 	strcat(strCmd, filepath);
 	FILE *fpc = popen(strCmd, "r");
+	errno = 0;
 	ev = fscanf(fpc, "%s", valuec);
 		if (errno != 0) perror("fscanf");
 	pclose(fpc);
 	return valuec;
 }
-	
+
 int getiwidth(char *filepath)
 {
 	int value = 0;
@@ -63,7 +64,7 @@ char *getcwidth(char *filepath)
 {
 	//int value = 0;
 	char *valuec;
-	if ((valuec = malloc (10)) == NULL) 
+	if ((valuec = malloc (10)) == NULL)
 		{
 			perror("malloc error on getcwidth");
 			return NULL;
@@ -83,7 +84,7 @@ char *getcheight(char *filepath)
 {
 	//int value = 0;
 	char *valuec;
-	if ((valuec = malloc (10)) == NULL) 
+	if ((valuec = malloc (10)) == NULL)
 		{
 			perror("malloc error on getcheight");
 			return NULL;
@@ -101,7 +102,7 @@ char *getcheight(char *filepath)
 
 char *remove_ext (char* mystr, char dot, char sep) {
     char *retstr, *lastdot, *lastsep;
-    
+
     // Error checks and allocate string.
     if (mystr == NULL) return NULL;
     if ((retstr = malloc (strlen (mystr) + 1)) == NULL) return NULL;
@@ -151,14 +152,14 @@ void nConvert(char *old_path, char *new_path, char *namefile, char *format, char
 	{
 		strcat(nnamefile, namefile);
 	}
-	
+
 	strcpy(strCommand, "convert ");
 	strcat(strCommand, old_path);
 	strcat(strCommand, "/");
 	strcat(strCommand, namefile);
 	strcat(strCommand, " ");
-	
-	if (colorNumber != 0) 
+
+	if (colorNumber != 0)
 	{
 		char strColorNumber[50];
 		snprintf(strColorNumber, 50, "-colors %d ", colorNumber);
@@ -182,10 +183,10 @@ void nConvert(char *old_path, char *new_path, char *namefile, char *format, char
 	strcat(strCommand, new_path);
 	strcat(strCommand, "/");
 	strcat(strCommand, nnamefile);
-	
+
 	printf("%s", strCommand);
 	ret = system(strCommand); /* esecuzione del programma convert */
-	if (WIFSIGNALED(ret) && 
+	if (WIFSIGNALED(ret) &&
 		(WTERMSIG(ret) == SIGINT || WTERMSIG(ret) == SIGQUIT)){
 			perror("system");
 			exit(EXIT_FAILURE);
@@ -215,7 +216,7 @@ void convertPic(char *old_path, char *new_path, char *resolution, int colorNumbe
 		char strColorNumber[20];
 		sprintf(strColorNumber, "%d", colorNumber);
 
-		strcat(strCommand, "-colors ");	
+		strcat(strCommand, "-colors ");
 		strcat(strCommand, strColorNumber);
 		strcat(strCommand, " ");
 	}
@@ -241,7 +242,7 @@ void convertPic(char *old_path, char *new_path, char *resolution, int colorNumbe
 	strcat(strCommand, new_path);
 	printf("%s", strCommand);
 	ret = system(strCommand); /* esecuzione del programma convert */
-	if (WIFSIGNALED(ret) && 
+	if (WIFSIGNALED(ret) &&
 		(WTERMSIG(ret) == SIGINT || WTERMSIG(ret) == SIGQUIT)){
 			perror("system");
 			exit(EXIT_FAILURE);

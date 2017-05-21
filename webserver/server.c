@@ -20,11 +20,12 @@
 #include "conndf.h"
 
 #define BACKLOG	10
-#define MAXTHREADS 10
+#define MAXTHREADS 3
 
 pthread_mutex_t mtx;
 
 int listensd;
+char *request;
 /*
 void serve_request(int socket_int){
 
@@ -53,14 +54,16 @@ void unlock(pthread_mutex_t * mtx)
 int serve_request(struct conndata * cdata)
 {
 	struct httpread * httpr;
-	httpr = read_request(cdata->socketint);
-	/*
-	 * if (httpr == NULL)
-	{
-		destroy_httpread(httpr);
+
+	request = malloc(sizeof(char) * BUFSIZE);
+	if(request == NULL)
 		return 0;
-	}
-	* */
+
+	request = read_string(cdata->socketint);
+	fprintf(stdout, "<------- http request -------> \n%s\n", request);
+
+	/*
+
 	if (httpr->dimArray == 0)
 	{
 		destroy_httpread(httpr);
@@ -90,8 +93,9 @@ int serve_request(struct conndata * cdata)
 		}
 	}
 
-	destroy_httpread(httpr);
-	return 1;
+	destroy_httpread(httpr);*/
+	
+	return -1; //TO CHANGE!
 }
 //void * thread_main(void *p){
 void * thread_main()
