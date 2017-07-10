@@ -10,46 +10,59 @@
 #include <string.h>
 #include <time.h>
 #include <errno.h>
-#include <pthread.h>
+#include "thread.h"
 #include <signal.h>
-
-//#include "utils.h"
-#include "utils_.h"
+#include "utils.h"
 #include "readreq.h"
+#include "parse_conf_file.h"
 #include "mimetypes.h"
 #include "conndf.h"
-
-#define BACKLOG	10
-#define MAXTHREADS 3
-
-pthread_mutex_t mtx;
+#include <sys/resource.h>
+#include <sys/time.h>
 
 int listensd;
 char *request;
-/*
-void serve_request(int socket_int){
 
-	struct httpread * httpr;
 
-	httpr = read_request(socket_int);
-
-	destroy_httpread(httpr);
-
-}
-*/
-
-void lock(pthread_mutex_t * mtx)
+void pr_cpu_time(void)
 {
-	if (pthread_mutex_lock(mtx) != 0)
-		err_exit("Error on pthread_mutex_lock", errno);
+  double	user, sys;
+  struct rusage	myusage, childusage;
+
+  if (getrusage(RUSAGE_SELF, &myusage) < 0) {
+    fprintf(stderr, "errore in getrusage");
+    exit(1);
+  }
+
+  if (getrusage(RUSAGE_CHILDREN, &childusage) < 0) {
+    fprintf(stderr, "errore in getrusage");
+    exit(1);
+  }
+
+  user = (double) myusage.ru_utime.tv_sec +
+		myusage.ru_utime.tv_usec/1000000.0;
+  user += (double) childusage.ru_utime.tv_sec +
+		 childusage.ru_utime.tv_usec/1000000.0;
+  sys = (double) myusage.ru_stime.tv_sec +
+		 myusage.ru_stime.tv_usec/1000000.0;
+  sys += (double) childusage.ru_stime.tv_sec +
+		 childusage.ru_stime.tv_usec/1000000.0;
+
+  printf("\nuser time = %g, sys time = %g\n", user, sys);
 }
 
-void unlock(pthread_mutex_t * mtx)
+void sig_int(int signo)
 {
-	if (pthread_mutex_unlock(mtx) != 0)
-		err_exit("Error on pthread_mutex_unlock", errno);
-}
+	int		i;
+	void	pr_cpu_time(void);
 
+	pr_cpu_time();
+
+	for (i = 0; i < nthreads; i++)
+		printf("thread %d, %ld connections\n", i, tptr[i].thread_count);
+
+	exit(0);
+}
 
 int serve_request(struct conndata * cdata)
 {
@@ -62,43 +75,10 @@ int serve_request(struct conndata * cdata)
 	request = read_string(cdata->socketint);
 	fprintf(stdout, "<------- http request -------> \n%s\n", request);
 
-	/*
-
-	if (httpr->dimArray == 0)
-	{
-		destroy_httpread(httpr);
-		return 0;
-	}
-	if (httpr->dimArray == -1)
-	{
-		destroy_httpread(httpr);
-		return -1;
-	}
-
-	if ( method_parse(*(httpr->array), cdata) > 0 )
-	{
-		if (path_parse(*(httpr->array), cdata) == 0)
-		{
-			//strcpy(cdata->messages, *(httpr->array));
-			//print_message(cdata);
-			int i;
-			for(i = 1; i<httpr->dimArray; i++)
-			{
-				accheck(*(httpr->array+i), cdata);
-				uacheck(*(httpr->array+i), cdata);
-				//strcpy(cdata->messages, *(httpr->array+i));
-				//print_message(cdata);
-			}
-			if (send_response(cdata) != 0) return -1;
-		}
-	}
-
-	destroy_httpread(httpr);*/
-	
 	return -1; //TO CHANGE!
 }
 //void * thread_main(void *p){
-void * thread_main()
+/*void * thread_main()
 {
 	int pthread_sid;
 	pthread_sid = pthread_self() / 256;
@@ -157,30 +137,34 @@ void * thread_main()
 	}
 
 	return EXIT_SUCCESS;
-}
+}*/
 
-int main(int argc, char * argv[])
+int main(int argc)
 {
+	static int nthreads;
+	static short servport;
+	static int backlog;
+	int i = 0;
 
 	signal(SIGPIPE, SIG_IGN);
 
-	int SERV_PORT = 7800;	//porta di default se non inserita
-	if (argc > 2)
+	if (argc > 1)
 	{
-		printf("\nInserire soltanto la porta di esecuzione");
-		exit(EXIT_FAILURE);
+		printf("\n No arguments required. Check server.cfg for more options\n");
 	}
-	if (argc == 2 && argv[1][0] != '\0')
-	{
-		char *errptr;
-		errno = 0;
-		SERV_PORT = (int) strtol(argv[1], &errptr, 0);
-		if (errno != 0 || *errptr != '\0')
-		{
-			fprintf(stderr, "\nNumero di porta non valido");
-			return EXIT_FAILURE;
-		}
-	}
+
+	fprintf(stdout, "Initializing parameters to default values...\n");
+	init_parameters();
+
+	fprintf(stdout, "Reading config file...\n");
+	parse_config();
+
+	fprintf(stdout, "Final values:\n");
+	fprintf(stdout, "Server port: %s, Number of threads: %s\n", config_file.port, config_file.threads);
+
+	nthreads = atoi(config_file.threads);	/*number of thread in prethreading */
+	servport = atoi(config_file.port);	/*convert in short integer */
+	backlog = atoi(config_file.backlog); /*backlog size */
 
 	int optval;
 	socklen_t optlen = sizeof(optval);
@@ -196,7 +180,7 @@ int main(int argc, char * argv[])
 	memset((void *)&servaddr, 0, sizeof(servaddr));
 	servaddr.sin_family = AF_INET;
 	servaddr.sin_addr.s_addr = htonl(INADDR_ANY); /* il server accetta connessioni su una qualunque delle sue intefacce di rete */
-	servaddr.sin_port = htons(SERV_PORT); /* numero di porta del server */
+	servaddr.sin_port = htons(servport); /* numero di porta del server */
 
 	optval = 1;
 	optlen = sizeof(optval);
@@ -223,27 +207,29 @@ int main(int argc, char * argv[])
 		exit(1);
 	}
 
-	if (listen(listensd, BACKLOG) < 0 )
+	if (listen(listensd, backlog) < 0 )
 	{
 		perror("errore in listen");
 		exit(1);
 	}
 
-	//int set = 1;
-	//setsockopt(listensd, SOL_SOCKET, SO_NOSIGPIPE, (void *)&set, sizeof(int));
 
-	//creazione dei thread
-	if(pthread_mutex_init(&mtx, NULL) != 0){
-		perror("");
-		exit(EXIT_FAILURE);
+	tptr = (Thread *)calloc(nthreads, sizeof(Thread));
+    if (tptr == NULL) {
+        fprintf(stderr, "calloc error");
+        exit(1);
+    }
+
+	for (i = 0; i < nthreads; i++)
+		thread_make(i);			/* only main thread returns */
+
+
+	if (signal(SIGINT, sig_int) == SIG_ERR) {
+		fprintf(stderr, "signal error");
+		exit(1);
 	}
 
-	pthread_t replythread;
-	int i;
-	for(i=0;i < MAXTHREADS; i++){
-		pthread_create(&replythread, NULL, thread_main, NULL);
-	}
 
-	thread_main();
-	return EXIT_SUCCESS;
+	for ( ; ; )
+		pause();	/* everything done by threads */
 }

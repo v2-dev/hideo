@@ -13,6 +13,7 @@
 //   finished with it.
 // If you pass in NULL or the new string can't be allocated,
 //   it returns NULL.
+
 char *getcresol(char *filepath)
 {
 	//int value = 0;

@@ -1,5 +1,6 @@
 int conndf_rv;
-#include "hpglobal.h"
+
+#define DATLEN 4096
 
 struct conndata
 {
@@ -278,7 +279,7 @@ int path_parse(char *optstring, struct conndata *p)
 
 int send_response(struct conndata *p)
 {
-	
+
 	char header200[150] = "HTTP/1.1 200 OK\r\nServer: ProgettoIIWIS\r\nConnection: keep-alive\r\nContent-type: ";
 	//char *header400 = "HTTP/1.1 400 Bad Request\nServer: ProgettoIIW-IS\nContent-type: text/html\r\n";
 	//char *header404 = "HTTP/1.1 404 Not Found\nServer: ProgettoIIW-IS\nContent-type: text/html\r\n";

@@ -23,17 +23,14 @@
 
 //#define BACKLOG 256
 #define CONFIG_FILE "server.cfg"
-#define FILEDAT 256
-#define MAXLINE	8192
+#define	MAXLINE			4096
 
 typedef struct {
 	char port[MAXLINE];
 	char threads[MAXLINE];
+	char backlog[MAXLINE];
 } Config;
 Config config_file;
-
-int				listenfd;
-socklen_t		addrlen;
 
 /*Error handlers*/
 void err_exit(const char *errmsg, int errnum);
