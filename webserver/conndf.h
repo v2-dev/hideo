@@ -26,7 +26,7 @@ static void http_200(struct conndata *conn)
 {
 	char buff[1024];
 
-	sprintf(buff, "HTTP/1.0 200 OK\r\n");
+	sprintf(buff, "HTTP/1.1 200 OK\r\n");
 	sprintf(buff, "%sServer: Hideo\r\n", buff);
 
 	send_msg(conn->socketint, buff);
@@ -36,7 +36,7 @@ static void http_500(struct conndata *conn)
 {
 	char buff[DATLEN];
 
-	sprintf(buff, "HTTP/1.0 500 INTERNAL SERVER ERROR\r\n");
+	sprintf(buff, "HTTP/1.1 500 INTERNAL SERVER ERROR\r\n");
 	sprintf(buff, "%sServer: Hideo\r\n", buff);
 
 	send_msg(conn->socketint, buff);
@@ -46,7 +46,7 @@ static void http_501(struct conndata *conn)
 {
 	char buff[DATLEN];
 
-	sprintf(buff, "HTTP/1.0 501 NOT IMPLEMENTED\r\n");
+	sprintf(buff, "HTTP/1.1 501 NOT IMPLEMENTED\r\n");
 	sprintf(buff, "%sServer: Hideo\r\n", buff);
 
 	send_msg(conn->socketint, buff);
@@ -56,7 +56,7 @@ static void http_404(int fd, struct conndata *conn)
 {
 	char buff[DATLEN];
 
-	sprintf(buff, "HTTP/1.0 404 NOT FOUND\r\n");
+	sprintf(buff, "HTTP/1.1 404 NOT FOUND\r\n");
 	sprintf(buff, "%sServer: Hideo\r\n\r\n", buff);
 	sprintf(buff, "%s<html><head><title>404 Not Found</title></head>"
 		,buff);

@@ -70,6 +70,8 @@ void parse_config()
       strncpy (config_file.port, value, MAXLEN);
     else if (strcmp(name, "threads")==0)
       strncpy (config_file.threads, value, MAXLEN);
+    else if (strcmp(name, "backlog")==0)
+        strncpy (config_file.backlog, value, MAXLEN);
     else
       printf ("WARNING: %s/%s: Unknown name/value pair!\n",
         name, value);

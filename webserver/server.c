@@ -139,18 +139,23 @@ int serve_request(struct conndata * cdata)
 	return EXIT_SUCCESS;
 }*/
 
-int main(int argc)
+int main(int argc, char **argv)
 {
 	static int nthreads;
 	static short servport;
 	static int backlog;
 	int i = 0;
 
-	signal(SIGPIPE, SIG_IGN);
-
 	if (argc > 1)
 	{
 		printf("\n No arguments required. Check server.cfg for more options\n");
+	}
+
+	signal(SIGPIPE, SIG_IGN);
+
+	if (signal(SIGINT, sig_int) == SIG_ERR) {
+		fprintf(stderr, "signal error");
+		exit(1);
 	}
 
 	fprintf(stdout, "Initializing parameters to default values...\n");
@@ -160,7 +165,7 @@ int main(int argc)
 	parse_config();
 
 	fprintf(stdout, "Final values:\n");
-	fprintf(stdout, "Server port: %s, Number of threads: %s\n", config_file.port, config_file.threads);
+	fprintf(stdout, "Server port: %s, Number of threads: %s, backlog: %s\n", config_file.port, config_file.threads, config_file.backlog);
 
 	nthreads = atoi(config_file.threads);	/*number of thread in prethreading */
 	servport = atoi(config_file.port);	/*convert in short integer */
@@ -213,21 +218,14 @@ int main(int argc)
 		exit(1);
 	}
 
-
-	tptr = (Thread *)calloc(nthreads, sizeof(Thread));
+	tptr = (struct Thread *)calloc(nthreads, sizeof(struct Thread));
     if (tptr == NULL) {
-        fprintf(stderr, "calloc error");
+        fprintf(stderr, "calloc error\n");
         exit(1);
     }
 
 	for (i = 0; i < nthreads; i++)
 		thread_make(i);			/* only main thread returns */
-
-
-	if (signal(SIGINT, sig_int) == SIG_ERR) {
-		fprintf(stderr, "signal error");
-		exit(1);
-	}
 
 
 	for ( ; ; )
