@@ -15,7 +15,7 @@ struct Thread	*tptr;		/* array of Thread structures; calloc'ed */
 
 int				listensd, nthreads;
 socklen_t		addrlen;
-pthread_mutex_t	mlock;
+pthread_mutex_t	mtx;
 
 void lock(pthread_mutex_t *);
 void unlock(pthread_mutex_t *);

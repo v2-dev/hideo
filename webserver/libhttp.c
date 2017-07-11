@@ -1,30 +1,10 @@
-int conndf_rv;
+#include "libhttp.h"
+#include "mimetypes.h"
+#include "utils.h"
 
-#define DATLEN 4096
-
-struct conndata
+void http_200(struct conndata *conn)
 {
-	int process_id;			//tid del thread
-	int socketint;			//socket file descriptor
-	char path_r[256];		//request path
-	char method_r[5];		//request method
-	char useragent[256];	//user agent
-	char acceptfld[256];	//accept field
-	char messages[3000];	//
-	int msgtype;			//
-	int get1head2;
-	int keepalmaxn;
-	char imgext[8];			//image extension
-	float quality;			//image quality
-	int quality_factor;
-	char options[3000];		//k
-	int return_code;		//Return code
-	char return_path[256];	//Return path
-	int isImage;			//IS THIS REAL IMAGE? IS THIS JUST FANTASY?
-};
-static void http_200(struct conndata *conn)
-{
-	char buff[1024];
+	char buff[DATLEN];
 
 	sprintf(buff, "HTTP/1.1 200 OK\r\n");
 	sprintf(buff, "%sServer: Hideo\r\n", buff);
@@ -32,7 +12,7 @@ static void http_200(struct conndata *conn)
 	send_msg(conn->socketint, buff);
 }
 
-static void http_500(struct conndata *conn)
+void http_500(struct conndata *conn)
 {
 	char buff[DATLEN];
 
@@ -42,7 +22,7 @@ static void http_500(struct conndata *conn)
 	send_msg(conn->socketint, buff);
 }
 
-static void http_501(struct conndata *conn)
+void http_501(struct conndata *conn)
 {
 	char buff[DATLEN];
 
@@ -52,7 +32,7 @@ static void http_501(struct conndata *conn)
 	send_msg(conn->socketint, buff);
 }
 
-static void http_404(int fd, struct conndata *conn)
+void http_404(struct conndata *conn)
 {
 	char buff[DATLEN];
 

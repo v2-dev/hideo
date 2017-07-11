@@ -15,8 +15,7 @@
 #include "utils.h"
 #include "readreq.h"
 #include "parse_conf_file.h"
-#include "mimetypes.h"
-#include "conndf.h"
+#include "libhttp.h"
 #include <sys/resource.h>
 #include <sys/time.h>
 
@@ -148,7 +147,7 @@ int main(int argc, char **argv)
 
 	if (argc > 1)
 	{
-		printf("\n No arguments required. Check server.cfg for more options\n");
+		printf("\n %s : No arguments required. Use only server.cfg\n ", argv[0]);
 	}
 
 	signal(SIGPIPE, SIG_IGN);
@@ -178,7 +177,7 @@ int main(int argc, char **argv)
 
 	if ((listensd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
 	{ 	/* crea il socket */
-		perror("errore in socket");
+		perror("error in socket()\n");
 		exit(1);
 	}
 

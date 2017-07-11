@@ -1,17 +1,18 @@
 #include <pthread.h>
 #include "utils.h"
 #include "thread.h"
+#include "libhttp.h"
 
 
-void lock(pthread_mutex_t * mtx)
+void lock(pthread_mutex_t * mux)
 {
-	if (pthread_mutex_lock(mtx) != 0)
+	if (pthread_mutex_lock(mux) != 0)
 		err_exit("Error on pthread_mutex_lock", errno);
 }
 
-void unlock(pthread_mutex_t * mtx)
+void unlock(pthread_mutex_t * mux)
 {
-	if (pthread_mutex_unlock(mtx) != 0)
+	if (pthread_mutex_unlock(mux) != 0)
 		err_exit("Error on pthread_mutex_unlock", errno);
 }
 
@@ -21,7 +22,6 @@ void thread_make(int i)
 	void	*thread_main(void *);
     int     n;
 
-	fprintf(stdout, "begin segmentation fault\n");
 	tptr[i].thread_count = i;
 
 	if ((n = pthread_create(&tptr[i].thread_tid, NULL, &thread_main, &tptr[i])) != 0) {
@@ -47,17 +47,20 @@ void *thread_main(void *arg)
 
 	for ( ; ; ) {
 		clilen = addrlen;
-        lock(&mlock);
+        lock(&mtx);
 		if ((connsd = accept(listensd, cliaddr, &clilen)) < 0 ) {
             fprintf(stderr, "accept error");
             exit(1);
 		}
-        unlock(&mlock);
+        unlock(&mtx);
 
-		/* process request here */
-		if (close(connsd) == -1) {
+		//printf("server: got connection from %s port %d\n",inet_ntoa(cliaddr->sin_addr),	ntohs(cliaddr->sin_port));
+		printf("Connection closed\n");
+
+		if (close(connsd) == -1){
             fprintf(stderr, "close error");
             exit(1);
 		}
+
 	}
 }

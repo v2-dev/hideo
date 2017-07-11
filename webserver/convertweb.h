@@ -3,11 +3,9 @@
 #include <string.h>
 #include "hconvert.h"
 
-/*
-	 Il programma deve essere eseguito nella directory contenente la cartella res
-		(res è la cartella contente le immagini originali)
-
-*/
+/****************************************************************************
+	The program must be executed in the directory containing "res" dyrectory
+*****************************************************************************/
 
 /* separa il nome della cartella dal nome del file */
 void file_extension(char * path, char * res, char * name){
@@ -100,19 +98,3 @@ void file_convert(char * path, char * ext, int width, int height, int q){
 	free(destination);
 	free(create_folder_command);
 }
-
-/*
-int main(){
-
-
-	char path[] = "res/a.jpg";
-	int x = 800;
-	int y = 600;
-	char * ext = "PNG";
-	int q = 50;
-
-	file_convert(path, ext, x, y, q);
-
-	return EXIT_SUCCESS;
-
-} */
