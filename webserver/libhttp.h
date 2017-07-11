@@ -21,6 +21,13 @@ int conndf_rv;
 #define METHOD_HEAD 2
 #define METHOD_POST 3
 
+
+struct httpread
+{
+	int dimArray;
+	char **array;
+};
+
 /* A connection. */
   struct conndata
     {
@@ -57,6 +64,14 @@ int uacheck(char *, struct conndata *);
 int accheck(char *, struct conndata *);
 int method_parse(char *, struct conndata *);
 int path_parse(char *optstring, struct conndata *);
+int serve_request(struct conndata * );
 int send_response(struct conndata *);
+
+
+void * create_httpread();
+void destroy_httpread(struct httpread * httpr);
+char * read_string(int fd);
+struct httpread * read_request(int fd);
+
 
 #endif /* _LIBHTTPD_H_ */

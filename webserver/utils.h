@@ -24,6 +24,7 @@
 //#define BACKLOG 256
 #define CONFIG_FILE "server.cfg"
 #define	MAXLINE			4096
+#define BUFSIZE			4096
 
 typedef struct {
 	char port[MAXLINE];

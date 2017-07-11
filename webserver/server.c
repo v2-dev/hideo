@@ -13,7 +13,6 @@
 #include "thread.h"
 #include <signal.h>
 #include "utils.h"
-#include "readreq.h"
 #include "parse_conf_file.h"
 #include "libhttp.h"
 #include <sys/resource.h>
@@ -50,7 +49,7 @@ void pr_cpu_time(void)
   printf("\nuser time = %g, sys time = %g\n", user, sys);
 }
 
-void sig_int(int signo)
+void sig_int()
 {
 	int		i;
 	void	pr_cpu_time(void);
@@ -63,80 +62,6 @@ void sig_int(int signo)
 	exit(0);
 }
 
-int serve_request(struct conndata * cdata)
-{
-	struct httpread * httpr;
-
-	request = malloc(sizeof(char) * BUFSIZE);
-	if(request == NULL)
-		return 0;
-
-	request = read_string(cdata->socketint);
-	fprintf(stdout, "<------- http request -------> \n%s\n", request);
-
-	return -1; //TO CHANGE!
-}
-//void * thread_main(void *p){
-/*void * thread_main()
-{
-	int pthread_sid;
-	pthread_sid = pthread_self() / 256;
-	printf("\nThread created [%x]", pthread_sid);
-	fflush(stdout);
-
-	int socket_int;
-	struct conndata * cdata;
-	int j;
-	int retval;
-
-	while(1)
-	{
-		int c = 0;
-		if ((socket_int = accept(listensd, (struct sockaddr *)NULL, NULL)) < 0)
-			perror("error in accept\n");
-
-		struct timeval tv;
-		tv.tv_sec = 2;
-		tv.tv_usec = 0;
-		if (setsockopt(socket_int, SOL_SOCKET, SO_RCVTIMEO, (const char *)&tv,sizeof(struct timeval)) < 0)
-			{
-				perror("errore in setsockopt");
-				close(socket_int);
-				break;
-			}
-		if (setsockopt(socket_int, SOL_SOCKET, SO_SNDTIMEO, (const char *)&tv,sizeof(struct timeval)) < 0)
-			{
-				perror("errore in setsockopt");
-				close(socket_int);
-				break;
-			}
-
-		j = 0;
-		cdata = create_conndata();
-		cdata->process_id = pthread_sid;
-		cdata->socketint = socket_int;
-		cdata->keepalmaxn = 5;
-		strcpy(cdata->messages, "Thread connesso");
-		print_message(cdata);
-		while(1)
-		{
-				strcpy(cdata->messages, "Servendo il client");
-				print_message(cdata);
-				retval = serve_request(cdata);
-				if ( retval == -1 ) break;
-				if ( retval == 0) j++;
-				if ( j > 2 ) break;
-				cdata->keepalmaxn--;
-				if (cdata->keepalmaxn == 0) break;
-		}
-		strcpy(cdata->messages, "Chiusura connessione");
-		print_message(cdata);
-		close(socket_int);
-		free(cdata);
-	}
-
-	return EXIT_SUCCESS;
-}*/
 
 int main(int argc, char **argv)
 {
@@ -188,6 +113,7 @@ int main(int argc, char **argv)
 
 	optval = 1;
 	optlen = sizeof(optval);
+
 	if(setsockopt(listensd, SOL_SOCKET, SO_KEEPALIVE, &optval, optlen) < 0)
 	{
 		perror("errore in setsockopt");
@@ -207,14 +133,12 @@ int main(int argc, char **argv)
 	/* assegna l'indirizzo al socket */
 	if ((bind(listensd, (struct sockaddr *) &servaddr, sizeof(servaddr))) < 0)
 	{
-		perror("errore in bind");
-		exit(1);
+		unix_error("error on bind()\n");
 	}
 
 	if (listen(listensd, backlog) < 0 )
 	{
-		perror("errore in listen");
-		exit(1);
+		unix_error("listen\n");
 	}
 
 	tptr = (struct Thread *)calloc(nthreads, sizeof(struct Thread));
