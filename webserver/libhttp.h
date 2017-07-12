@@ -29,10 +29,10 @@ struct httpread
 	char **array;
 };
 
-/*
-Structure which memories my http messages, file descriptors, path files.
-It is created after accepting a connection and destroyied after closing the connection
-*/
+/***************************************************************************************
+	Structure which memories my http messages, file descriptors, path files.
+	It is created after accepting a connection and destroyied after closing the connection
+****************************************************************************************/
   struct conndata
     {
 			char http_req[MAXREQ];
@@ -69,7 +69,7 @@ int uacheck(char *, struct conndata *);
 int accheck(char *, struct conndata *);
 int method_parse(char *, struct conndata *);
 int path_parse(char *optstring, struct conndata *);
-int read_request(struct conndata * );
+int client_request(struct conndata * );
 int send_response(struct conndata *);
 
 

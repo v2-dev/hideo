@@ -148,7 +148,7 @@ int uacheck(char *optstring, struct conndata *p)
 
 
 /****************************
-			Accept: parsing
+			Accept field parsing
 ****************************/
 int accheck(char *optstring, struct conndata *p)
 {
@@ -189,22 +189,16 @@ int accheck(char *optstring, struct conndata *p)
 int method_parse(char *optstring, struct conndata *p)
 {
 	/*
-	 * Parse del metodo:
-	 *
-	 * Restituisce
-	 * 	-1	errori
-	 * 	0	non HEAD, non GET
-	 * 	1	HEAD
-	 * 	2	GET
+	 * Parsing of method
+	 * This function returns:
+	 * 		0	not HEAD, nor GET or error
+	 * 		1	GET
+	 * 		2	HEAD
 	 */
-
-	if (strlen(optstring) < 12) return -1;
-
 	if ( !strncmp(optstring, "GET ", 4) )
 	{
 		strcpy(p->method_r, "GET");
 		strcpy(p->messages, "GET method\n");
-		print_message(p);
 		p->get1head2 = 1;
 		return 1;
 	}
@@ -268,16 +262,39 @@ int path_parse(char *optstring, struct conndata *p)
 }
 
 
-int read_request(struct conndata * cdata)
+int client_request(struct conndata * cdata)
 {
 	char *request;
+	struct httpread * httpr;
 
 	request = Malloc(sizeof(char) * BUFSIZE);
 	/*fill http request message with zeroes for security reasons*/
 	memset(cdata->http_req, 0, sizeof(cdata->http_req));
 	request = read_string(cdata->socketint);
-	cdata->http_req = memcpy(cdata->http_req, request, sizeof(cdata->http_req);
-	fprintf(stdout, "<------- http request -------> \n%s\n", request);
+	memcpy(cdata->http_req, request, sizeof(cdata->http_req));
+	fprintf(stdout, "<------- http request -------> \n%s\n", cdata->http_req);
+	fflush(stdout);
+
+	if ( method_parse(cdata->http_req, cdata) > 0 )
+	{
+		if (path_parse(*(httpr->array), cdata) == 0)
+		{
+			//strcpy(cdata->messages, *(httpr->array));
+			//print_message(cdata);
+			int i;
+			for(i = 1; i<httpr->dimArray; i++)
+			{
+				accheck(*(httpr->array+i), cdata);
+				uacheck(*(httpr->array+i), cdata);
+				//strcpy(cdata->messages, *(httpr->array+i));
+				//print_message(cdata);
+			}
+			if (send_response(cdata) != 0) return -1;
+		}
+	}
+
+	destroy_httpread(httpr);
+
 
 	return -1; //TO CHANGE! return lenght of what has been read
 }

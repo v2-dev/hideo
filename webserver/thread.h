@@ -24,5 +24,6 @@ pthread_mutex_t	mtx;
 void lock(pthread_mutex_t *);
 void unlock(pthread_mutex_t *);
 void thread_make(int );
+void millisleep(int milliseconds);
 
 #endif
