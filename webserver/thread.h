@@ -1,5 +1,9 @@
 #ifndef THREAD_H
 #define THREAD_H
+#include <pthread.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 /* Server TCP pre-threaded
   accept() in worker thread con mutex

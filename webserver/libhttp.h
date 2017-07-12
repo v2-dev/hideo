@@ -16,6 +16,7 @@
 int conndf_rv;
 
 #define DATLEN 4096
+#define MAXREQ	8192
 #define METHOD_UNKNOWN 0
 #define METHOD_GET 1
 #define METHOD_HEAD 2
@@ -28,9 +29,13 @@ struct httpread
 	char **array;
 };
 
-/* A connection. */
+/*
+Structure which memories my http messages, file descriptors, path files.
+It is created after accepting a connection and destroyied after closing the connection
+*/
   struct conndata
     {
+			char http_req[MAXREQ];
     	int process_id;			//tid del thread
     	int socketint;			//socket file descriptor
     	char path_r[256];		//request path
@@ -64,7 +69,7 @@ int uacheck(char *, struct conndata *);
 int accheck(char *, struct conndata *);
 int method_parse(char *, struct conndata *);
 int path_parse(char *optstring, struct conndata *);
-int serve_request(struct conndata * );
+int read_request(struct conndata * );
 int send_response(struct conndata *);
 
 

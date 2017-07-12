@@ -1,4 +1,3 @@
-#include <pthread.h>
 #include "utils.h"
 #include "thread.h"
 #include "libhttp.h"
@@ -35,50 +34,37 @@ void thread_make(int i)
 
 void *thread_main(void *arg)
 {
-	int				connsd, n, j = 0, retval = 0;
-	socklen_t		clilen;
-	struct sockaddr_in	*cliaddr;
-
+	int				connsd, j = 0, retval = 0;
 	struct Thread *thread_data = (struct Thread *)arg;
 	struct conndata * cdata;
+	char buf[MAXLINE], method[MAXLINE], uri[MAXLINE], version[MAXLINE];
 
-	cliaddr = Malloc(addrlen);
+	thread_data->thread_tid = pthread_self() / 256;
+	printf("Thread created [%lx]\n", (unsigned int) thread_data->thread_tid);
+	fflush(stdout);
 
-	printf("thread %ld starting\n", thread_data->thread_count);
+	while(1) {
 
-	for ( ; ; ) {
-		clilen = addrlen;
-    lock(&mtx);
-		if ((connsd = accept(listensd, (struct sockaddr *) cliaddr, &clilen)) < 0 )
-            unix_error("error on accept()\n");
-    unlock(&mtx);
+		if(pthread_mutex_lock(&mtx) < 0)
+			pthread_exit(NULL);
 
-		struct timeval tv;
-		tv.tv_sec = 2;
-		tv.tv_usec = 0;
+		if ((connsd = accept(listensd, (struct sockaddr *)NULL, NULL)) < 0)
+			perror("error in accept\n");
 
-		if (setsockopt(listensd, SOL_SOCKET, SO_RCVTIMEO, (const char *)&tv,sizeof(struct timeval)) < 0){
-				//warning message here
-				perror("error on setsockopt\n");
-				close(listensd);
-				break;
-			}
-		if (setsockopt(listensd, SOL_SOCKET, SO_SNDTIMEO, (const char *)&tv,sizeof(struct timeval)) < 0){
-				perror("error on setsockopt ");
-				close(listensd);
-				break; //da migliorare la robustezza
-			}
+		fprintf(stdout, "...connection accepted!\n");
+
+		if(pthread_mutex_unlock(&mtx) < 0)
+			pthread_exit(NULL);
 
 		cdata = create_conndata();
 		cdata->socketint = connsd;
-		strcpy(cdata->messages, "Thread connesso\n");
-
-		printf("server: got connection from %s ; port %d\n",inet_ntoa(cliaddr->sin_addr),	ntohs(cliaddr->sin_port));
+		cdata->process_id = thread_data->thread_tid;
+		cdata->keepalmaxn = 5;
 		/******************************
-			Read request here
+			Serve request here
 		*******************************/
 		for(;;){
-			retval = serve_request(cdata);
+			retval = serve_request(cdata); //returns only -1 for the moment
 			if ( retval == -1 ) break;
 			if ( retval == 0) j++;
 			if ( j > 2 ) break;
@@ -87,9 +73,8 @@ void *thread_main(void *arg)
 		}
 
 		Free(cdata);
-		if (close(connsd) == -1){
-            unix_error("error on close()\n");
+		close(cdata->socketint);
 		}
 
-	}
+	return NULL;
 }

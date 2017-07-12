@@ -114,6 +114,10 @@ void print_message(struct conndata *p)
 	strcpy(p->messages, "");
 }
 
+/****************************
+			User-Agent parsing
+****************************/
+
 int uacheck(char *optstring, struct conndata *p)
 {
 	/*
@@ -142,6 +146,10 @@ int uacheck(char *optstring, struct conndata *p)
 	return 1;
 }
 
+
+/****************************
+			Accept: parsing
+****************************/
 int accheck(char *optstring, struct conndata *p)
 {
 	/*
@@ -174,6 +182,9 @@ int accheck(char *optstring, struct conndata *p)
 
 }
 
+/****************************
+			Method parsing
+****************************/
 
 int method_parse(char *optstring, struct conndata *p)
 {
@@ -257,17 +268,18 @@ int path_parse(char *optstring, struct conndata *p)
 }
 
 
-int serve_request(struct conndata * cdata)
+int read_request(struct conndata * cdata)
 {
-	struct httpread * httpr;
 	char *request;
 
 	request = Malloc(sizeof(char) * BUFSIZE);
-
+	/*fill http request message with zeroes for security reasons*/
+	memset(cdata->http_req, 0, sizeof(cdata->http_req));
 	request = read_string(cdata->socketint);
+	cdata->http_req = memcpy(cdata->http_req, request, sizeof(cdata->http_req);
 	fprintf(stdout, "<------- http request -------> \n%s\n", request);
 
-	return -1; //TO CHANGE!
+	return -1; //TO CHANGE! return lenght of what has been read
 }
 
 
@@ -359,13 +371,7 @@ int send_response(struct conndata *p)
 void * create_httpread()
 {
 	struct httpread * httpr;
-	httpr = malloc(sizeof(struct httpread));
-
-	if (httpr == NULL)
-	{
-		fprintf(stderr, "Memory allocation error\n");
-		exit(EXIT_FAILURE);
-	}
+	httpr = Malloc(sizeof(struct httpread));
 
 	httpr->dimArray = 0;
 	httpr->array = malloc(sizeof(char *));
@@ -389,11 +395,7 @@ char * read_string(int fd)
 	int n = 0;
 	int size = 0;
 
-	char *tmpString = malloc(sizeof(char) * BUFSIZE);
-	if(tmpString == NULL){
-		fprintf(stderr, "error on malloc\n");
-		return NULL;
-	}
+	char *tmpString = Malloc(sizeof(char) * BUFSIZE);
 
 	n = readn(fd, tmpString, BUFSIZE);
 	if (n==-1)

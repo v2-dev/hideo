@@ -41,6 +41,7 @@ void printerr_and_exit(const char *errmsg);
 
 /*IO functions Wrappers*/
 size_t recv_msg(int fd, char *usr_buff, size_t nbytes);
+int recv_line(int sockfd, char *buf, int size);
 size_t send_msg(int fd, char *buff);
 ssize_t readn(int fd, void *buf, size_t n);
 ssize_t	writen(int fd, const void *buf, size_t n);

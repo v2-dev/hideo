@@ -30,7 +30,6 @@ void file_name(char *filename)
 {
 	int i;
 	int len = strlen(filename);
-	char *last_slash;
 
 	for(i = 0; i<len; i++){
 		if (filename[i] == '.'){

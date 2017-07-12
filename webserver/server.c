@@ -1,7 +1,4 @@
 #include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -141,11 +138,11 @@ int main(int argc, char **argv)
 		unix_error("listen\n");
 	}
 
-	tptr = (struct Thread *)calloc(nthreads, sizeof(struct Thread));
-    if (tptr == NULL) {
-        fprintf(stderr, "calloc error\n");
-        exit(1);
-    }
+	tptr = (struct Thread *)Calloc(nthreads, sizeof(struct Thread));
+
+  /*mutex initializer*/
+  if(pthread_mutex_init(&mtx, NULL) != 0)
+    err_exit("Error on pthread_mutex_init()\n", errno);
 
 	for (i = 0; i < nthreads; i++)
 		thread_make(i);			/* only main thread returns */

@@ -2,7 +2,12 @@
 #include <string.h>
 #include <stdlib.h>
 #include <signal.h>
-#include "hpglobal.h"
+#include <errno.h>
+
+#define DATLEN 4096
+
+int ret;
+int ev;
 
 // remove_ext: removes the "extension" from a file spec.
 //   mystr is the string to process.
