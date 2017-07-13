@@ -62,6 +62,7 @@ void *thread_main(void *arg)
 		cdata->socketint = connsd;
 		cdata->process_id = thread_data->thread_tid;
 		cdata->keepalmaxn = 5;
+
 		/******************************
 			Serve request here
 		*******************************/
@@ -69,7 +70,14 @@ void *thread_main(void *arg)
 		while(retval){
 			/*To be implemented: thread sleep until next client request*/
 			retval = client_request(cdata); //returns only -1 for the moment
-			if ( retval == -1 ) break;
+			if ( retval == -1 ){
+				http_500(cdata);
+				break;
+			}
+			if(retval == 0){
+				http_404(cdata);
+				break;
+			}
 		}
 
 		Free(cdata);

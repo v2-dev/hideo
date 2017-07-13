@@ -198,7 +198,6 @@ int method_parse(char *optstring, struct conndata *p)
 	if ( !strncmp(optstring, "GET ", 4) )
 	{
 		strcpy(p->method_r, "GET");
-		strcpy(p->messages, "GET method\n");
 		p->get1head2 = 1;
 		return 1;
 	}
@@ -206,14 +205,11 @@ int method_parse(char *optstring, struct conndata *p)
 	else if ( !strncmp(optstring, "HEAD ", 5) )
 	{
 		strcpy(p->method_r, "HEAD");
-		strcpy(p->messages, "HEAD method\n");
-		print_message(p);
 		p->get1head2 = 2;
 		return 2;
 	}
 	p->get1head2 = 0;
 	strcpy(p->method_r, "");
-	strcpy(p->messages, "Metodo diverso da GET o HEAD");
 	/*return BAD_REQUEST*/
 	return 0;
 }
@@ -222,7 +218,6 @@ int path_parse(char *optstring, struct conndata *p)
 {
 	/*
 	 * Parse del path
-	 *
 	 * restituisce 0 se non ci sono errori
 	 * []GET/HEAD[ ]pathpippo[ ]HTTP/1.1[/0]
 	 */
@@ -266,6 +261,8 @@ int client_request(struct conndata * cdata)
 {
 	char *request;
 	struct httpread * httpr;
+	int retval = 1;
+
 
 	request = Malloc(sizeof(char) * BUFSIZE);
 	/*fill http request message with zeroes for security reasons*/
@@ -275,26 +272,31 @@ int client_request(struct conndata * cdata)
 	fprintf(stdout, "<------- http request -------> \n%s\n", cdata->http_req);
 	fflush(stdout);
 
-	if ( method_parse(cdata->http_req, cdata) > 0 )
-	{
-		if (path_parse(*(httpr->array), cdata) == 0)
+	/*Voglio fare in modo che se il client non fa le richieste giuste restituisco 0 al chiamante;
+		Se è avvenuto un errore restituisco -1. Il chiamante se viene restituito 0 manda una BAD_REQUEST al client.
+		Se viene restituito -1 manda al client INTERNAL_SERVER_ERROR
+	*/
+
+	retval = method_parse(cdata->http_req, cdata);
+	if(!retval){
+		return retval;
+	}
+	fprintf(stdout, "Requested method: %s\n", cdata->method_r);
+	fprintf(stdout, "http request string pointer after method\n%s\n", cdata->http_req);
+		/*if (path_parse(*(httpr->array), cdata) == 0)
 		{
 			//strcpy(cdata->messages, *(httpr->array));
 			//print_message(cdata);
 			int i;
 			for(i = 1; i<httpr->dimArray; i++)
-			{
+			{int offset = strlen(p->method_r);
 				accheck(*(httpr->array+i), cdata);
 				uacheck(*(httpr->array+i), cdata);
 				//strcpy(cdata->messages, *(httpr->array+i));
 				//print_message(cdata);
 			}
 			if (send_response(cdata) != 0) return -1;
-		}
-	}
-
-	destroy_httpread(httpr);
-
+		}*/
 
 	return -1; //TO CHANGE! return lenght of what has been read
 }
