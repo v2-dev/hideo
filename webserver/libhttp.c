@@ -8,7 +8,8 @@ void http_200(struct conndata *conn)
 
 	sprintf(buff, "HTTP/1.1 200 OK\r\n");
 	sprintf(buff, "%sServer: Hideo\r\n", buff);
-
+	sprintf(buff, "%s<html><head><title>200 OK</title></head>"	,buff);
+	sprintf(buff, "%s<body><h1>Everything is fine here!</h1></body></html>\r\n",	buff);
 	send_msg(conn->socketint, buff);
 }
 
@@ -28,6 +29,10 @@ void http_501(struct conndata *conn)
 
 	sprintf(buff, "HTTP/1.1 501 NOT IMPLEMENTED\r\n");
 	sprintf(buff, "%sServer: Hideo\r\n", buff);
+	sprintf(buff, "%s<html><head><title>501 NOT IMPLEMENTED</title></head>"
+		,buff);
+	sprintf(buff, "%s<body><h1>The method or request you made is not implemented</h1></body></html>\r\n",
+		buff);
 
 	send_msg(conn->socketint, buff);
 }
@@ -77,6 +82,8 @@ char *get_ext (char* mystr)
     sscanf(++lastdot, "%s", retstr);
     return retstr;
 }
+
+
 char *get_mimetype (char* pathstr)
 {
 	char extension[5] = "";
@@ -221,7 +228,6 @@ int path_parse(char *optstring, struct conndata *p)
 	 * restituisce 0 se non ci sono errori
 	 * []GET/HEAD[ ]pathpippo[ ]HTTP/1.1[/0]
 	 */
-
 	unsigned int choffset = 4;
 	int i;
 	if (p->get1head2 == 2) choffset++;
@@ -257,50 +263,112 @@ int path_parse(char *optstring, struct conndata *p)
 }
 
 
-int client_request(struct conndata * cdata)
+int doit(struct conndata *cdata)
 {
-	char *request;
+    char method[BUFSIZE], uri[BUFSIZE], version[BUFSIZE];
+		char *request;
+
+    /* Read request line and headers */
+		request = Malloc(sizeof(char) * BUFSIZE);
+		/*fill http request message with zeroes for security reasons*/
+		memset(cdata->http_req, 0, sizeof(cdata->http_req));
+		request = read_string(cdata->socketint);
+		memcpy(cdata->http_req, request, sizeof(cdata->http_req));
+		fprintf(stdout, "<------- http request -------> \n%s\n", request);
+		fflush(stdout);
+
+		sscanf(request, "%s %s %s", method, uri,
+		       version);
+		printf("method: %s\nuri: %s\nver: %s\n\n", method,
+		       uri, version);
+		fflush(stdout);
+
+		/*if(method_parse(method, cdata) < 1){
+			//method not implemented
+			http_501(cdata);
+			return -1;
+		}
+
+		path_parse(uri, cdata);
+		http_200(cdata);*/
+
+		return -1;
+
+}
+/* $end doit */
+
+
+void * create_httpread()
+{
 	struct httpread * httpr;
-	int retval = 1;
+	httpr = malloc(sizeof(struct httpread));
 
-
-	request = Malloc(sizeof(char) * BUFSIZE);
-	/*fill http request message with zeroes for security reasons*/
-	memset(cdata->http_req, 0, sizeof(cdata->http_req));
-	request = read_string(cdata->socketint);
-	memcpy(cdata->http_req, request, sizeof(cdata->http_req));
-	fprintf(stdout, "<------- http request -------> \n%s\n", cdata->http_req);
-	fflush(stdout);
-
-	/*Voglio fare in modo che se il client non fa le richieste giuste restituisco 0 al chiamante;
-		Se è avvenuto un errore restituisco -1. Il chiamante se viene restituito 0 manda una BAD_REQUEST al client.
-		Se viene restituito -1 manda al client INTERNAL_SERVER_ERROR
-	*/
-
-	retval = method_parse(cdata->http_req, cdata);
-	if(!retval){
-		return retval;
+	if (httpr == NULL)
+	{
+		fprintf(stderr, "Memory allocation error\n");
+		exit(EXIT_FAILURE);
 	}
-	fprintf(stdout, "Requested method: %s\n", cdata->method_r);
-	fprintf(stdout, "http request string pointer after method\n%s\n", cdata->http_req);
-		/*if (path_parse(*(httpr->array), cdata) == 0)
+
+	httpr->dimArray = 0;
+	httpr->array = malloc(sizeof(char *));
+	return httpr;
+}
+
+void destroy_httpread(struct httpread * httpr)
+{
+	int i;
+	for (i = 0; i < httpr->dimArray; i++)
+	{
+			free(*(httpr->array+i));
+	}
+	free(httpr->array);
+	free(httpr);
+}
+
+
+int serve_request(struct conndata * cdata)
+{
+	struct httpread * httpr;
+	httpr = read_request(cdata->socketint);
+	/*
+	 * if (httpr == NULL)
+	{
+		destroy_httpread(httpr);
+		return 0;
+	}
+	* */
+	if (httpr->dimArray == 0)
+	{
+		destroy_httpread(httpr);
+		return 0;
+	}
+	if (httpr->dimArray == -1)
+	{
+		destroy_httpread(httpr);
+		return -1;
+	}
+
+	if ( method_parse(*(httpr->array), cdata) > 0 )
+	{
+		if (path_parse(*(httpr->array), cdata) == 0)
 		{
 			//strcpy(cdata->messages, *(httpr->array));
 			//print_message(cdata);
 			int i;
 			for(i = 1; i<httpr->dimArray; i++)
-			{int offset = strlen(p->method_r);
+			{
 				accheck(*(httpr->array+i), cdata);
 				uacheck(*(httpr->array+i), cdata);
 				//strcpy(cdata->messages, *(httpr->array+i));
 				//print_message(cdata);
 			}
 			if (send_response(cdata) != 0) return -1;
-		}*/
+		}
+	}
 
-	return -1; //TO CHANGE! return lenght of what has been read
+	destroy_httpread(httpr);
+	return 1;
 }
-
 
 int send_response(struct conndata *p)
 {
@@ -384,28 +452,6 @@ int send_response(struct conndata *p)
 	}
 
 	return 1;
-}
-
-
-void * create_httpread()
-{
-	struct httpread * httpr;
-	httpr = Malloc(sizeof(struct httpread));
-
-	httpr->dimArray = 0;
-	httpr->array = malloc(sizeof(char *));
-	return httpr;
-}
-
-void destroy_httpread(struct httpread * httpr)
-{
-	int i;
-	for (i = 0; i < httpr->dimArray; i++)
-	{
-			free(*(httpr->array+i));
-	}
-	free(httpr->array);
-	free(httpr);
 }
 
 

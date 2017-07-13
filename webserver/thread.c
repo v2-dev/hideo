@@ -67,22 +67,20 @@ void *thread_main(void *arg)
 			Serve request here
 		*******************************/
 		retval = 1;
-		while(retval){
+		while(1){
 			/*To be implemented: thread sleep until next client request*/
-			retval = client_request(cdata); //returns only -1 for the moment
-			if ( retval == -1 ){
-				http_500(cdata);
-				break;
+				retval = serve_request(cdata);
+				if ( retval == -1 ) break;
 			}
-			if(retval == 0){
+			if(!retval){
 				http_404(cdata);
+				fflush(stdout);
 				break;
 			}
-		}
 
 		Free(cdata);
 		close(cdata->socketint);
-		}
+	}
 
 	return NULL;
 }

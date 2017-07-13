@@ -154,8 +154,10 @@ size_t send_msg(int fd, char *buff)
 	/* send content */
 	printf("Bytes to send: %d\n", (int) nleft);
 	while (nleft > 0) {
-		if ((nsend = send(fd, buff, nleft, 0)) <= 0) {
+		if ((nsend = send(fd, buff, nleft, MSG_NOSIGNAL)) <= 0) {
 			if (nsend < 0 && errno == EINTR)
+				nsend = 0;
+			if (nsend < 0 && errno == EPIPE)
 				nsend = 0;
 			else
 				err_exit("error with send()", errno);
@@ -164,7 +166,7 @@ size_t send_msg(int fd, char *buff)
 		buff += nsend;
 	}
 	if (nleft == 0)
-		printf("Send success!!\n");
+		printf("Send success!\n");
 	return nleft;
 }
 
