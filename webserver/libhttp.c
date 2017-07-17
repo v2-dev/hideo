@@ -52,6 +52,18 @@ void http_404(struct conndata *conn)
 }
 
 
+void http_400(struct conndata *conn)
+{
+	char buff[DATLEN];
+
+	sprintf(buff, "HTTP/1.1 404 BAD REQUEST\r\n");
+	sprintf(buff, "%sServer: Hideo\r\n\r\n", buff);
+	sprintf(buff, "%s<html><head><title>400 bad request</title></head>"
+		,buff);
+
+	send_msg(conn->socketint, buff);
+}
+
 
 int find_quality(char * accept){
 
@@ -218,7 +230,7 @@ int method_parse(char *optstring, struct conndata *p)
 	p->get1head2 = 0;
 	strcpy(p->method_r, "");
 	/*return BAD_REQUEST*/
-	return 0;
+	return ERROR;
 }
 
 int path_parse(char *optstring, struct conndata *p)
@@ -226,6 +238,7 @@ int path_parse(char *optstring, struct conndata *p)
 	/*
 	 * Parse del path
 	 * restituisce 0 se non ci sono errori
+	 * restituisce ERROR se il path non è corretto
 	 * []GET/HEAD[ ]pathpippo[ ]HTTP/1.1[/0]
 	 */
 	unsigned int choffset = 4;
@@ -248,7 +261,7 @@ int path_parse(char *optstring, struct conndata *p)
 		{
 			strcpy(p->messages, "Header HTTP mancante od incompleto!");
 			print_message(p);
-			return 1;
+			return ERROR;
 		}
 
 	strcpy(p->messages, "Header HTTP OK");
@@ -261,41 +274,6 @@ int path_parse(char *optstring, struct conndata *p)
 	//strcpy(p->path_r, path_r);
 	return 0;
 }
-
-
-int doit(struct conndata *cdata)
-{
-    char method[BUFSIZE], uri[BUFSIZE], version[BUFSIZE];
-		char *request;
-
-    /* Read request line and headers */
-		request = Malloc(sizeof(char) * BUFSIZE);
-		/*fill http request message with zeroes for security reasons*/
-		memset(cdata->http_req, 0, sizeof(cdata->http_req));
-		request = read_string(cdata->socketint);
-		memcpy(cdata->http_req, request, sizeof(cdata->http_req));
-		fprintf(stdout, "<------- http request -------> \n%s\n", request);
-		fflush(stdout);
-
-		sscanf(request, "%s %s %s", method, uri,
-		       version);
-		printf("method: %s\nuri: %s\nver: %s\n\n", method,
-		       uri, version);
-		fflush(stdout);
-
-		/*if(method_parse(method, cdata) < 1){
-			//method not implemented
-			http_501(cdata);
-			return -1;
-		}
-
-		path_parse(uri, cdata);
-		http_200(cdata);*/
-
-		return -1;
-
-}
-/* $end doit */
 
 
 void * create_httpread()
@@ -345,30 +323,37 @@ int serve_request(struct conndata * cdata)
 	if (httpr->dimArray == -1)
 	{
 		destroy_httpread(httpr);
-		return -1;
+		return ERROR;
 	}
 
-	if ( method_parse(*(httpr->array), cdata) > 0 )
+	if ( method_parse(*(httpr->array), cdata) == ERROR)
 	{
-		if (path_parse(*(httpr->array), cdata) == 0)
-		{
+			http_400(cdata);
+			destroy_httpread(httpr);
+			return ERROR;
+	}
+
+	if (path_parse(*(httpr->array), cdata) == ERROR)
+	{
+			http_400(cdata);
+			destroy_httpread(httpr);
+			return ERROR;
+	}
 			//strcpy(cdata->messages, *(httpr->array));
 			//print_message(cdata);
-			int i;
-			for(i = 1; i<httpr->dimArray; i++)
-			{
-				accheck(*(httpr->array+i), cdata);
-				uacheck(*(httpr->array+i), cdata);
+	int i;
+	for(i = 1; i<httpr->dimArray; i++)
+	{
+		accheck(*(httpr->array+i), cdata);
+		uacheck(*(httpr->array+i), cdata);
 				//strcpy(cdata->messages, *(httpr->array+i));
-				//print_message(cdata);
-			}
-			if (send_response(cdata) != 0) return -1;
-		}
+											//print_message(cdata);
 	}
+	if (send_response(cdata) != 0)
+		return ERROR;
 
-	destroy_httpread(httpr);
-	return 1;
 }
+
 
 int send_response(struct conndata *p)
 {
@@ -425,7 +410,7 @@ int send_response(struct conndata *p)
 
 		size_t size = 1;
 		char *temp;
-		temp = malloc(sizeof(char) * size);
+		temp = Malloc(sizeof(char) * size);
 		while (read(req_fd, temp, 1)>0)
 		{
 			conndf_rv = writen(p->socketint, temp, 1);

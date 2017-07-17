@@ -55,18 +55,16 @@ void *thread_main(void *arg)
 			perror("error in accept\n");
 
 		fprintf(stdout, "...connection accepted!\n");
-		
-		struct timeval timeout;      
+
+		struct timeval timeout;
     		timeout.tv_sec = 1;
     		timeout.tv_usec = 0;
 
-   	 	if (setsockopt (connsd, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout,
-                	sizeof(timeout)) < 0)
-        		unix_err("setsockopt failed\n");
+   	if (setsockopt(connsd, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
+    	unix_error("setsockopt failed\n");
 
-    		if (setsockopt (connsd, SOL_SOCKET, SO_SNDTIMEO, (char *)&timeout,
-                sizeof(timeout)) < 0)
-       			 unix_err("setsockopt failed\n");
+    if (setsockopt(connsd, SOL_SOCKET, SO_SNDTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
+    	unix_error("setsockopt failed\n");
 
 		if(pthread_mutex_unlock(&mtx) < 0)
 			pthread_exit(NULL);
@@ -81,21 +79,16 @@ void *thread_main(void *arg)
 		*******************************/
 		retval = 1;
 		while(1){
-			
+
 			/*To be implemented: thread sleep until next client request*/
 				retval = serve_request(cdata);
-				if ( retval == -1 ) break;
+				if ( retval == ERROR ){
+					Free(cdata);
+					close(cdata->socketint);
+					break;
+					}
 			}
-			if(!retval){
-				http_404(cdata);
-				fflush(stdout);
-				break;
-			}
-
-		Free(cdata);
-		close(cdata->socketint);
 	}
 
 	return NULL;
 }
-
