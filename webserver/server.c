@@ -14,6 +14,8 @@
 #include "libhttp.h"
 #include <sys/resource.h>
 #include <sys/time.h>
+#include "CACHER.h"
+
 
 int listensd;
 char *request;
@@ -66,6 +68,9 @@ int main(int argc, char **argv)
 	static short servport;
 	static int backlog;
 	int i = 0;
+
+  web_cache = create_cache();
+
 
 	if (argc > 1)
 	{

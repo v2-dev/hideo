@@ -85,7 +85,7 @@ int obtain_file(char * path, char * ext, int x, int y, int q){
 	
 	/* il file non c'è, bisogna convertirlo dall'originale */
 	file_convert(path, ext, x, y, q);
-	
+	printf("fullname: %s\n", full_name);
 	fd = open(full_name, O_RDWR);
 	if (fd ==-1){
 		fprintf(stderr, "Error with open()\n");
