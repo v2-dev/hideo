@@ -367,9 +367,9 @@ int send_response(struct conndata *p)
 	int req_fd;
 	p->return_code = 400;
 
-	//printf("\n\tPath =#%s#", p->path_r);
+	printf("\n\tPath =#%s#", p->path_r);
 	if ( p->path_r[0] == '/' && (p->path_r[1] == '\0') ) strcpy(p->path_r, "/index.html");
-	//printf("\n\tPath =#%s#", p->path_r);
+	printf("\n\tPath =#%s#", p->path_r);
 
 	//TEST
 	char testpath[300] = "path/homepagen";

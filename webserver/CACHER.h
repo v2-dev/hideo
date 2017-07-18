@@ -417,7 +417,10 @@ void summary_cache(struct cache * myCache){	/* stampa varie informazioni sullo s
 
 int getFile(struct cache * myCache,char * stringFile){	/* ritorna il descrittore del file con il nome scelto, se NON c'è ritorna -1 */
 
-	pthread_mutex_lock(&(myCache->cmutex)); /* acquisisco mutex */
+	if (pthread_mutex_lock(&(myCache->cmutex)) != 0){ /* acquisisco mutex */
+		fprintf(stderr, "Error in mutex lock\n");
+		exit(EXIT_FAILURE);
+	}
 
 	printf("Hai richiesto il file '%s'. Processando...\n", stringFile);
 
@@ -429,7 +432,12 @@ int getFile(struct cache * myCache,char * stringFile){	/* ritorna il descrittore
 
 			printf("Il file '%s' si trova già in ram. Ti restituisco il suo fileDescriptor: %d\n", hn->name, hn->refram->fd);
 			moveOnTop_ramNode(myCache->lt, hn->refram);
-			pthread_mutex_unlock(&(myCache->cmutex)); /* acquisisco mutex */
+
+			if (pthread_mutex_unlock(&(myCache->cmutex)) != 0){ /* rilascio mutex */
+				fprintf(stderr, "Error in mutex unlock\n");
+				exit(EXIT_FAILURE);
+			}
+
 			return hn->refram->fd;
 		}
 
@@ -446,15 +454,23 @@ int getFile(struct cache * myCache,char * stringFile){	/* ritorna il descrittore
 			controlSize_lruTable(myCache->lt);
 
 			printf("Il file '%s' è stato caricato in ram. Ti restituisco il suo fileDescriptor: %d\n", rn->name, rn->fd);
-			pthread_mutex_unlock(&(myCache->cmutex)); /* acquisisco mutex */
+
+			if (pthread_mutex_unlock(&(myCache->cmutex)) != 0){ /* rilascio mutex */
+				fprintf(stderr, "Error in mutex lock\n");
+				exit(EXIT_FAILURE);	
+			}
 
 			return fd;
 		}
 	}
 
 	printf("Non ho il file '%s' da te richiesto, mi dispiace! Ti restituisco un fileDescriptor di errore: -1\n", stringFile);
-	pthread_mutex_unlock(&(myCache->cmutex)); /* acquisisco mutex */
-	printf("porcodio\n");
+
+	if (pthread_mutex_unlock(&(myCache->cmutex)) != 0){ /* rilascio mutex */
+		fprintf(stderr, "Error in mutex unlock\n");
+		exit(EXIT_FAILURE);
+	}
+
 	return -1;
 }
 
@@ -579,14 +595,12 @@ int obtain_file(char * path, char * ext, int x, int y, int q){
 		free(full_name);
 		return -1;
 	}
-	printf("\n\nciao\n\n");
-	printf("fullname: %s\n", full_name);
+	
 	/* se il file è nella cache, ritorna il suo fileDescriptor */
 	fd = getFile(web_cache, full_name);
 	printf("fd: %d\n", fd);
 	if (fd != -1) return fd;
-	printf("fullname: %s\n", full_name);
-	printf("\n\nciao\n\n");
+	
 	/* il file non c'è, bisogna convertirlo dall'originale */
 	file_convert(path, ext, x, y, q);
 	printf("fullname: %s\n", full_name);
