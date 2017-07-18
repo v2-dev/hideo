@@ -26,12 +26,14 @@ void pr_cpu_time(void)
   double	user, sys;
   struct rusage	myusage, childusage;
 
-  if (getrusage(RUSAGE_SELF, &myusage) < 0) {
+  if (getrusage(RUSAGE_SELF, &myusage) < 0) 
+  {
     fprintf(stderr, "errore in getrusage");
     exit(1);
   }
 
-  if (getrusage(RUSAGE_CHILDREN, &childusage) < 0) {
+  if (getrusage(RUSAGE_CHILDREN, &childusage) < 0) 
+  {
     fprintf(stderr, "errore in getrusage");
     exit(1);
   }
