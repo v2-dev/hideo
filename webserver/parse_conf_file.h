@@ -1,4 +1,4 @@
-/*  hellooooo
+/*  
  * parse: parse simple name/value pairs. Skip comments and space
  **/
 #include "utils.h"
