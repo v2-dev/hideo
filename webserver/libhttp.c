@@ -345,9 +345,9 @@ int serve_request(struct conndata * cdata)
 	for(i = 1; i<httpr->dimArray; i++)
 	{
 		accheck(*(httpr->array+i), cdata);
+		// check for return value
 		uacheck(*(httpr->array+i), cdata);
-				//strcpy(cdata->messages, *(httpr->array+i));
-											//print_message(cdata);
+		// check for return value
 	}
 	if (send_response(cdata) != 0)
 		return ERROR;
