@@ -33,8 +33,8 @@ struct httpread
 
 
 /***************************************************************************************
-	Structure which memories my http messages, file descriptors, path files.
-	It is created after accepting a connection and destroyied after closing the connection
+	Structure which memorizes http messages, file descriptors, path files.
+	It is created after accepting a connection and destroyed after closing the connection
 ****************************************************************************************/
   struct conndata
     {
