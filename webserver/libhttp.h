@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 int conndf_rv;
 
 #define DATLEN 4096
@@ -28,6 +29,8 @@ struct httpread
 	int dimArray;
 	char **array;
 };
+
+
 
 /***************************************************************************************
 	Structure which memories my http messages, file descriptors, path files.
@@ -59,6 +62,7 @@ void http_200(struct conndata *);
 void http_500(struct conndata *);
 void http_404(struct conndata *);
 void http_501(struct conndata *);
+
 
 int find_quality(char *);
 char *get_ext(char *);

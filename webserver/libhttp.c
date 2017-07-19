@@ -1,6 +1,9 @@
 #include "libhttp.h"
 #include "mimetypes.h"
 #include "utils.h"
+#include "cacher.h"
+
+
 
 void http_200(struct conndata *conn)
 {
@@ -345,12 +348,14 @@ int serve_request(struct conndata * cdata)
 	for(i = 1; i<httpr->dimArray; i++)
 	{
 		accheck(*(httpr->array+i), cdata);
+		// check for return value
 		uacheck(*(httpr->array+i), cdata);
-				//strcpy(cdata->messages, *(httpr->array+i));
-											//print_message(cdata);
+		// check for return value
 	}
 	if (send_response(cdata) != 0)
 		return ERROR;
+	
+	return 1;
 
 }
 
@@ -364,19 +369,50 @@ int send_response(struct conndata *p)
 	char *header400 = "HTTP/1.1 400 Bad Request\r\nServer: ProgettoIIWIS\r\nConnection: close\r\n\r\n";
 	char *header404 = "HTTP/1.1 404 Not Found\r\nServer: ProgettoIIWIS\r\nConnection: close\r\n\r\n";
 	//char *keepalive = "Connection: keep-alive\r\n";
-	int req_fd;
+	int req_fd = 0;
 	p->return_code = 400;
 
 	printf("\n\tPath =#%s#", p->path_r);
 	if ( p->path_r[0] == '/' && (p->path_r[1] == '\0') ) strcpy(p->path_r, "/index.html");
 	printf("\n\tPath =#%s#", p->path_r);
+	
+	int cache_set = 0;
+	int len;
+	char * mypath = NULL;
+	char * m;
+	if (strncmp("/wurfl", p->path_r, 6)==0){
+		cache_set = 1;
+		printf("PRIMO FLUSSO\n");
+		mypath = p->path_r;
+		mypath = mypath + 3;
+		*(mypath) = 'r';
+		*(mypath+1) = 'e';
+		*(mypath+2) = 's';
+		printf("RES: %s\n", mypath);
+		m = obtain_file(web_cache, mypath, "jpg", 100, 100, 100, &len);
+		if (m == MAP_FAILED){
+			fprintf(stderr,"libhttpc error obtain file\n");
+		}
+		else {
+			printf("pointer: %p\n", m);
+			printf("SIZE: %d\n", len);
+			printf("%c\n", *m);
+			fflush(stdout);
+			printf("\n");
+		}
+	}
+	
+	else {
+		printf("SECONDO FLUSSO\n");
+		//TEST
+		char testpath[300] = "path/homepagen";
+		strcat(testpath, p->path_r);
+		strcpy(p->path_r, testpath);
+		req_fd = open(p->path_r, O_RDONLY);
+	}
 
-	//TEST
-	char testpath[300] = "path/homepagen";
-	strcat(testpath, p->path_r);
-	strcpy(p->path_r, testpath);
 
-	if ((req_fd = open(p->path_r, O_RDONLY)) < 0)
+	if (req_fd == -1 )
 	{
 		p->return_code = 404;
 		strcpy(p->messages, "File ");
@@ -387,11 +423,20 @@ int send_response(struct conndata *p)
 	}
 	else
 	{
+		printf("\nARRIVATO QUA\n");
 		p->return_code = 200;
+		unsigned int contlen;
+		
+		if (cache_set){
+			contlen = (unsigned int) len;
+			
+		}
 
-		struct stat st;
-		stat(p->path_r, &st);
-		unsigned int contlen = st.st_size;
+		else{
+			struct stat st;
+			stat(p->path_r, &st);
+			contlen = st.st_size;
+		}
 
 		//CONTROLLO DELL'ESTENSIONE
 		char mimetype_t[30] = "";
@@ -406,17 +451,50 @@ int send_response(struct conndata *p)
 		strcat(header200, scontlen);
 
 		conndf_rv = writen(p->socketint, header200, strlen(header200));
-		if (conndf_rv == -1) return 2;
+		if (conndf_rv == -1) {
+			if (cache_set){
+				releaseFile(web_cache, mypath, "jpg", 100, 100, 100);
+			}
+			
+			else close(req_fd);
+			
+
+			return 2;
+
+		}
 
 		size_t size = 1;
 		char *temp;
 		temp = Malloc(sizeof(char) * size);
+		if (cache_set){
+			char c;
+			for (int i=0; i< len; i++){
+				c = *(m+i);
+				printf("%c\n", c);
+				fflush(stdout);
+				conndf_rv = writen(p->socketint, &c, 1);
+				if (conndf_rv == -1) {
+					printf("lol\n");
+					return 2;
+				}
+			}
+	
+		}
+		
+		else{
 		while (read(req_fd, temp, 1)>0)
 		{
 			conndf_rv = writen(p->socketint, temp, 1);
 			if (conndf_rv == -1) return 2;
 		}
-		close(req_fd);
+		}
+		
+		if (cache_set){
+			releaseFile(web_cache, mypath, "jpg", 100, 100, 100);
+		}
+		else{
+			close(req_fd);
+		}
 		free(temp);
 		//writen(p->socketint, "\r\n", 2);
 		strcpy(p->messages, "File servito");

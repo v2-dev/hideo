@@ -11,8 +11,7 @@
 void file_extension(char * path, char * res, char * name){
 
 	int len = strlen(path);
-	int nbyte_directory = 0;
-	char * last_slash;
+	char * last_slash = NULL;
 
 	for(int i = 0; i<len; i++){
 		if (path[i] == '/') last_slash = path+i;
@@ -42,8 +41,8 @@ void file_name(char *filename)
 /* converte l'immagine */
 void file_convert(char * path, char * ext, int width, int height, int q){
 
-	char res[10];
-	char name[50];
+	char res[200];
+	char name[200];
 	file_extension(path, res,name);
 
 	char name_alt[50]; /* nome del file senza estensione */
@@ -90,7 +89,12 @@ void file_convert(char * path, char * ext, int width, int height, int q){
 
 	strncpy(create_folder_command, "mkdir -p ", strlen("mkdir -p ")+1);
 	strncat(create_folder_command, destination, strlen(destination));
-	system(create_folder_command);
+	int commRes = system(create_folder_command);
+	//cosa fare con commmRes?
+	if (commRes==-1){
+		fprintf(stderr, "Error in system\n");
+		exit(EXIT_FAILURE);
+	}
 
 	nConvert(res, destination, name_alt, ext, resolution, 0, q);
 

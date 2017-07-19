@@ -1,120 +1,35 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <dirent.h>
-#include <time.h>
-#include <pthread.h>
-#include <fcntl.h>
-#include <string.h>
-#include <dirent.h>
+#include "cacher.h"
 #include "convertweb.h"
 
-#define RESET  "\x1B[0m"
-#define GREEN   "\x1B[32m"
+void exit_on_error(int cond, char * msg){
+	if(cond){
+		fprintf(stderr, "Error in %s\n", msg);
+		exit(EXIT_FAILURE);
+	}
+}
 
-#define SIZE_HASH_TABLE 4
-#define SIZE_RAM_CACHE 2
+char * open_and_map_file(char * filename, int * size){
 
-/*
-						CACHE
-
-	           |-------------------------------------------------------------------------------|
-	           |                                                                               |
-	           |   |------------------------------------------------------------------------|  |
-	|-----|	   |   v                                                                        |  |
-	|  0  |-->|file1|-->|file4|                                                             |  |
-	|-----|							                                |  |
-	|  2  |                                                                                 |  |
-	|-----|	    |-------------------------------------------------------|	   LRU TABLE	|  |
-	|  3  |	    |  |--------------------------------------------------| |                   |  |
-	|-----|	    |  v					          | v                   |  v
-	|  4  |-->|file7|						|-----|--->|-----|--->|-----|
-	|-----|							   |--->|file7|	   |file9|    |file1|<----|
-	|  5  |							   |	|-----|<---|-----|<---|-----|	  |
-	|-----|							   |	   |	     ^	|	 |	  |
-	|  6  |-->|file3|-->|file9|-->|file15|			|-----|	   |	     |	|	 |      |-----|
-	|-----|		      ^	 |				|front|<---|         |  |        |----->|rear |
-	|  7  |		      |  |				|-----|	             |  |               |-----|
-	|-----|               |  |                                                   |  |
-	                      |  |---------------------------------------------------|  |
-      TABELLA HASH            |                                                         |
-                    	      |---------------------------------------------------------|
-
-*/
-
-int n = 2; /* variabile per fare alcuni test */
-
-struct hashNode { 	/* un hashNode rappresenta un file presente nell'hard disk */
-
-	char name[300];
-	struct hashNode * next;
-	struct ramNode * refram;
-
-};
-
-struct ramNode{ 	/* un ramNode rappresenta un file caricato in ram */
-
-	char name[300];
-	struct ramNode * next;
-	struct ramNode * prev;
-	struct hashNode * refhash;
-	int fd; /* descrittore del file */
-
-};
-
-struct lruTable{	/* la tabella LRU contiene tutti i ramNode, ovvero tutti i file più utilizzati */
-
-	int count;
-	struct ramNode * front;
-	struct ramNode * rear;
-
-};
-
-struct cache { 		/* la cache è formata dalla tabella HASH e dalla tabella LRU */
-
-	struct hashNode ** ht;
-	struct lruTable * lt;
-	pthread_mutex_t cmutex;
-
-};
-
-struct cache * web_cache;
-
-struct hashNode ** create_hashTable(void);
-struct hashNode * alloc_hashNode(void);
-struct hashNode * create_hashNode(char *);
-int get_hashValue(char *);
-void visit_hashLine(struct hashNode **, int);
-struct hashNode * get_hashNode(struct hashNode **, char *);		/* PROTOTIPI DELLE FUNZIONI */
-int insert_hashNode(struct hashNode **, struct hashNode *);
-struct ramNode * alloc_ramNode(void);
-struct ramNode * create_ramNode(char *, int);
-void free_ramNode(struct ramNode *);
-void insert_ramNode(struct lruTable *, struct ramNode *, struct hashNode *);
-void delete_ramNode(struct lruTable *, struct ramNode *);
-void visit_lruTable(struct lruTable *);
-struct lruTable * alloc_lruTable(void);
-void free_lruTable(struct lruTable * lt);
-struct cache * alloc_cache(void);
-void free_cache(struct cache *);
-struct lruTable * create_lruTable(void);
-struct cache * create_cache();
-void moveOnTop_ramNode(struct lruTable * , struct ramNode * );
-int getFile(struct cache *,char *);
-void controlSize_lruTable(struct lruTable *);
-void associate(struct hashNode *, struct ramNode *);
-int insertFile(struct cache *, char *, int);
-void summary_cache(struct cache *);
-void summary_cache2(struct cache * myCache);
-void clearScreen();
+	int fd = open(filename, O_RDWR);
+	exit_on_error(fd==-1, "open");
+	
+	int len = lseek(fd, 0, SEEK_END);
+	exit_on_error(len==-1, "lseek");
+	
+	void * p = mmap(NULL, len, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+	exit_on_error(p==MAP_FAILED, "mmap");
+	
+	close(fd); //not critical
+	
+	*size = len;
+	
+	return (char *) p;
+}
 
 int openFittizia(){ /* serve solo per fare alcuni test velocemente */
 
-	n++;
-	return n;
+	//n++;
+	return 0;
 
 }
 
@@ -172,8 +87,8 @@ struct lruTable * create_lruTable(void){	/* crea una tabella LRU */
 	lt = alloc_lruTable();
 
 	lt->count = 0;
-	lt->front = create_ramNode("theFront", -1);
-	lt->rear = create_ramNode("theRear", -1);
+	lt->front = create_ramNode("theFront", NULL, 0);
+	lt->rear = create_ramNode("theRear", NULL, 0);
 
 	lt->front->next = lt->rear;
 	lt->rear->prev = lt->front;
@@ -219,6 +134,11 @@ struct hashNode * create_hashNode(char * name){		/* crea un nuovo hashNode */
 	strcpy(hn->name, name);
 	hn->next = NULL;
 	hn->refram = NULL;
+
+	if (pthread_mutex_init(&(hn->hashLock), NULL) != 0){
+		fprintf(stderr, "Error in pthread_mute_init\n");
+		exit(EXIT_FAILURE);
+	}
 
 	return hn;
 }
@@ -296,7 +216,7 @@ void free_ramNode(struct ramNode * rn){	  /* libera la memoria del ramNode */
 	free(rn);
 }
 
-struct ramNode * create_ramNode(char *name, int fd){ /* crea un nuovo ramNode */
+struct ramNode * create_ramNode(char *name, char * m, int size){ /* crea un nuovo ramNode */
 
 	struct ramNode * rn;
 	rn = alloc_ramNode();
@@ -307,7 +227,8 @@ struct ramNode * create_ramNode(char *name, int fd){ /* crea un nuovo ramNode */
 	rn->next = NULL;
 	rn->prev = NULL;
 	rn->refhash = NULL;
-	rn->fd = fd;
+	rn->m = m;
+	rn->len = size;
 
 	return rn;
 }
@@ -352,8 +273,19 @@ void moveOnTop_ramNode(struct lruTable * lt, struct ramNode * ramNodeToTop){ /* 
 
 void delete_ramNode(struct lruTable * lt, struct ramNode * ramNodeToDel){ /* elimina il ramNode scelto dalla tabella LRU */
 
+	struct hashNode * hn = ramNodeToDel->refhash;
+	
+	int rc = pthread_mutex_lock(&(hn->hashLock));
+	exit_on_error(rc !=0, "mutex_lock");
+	
+	if (hn->count > 0){
+		int rc = pthread_mutex_unlock(&(hn->hashLock));
+		exit_on_error(rc !=0, "mutex_unlock");
+		return;
+	}
+
 	struct ramNode * ramNodeLeft = ramNodeToDel->prev;
-	struct ramNode * ramNodeRight = ramNodeToDel->next;
+	struct ramNode * ramNodeRight = ramNodeToDel->next; 
 
 	ramNodeLeft->next = ramNodeRight;
 	ramNodeRight->prev = ramNodeLeft;
@@ -362,12 +294,18 @@ void delete_ramNode(struct lruTable * lt, struct ramNode * ramNodeToDel){ /* eli
 
 	ramNodeToDel->refhash->refram = NULL; /* disassocia il ramNode con il suo hashNode*/
 
-	printf("Eliminato dalla ram il file '%s' e perso il suo fileDescriptor: %d \n", ramNodeToDel->name,ramNodeToDel->fd);
+	printf("Eliminato dalla ram il file '%s' \n", ramNodeToDel->name);
 
-	/*   ----------->QUI BISOGNA AGGIUNGERE LA CLOSE DEL FILE, MOLTO IMPORTANTE!!!!!<-----------   */
-	close(ramNodeToDel->fd);
+	rc = munmap(ramNodeToDel->m, ramNodeToDel->len);
+	exit_on_error(rc==-1, "munmap");
 
 	free_ramNode(ramNodeToDel); /* libera la memoria del ramNode */
+	
+	rc = pthread_mutex_unlock(&(hn->hashLock));
+	if (rc !=0){
+		fprintf(stderr, "Error in mutex unlock\n");
+		exit(EXIT_FAILURE);
+	}
 }
 
 void visit_lruTable(struct lruTable * lt){	/* stampa il nome di tutti i ramNode presenti nella tabella LRU */
@@ -377,7 +315,7 @@ void visit_lruTable(struct lruTable * lt){	/* stampa il nome di tutti i ramNode 
 
 	while (temp_ramNode != end_ramNode){
 
-		printf("Il file '%s' è presente in ram, con fileDescriptor: %d\n", temp_ramNode->name, temp_ramNode->fd);
+		//printf("Il file '%s' è presente in ram, con fileDescriptor: %d\n", temp_ramNode->name, temp_ramNode->fd);
 		temp_ramNode = temp_ramNode->next;
 	}
 }
@@ -406,16 +344,57 @@ void summary_cache(struct cache * myCache){	/* stampa varie informazioni sullo s
 
 			printf("Il file '%s' è presente nell'HDD, con key: %d\n", temp_hashNode->name, i);
 			if ((temp_ramNode = temp_hashNode->refram) != NULL)
-						printf("Il file '%s' è anche presente in ram, con fileDescriptor: %d\n", temp_ramNode->name, temp_ramNode->fd);
+						printf("Il file '%s' è anche presente in ram con map: %p\n", temp_ramNode->name, 									temp_ramNode->m);
 			temp_hashNode = temp_hashNode->next;
 		}
 	}
-
-	/* visit_lruTable(myCache->lt); ulteriore test per vedere se i puntatori sono correttamente agganciati */
 }
 
+void releaseFile(struct cache * myCache, char * path, char * ext, int x, int y, int q){
 
-int getFile(struct cache * myCache,char * stringFile){	/* ritorna il descrittore del file con il nome scelto, se NON c'è ritorna -1 */
+	if (pthread_mutex_lock(&(myCache->cmutex)) != 0){ /* acquisisco mutex */
+		fprintf(stderr, "Error in mutex lock\n");
+		exit(EXIT_FAILURE);
+	}
+
+	char * full_name = malloc(250 * sizeof(char));
+
+	if (full_name == NULL){
+		fprintf(stderr, "Error in malloc()\n");
+		exit(EXIT_FAILURE);
+	}
+
+	/* calcola il nome del file completo, cioe con tutte le directory */
+	if (compute_full_name(full_name, path, ext, x, y, q) == -1){
+		free(full_name);
+		fprintf(stderr, "Error in compute_full_name\n");
+		exit(EXIT_FAILURE);
+	}
+
+	struct hashNode * hn = get_hashNode(myCache->ht, full_name);
+
+	if (hn==NULL){
+			fprintf(stderr,"Unexpected error hasnNode\n");
+			exit(EXIT_FAILURE);
+	}
+	
+	(hn->count)--;
+
+	if (pthread_mutex_unlock(&(hn->hashLock)) != 0){
+		fprintf(stderr, "Error in pthread_mutex_lock\n");
+		exit(EXIT_FAILURE);
+	}
+	printf("File rilasciato\n");
+
+	if (pthread_mutex_unlock(&(myCache->cmutex)) != 0){ /* acquisisco mutex */
+		fprintf(stderr, "Error in mutex unlock\n");
+		exit(EXIT_FAILURE);
+	}
+
+}
+
+/* ritorna il file mappato, se non c'è ritorna NULL */
+char * getAndLockFile(struct cache * myCache,char * stringFile, int * size){
 
 	if (pthread_mutex_lock(&(myCache->cmutex)) != 0){ /* acquisisco mutex */
 		fprintf(stderr, "Error in mutex lock\n");
@@ -428,75 +407,97 @@ int getFile(struct cache * myCache,char * stringFile){	/* ritorna il descrittore
 
 	if (hn != NULL){ /* se hn != NULL allora il file si trova come MINIMO nell'HDD */
 
+		int rc;
+		rc = pthread_mutex_lock(&(hn->hashLock));
+		exit_on_error(rc != 0, "mutex_lock");
+		
 		if (hn->refram != NULL){ /* se la condizione è verificata allora il file è anche caricato in ram */
 
-			printf("Il file '%s' si trova già in ram. Ti restituisco il suo fileDescriptor: %d\n", hn->name, hn->refram->fd);
+			printf("Il file '%s' si trova già in ram. Ti restituisco il suo map: %p\n", hn->name, hn->refram->m);
 			moveOnTop_ramNode(myCache->lt, hn->refram);
+				
+			(hn->count)++;
 
 			if (pthread_mutex_unlock(&(myCache->cmutex)) != 0){ /* rilascio mutex */
 				fprintf(stderr, "Error in mutex unlock\n");
 				exit(EXIT_FAILURE);
 			}
 
-			return hn->refram->fd;
+			*size = hn->refram->len;
+	
+			printf("P00INTER: %p\n", hn->refram->m);
+
+			return hn->refram->m;
 		}
 
-		else { /* il file non sta in ram, bisogna caricarlo mediante una open */
+		else { /* il file non sta in ram, bisogna caricarlo mediante una open-mmap */
 
 			printf("Il file '%s' è nell'HDD ma non è caricato in ram.\n", stringFile);
 			printf("Caricamento del file '%s' in ram...\n", stringFile);
+			
+			int size;
+			char * m = open_and_map_file(stringFile, &size);
 
-			int fd = open(stringFile, O_RDONLY, 0);
-
-			struct ramNode * rn = create_ramNode(stringFile, fd); /* creazione e inserimento del ramNode associato a quel file */
+			struct ramNode * rn = create_ramNode(stringFile, m, size); /* creazione e inserimento del ramNode associato a quel file */
 			insert_ramNode(myCache->lt, rn, hn);
 
 			controlSize_lruTable(myCache->lt);
 
-			printf("Il file '%s' è stato caricato in ram. Ti restituisco il suo fileDescriptor: %d\n", rn->name, rn->fd);
+			printf("Il file '%s' è stato caricato in ram. Ti restituisco il suo map: %p\n", rn->name, rn->m);
 
 			if (pthread_mutex_unlock(&(myCache->cmutex)) != 0){ /* rilascio mutex */
 				fprintf(stderr, "Error in mutex lock\n");
-				exit(EXIT_FAILURE);	
+				exit(EXIT_FAILURE);
 			}
-
-			return fd;
+			
+			(hn->count)++;
+			return m;
 		}
 	}
 
-	printf("Non ho il file '%s' da te richiesto, mi dispiace! Ti restituisco un fileDescriptor di errore: -1\n", stringFile);
+	printf("Non ho il file '%s' da te richiesto, mi dispiace! Ti restituisco un map di errore: NULL\n", stringFile);
 
 	if (pthread_mutex_unlock(&(myCache->cmutex)) != 0){ /* rilascio mutex */
 		fprintf(stderr, "Error in mutex unlock\n");
 		exit(EXIT_FAILURE);
 	}
 
-	return -1;
+	return NULL;
 }
 
-int insertFile(struct cache * myCache, char * name, int fd){ /* inserisce un nuovo file in cache */
+char * insertFile(struct cache * myCache, char * name, int * size){ /* inserisce un nuovo file in cache */
 
 	pthread_mutex_lock(&(myCache->cmutex)); /* acquisisco mutex */
 
 	struct hashNode * hn = create_hashNode(name);	/* creazione e inserimento nella tabella hash dell'hashNode relativo al file */
 	insert_hashNode(myCache->ht, hn);
+	
+	char * m = open_and_map_file(name, size);
 
-	struct ramNode * rn = create_ramNode(name, fd);	/* creazione e inserimento nella testa della tabella LRU del ramNode relativo al file */
+	struct ramNode * rn = create_ramNode(name, m, *size);	/* creazione e inserimento nella testa della tabella LRU del ramNode relativo al 													file */
 	insert_ramNode(myCache->lt, rn, hn);
 
-	printf("Il file '%s' è stato inserito nell'HDD. E' stato anche inserito nella ram con fileDescriptor: %d \n", rn->name, rn->fd);
+	//printf("Il file '%s' è stato inserito nell'HDD. E' stato anche inserito nella ram con fileDescriptor: %d \n", rn->name, rn->fd);
 
 	controlSize_lruTable(myCache->lt);
 
 	pthread_mutex_unlock(&(myCache->cmutex)); /* acquisisco mutex */
+	
+	(hn->count)++;
+	
+	printf("P00INTER||: %p\n", m);
 
-	return fd;
+	return m;
 }
 
 void clearScreen()
 {
   const char* CLEAR_SCREE_ANSI = "\e[1;1H\e[2J";
-  write(STDOUT_FILENO,CLEAR_SCREE_ANSI,12);
+  int n = write(STDOUT_FILENO,CLEAR_SCREE_ANSI,12);
+	if (n==-1){
+		fprintf(stderr, "Error in write");
+		exit(EXIT_FAILURE);
+	}
 }
 
 
@@ -521,7 +522,7 @@ void summary_cache2(struct cache * myCache){	/* stampa varie informazioni sullo 
 			printf("\n\tHash: %s", temp_hashNode->name);
 			if ((temp_ramNode = temp_hashNode->refram) != NULL)
 						//print_ramNode(temp_hashNode->refram);
-						printf("\n\tRam: %d", temp_ramNode->fd);
+						//printf("\n\tRam: %d", temp_ramNode->fd);
 			temp_hashNode = temp_hashNode->next;
 			printf("\n");
 		}
@@ -580,10 +581,10 @@ int compute_full_name(char * full_name, char * path, char * ext, int width, int 
 
 
 /* ritorna il file descriptor del file (-1 se errore) */
-int obtain_file(char * path, char * ext, int x, int y, int q){
+char * obtain_file(struct cache * web_cache, char * path, char * ext, int x, int y, int q, int * size){
 
 	char * full_name = malloc(220 * sizeof(char));
-	int fd;
+	char * m;
 
 	if (full_name == NULL){
 		fprintf(stderr, "Error in malloc()\n");
@@ -593,28 +594,61 @@ int obtain_file(char * path, char * ext, int x, int y, int q){
 	/* calcola il nome del file completo, cioe con tutte le directory */
 	if (compute_full_name(full_name, path, ext, x, y, q) == -1){
 		free(full_name);
-		return -1;
+		return NULL;
 	}
-	
+
 	/* se il file è nella cache, ritorna il suo fileDescriptor */
-	fd = getFile(web_cache, full_name);
-	printf("fd: %d\n", fd);
-	if (fd != -1) return fd;
-	
+	m = getAndLockFile(web_cache, full_name, size);
+	if (m != NULL) return m;
+
 	/* il file non c'è, bisogna convertirlo dall'originale */
 	file_convert(path, ext, x, y, q);
 	printf("fullname: %s\n", full_name);
-	fd = open(full_name, O_RDWR);
-	if (fd ==-1){
-		fprintf(stderr, "Error with open()\n");
+
+	m = insertFile(web_cache, full_name, size);
+	if (m == NULL){
+		fprintf(stderr, "Error with mmap\n");
 		exit(EXIT_FAILURE);
 	}
-
-	/* inserisci il file convertito nella cache */
-	insertFile(web_cache, full_name, fd);
+	 
 
 	free(full_name);
 
-	return fd;
+	return m;
 
 }
+
+/*
+int main(){
+
+	char * path[] = { "/home/giorgio/Scrivania/img/DonatoFidato.jpg", "/home/giorgio/Scrivania/img/DonatoFidato.jpg",
+	 "/home/giorgio/Scrivania/img/DonatoFidato.jpg", "/home/giorgio/Scrivania/img/DoppiaD.jpg"};
+
+	int x[] = {100,100,40,70};
+	int y[] = {200,500,24,100};
+	char *ext[] = {"png","jpg","jpg","jpg"};
+	int q[] = {20,10,50,60};
+
+	web_cache = create_cache();
+
+	char * m;
+	int size;
+	int i = 0;
+	while(1){
+
+		for(int i = 0;i< 4;i++)  {
+
+			m = obtain_file(web_cache, path[i], ext[i], x[i], y[i], q[i], &size);
+			releaseFile(web_cache, path[i], ext[i], x[i], y[i], q[i]);
+			m = m;
+			printf("SIZE: %d\n", size);
+
+		}
+		
+		printf("\n\n PLUF PLUF %d \n\n", i);
+		i++;
+		sleep(2);
+	
+	}
+}*/
+

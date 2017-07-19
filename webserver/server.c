@@ -8,17 +8,18 @@
 #include <time.h>
 #include <errno.h>
 #include "thread.h"
+#include "cacher.h"
 #include <signal.h>
 #include "utils.h"
 #include "parse_conf_file.h"
 #include "libhttp.h"
 #include <sys/resource.h>
 #include <sys/time.h>
-#include "CACHER.h"
 
 
 int listensd;
 char *request;
+
 
 
 void pr_cpu_time(void)
@@ -69,13 +70,14 @@ int main(int argc, char **argv)
 	static int backlog;
 	int i = 0;
 
-  web_cache = create_cache();
 
 
 	if (argc > 1)
 	{
 		printf("\n %s : No arguments required. Use only server.cfg\n ", argv[0]);
 	}
+
+	web_cache = create_cache();
 
 	signal(SIGPIPE, SIG_IGN);
 
