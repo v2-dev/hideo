@@ -26,13 +26,13 @@ void pr_cpu_time(void)
   double	user, sys;
   struct rusage	myusage, childusage;
 
-  if (getrusage(RUSAGE_SELF, &myusage) < 0) 
+  if (getrusage(RUSAGE_SELF, &myusage) < 0)
   {
     fprintf(stderr, "errore in getrusage");
     exit(1);
   }
 
-  if (getrusage(RUSAGE_CHILDREN, &childusage) < 0) 
+  if (getrusage(RUSAGE_CHILDREN, &childusage) < 0)
   {
     fprintf(stderr, "errore in getrusage");
     exit(1);
@@ -71,6 +71,7 @@ int main(int argc, char **argv)
 	static int backlog;
 	int i = 0;
 
+  /*Initialize LRU cache*/
   web_cache = create_cache();
 
 
@@ -117,6 +118,9 @@ int main(int argc, char **argv)
 
 	optval = 1;
 	optlen = sizeof(optval);
+
+  if(setsockopt(listensd, SOL_SOCKET, SO_REUSEPORT, &optval, optlen) < 0)
+		print_err_msg("Unable to set SO_REUSEPORT on listening socket\n");
 
 	if(setsockopt(listensd, SOL_SOCKET, SO_KEEPALIVE, &optval, optlen) < 0)
 	{

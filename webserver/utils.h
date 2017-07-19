@@ -26,6 +26,7 @@
 #define	MAXLINE			4096
 #define BUFSIZE			4096
 #define ERROR				-1
+#define SUCCESS      0
 
 typedef struct {
 	char port[MAXLINE];

@@ -48,6 +48,7 @@ struct httpread
     	int keepalmaxn;
     	char imgext[8];			//image extension
     	float quality;			//image quality
+			char ext[10];
     	int quality_factor;
     	char options[3000];		//k
     	int return_code;		//Return code

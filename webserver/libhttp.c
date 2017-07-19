@@ -65,6 +65,7 @@ void http_400(struct conndata *conn)
 }
 
 
+/*to be modified*/
 int find_quality(char * accept){
 
 	int q;
@@ -95,6 +96,28 @@ char *get_ext (char* mystr)
     return retstr;
 }
 
+void find_extension(char *token)
+{
+	char *endptr;
+	int i;
+
+	for(i = 0; i < 70; i++){
+		endptr = strstr(token, mimetypes[i][0]);
+		if(endptr != NULL)
+			break;
+	}
+
+	if(endptr == NULL){
+		return;
+	}
+
+	fprintf(stdout, "Mimetypes %s and extension %s\n", mimetypes[i][0], mimetypes[i][1]);
+	int len = strlen(mimetypes[i][1]);
+	extn = malloc(len + 1);
+	strcpy(extn, mimetypes[i][1]);
+	extn[len + 1] = '\0';
+	fprintf(stdout, "Extension %s\n", extn);
+}
 
 char *get_mimetype (char* pathstr)
 {
@@ -169,6 +192,12 @@ int uacheck(char *optstring, struct conndata *p)
 /****************************
 			Accept field parsing
 ****************************/
+void quality_extension_on_accept(char *accept_string, struct conndata *p)
+{
+
+}
+
+
 int accheck(char *optstring, struct conndata *p)
 {
 	/*
@@ -186,7 +215,11 @@ int accheck(char *optstring, struct conndata *p)
 		if (buf_idx > 0 && ua_head[buf_idx] != optstring[buf_idx]) return 0;
 		buf_idx++;
 	}
+
 	strcpy(p->acceptfld, optstring+8);
+
+	fprintf(stdout, "ACCEPT FIELD HERE ---> %s\n", p->acceptfld);
+
 
 	p->quality_factor = find_quality(p->acceptfld);
 	fprintf(stdout, "quality factor %d\n", p->quality_factor);
@@ -198,7 +231,6 @@ int accheck(char *optstring, struct conndata *p)
 	strcat(p->messages, p->acceptfld);
 	print_message(p);
 	return 1;
-
 }
 
 /****************************
@@ -342,16 +374,26 @@ int serve_request(struct conndata * cdata)
 			//strcpy(cdata->messages, *(httpr->array));
 			//print_message(cdata);
 	int i;
+	int v = 0, w = 0;
+
 	for(i = 1; i<httpr->dimArray; i++)
 	{
-		accheck(*(httpr->array+i), cdata);
-		// check for return value
-		uacheck(*(httpr->array+i), cdata);
-		// check for return value
+		v += accheck(*(httpr->array+i), cdata);
+		w += uacheck(*(httpr->array+i), cdata);
 	}
+
+	//accept field OR user agent missing --> BAD REQUEST
+	if((v == 0) || (w == 0))
+	{
+		http_400(cdata);
+		destroy_httpread(httpr);
+		return ERROR;
+	}
+
 	if (send_response(cdata) != 0)
 		return ERROR;
 
+	return SUCCESS;
 }
 
 

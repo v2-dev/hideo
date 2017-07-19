@@ -10,18 +10,27 @@
 /* separa il nome della cartella dal nome del file */
 void file_extension(char * path, char * res, char * name){
 
-	int len = strlen(path);
-	int nbyte_directory = 0;
-	char * last_slash;
+    int len = strlen(path);
+    int nbyte_directory = 0;
+    char * last_slash = NULL;
 
-	for(int i = 0; i<len; i++){
-		if (path[i] == '/') last_slash = path+i;
-	}
+    for(int i = 0; i<len; i++){
+        if (path[i] == '/') last_slash = path+i;
+    }
 
-	strcpy(name, last_slash+1);
-	int len_name = strlen(name);
-	strncpy(res, path, len - len_name -1);
-	res[len-len_name-1] = '\0';
+    if (last_slash != NULL)
+    {
+        strcpy(name, last_slash+1);
+        int len_name = strlen(name);
+        strncpy(res, path, len - len_name -1);
+        res[len-len_name-1] = '\0';
+    }
+    else
+    {
+        res = NULL;
+        name = path;
+    }
+
 }
 
 
