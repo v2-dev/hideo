@@ -11,7 +11,7 @@
 void file_extension(char * path, char * res, char * name){
 
     int len = strlen(path);
-    int nbyte_directory = 0;
+    //int nbyte_directory = 0;
     char * last_slash = NULL;
 
     for(int i = 0; i<len; i++){

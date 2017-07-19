@@ -118,7 +118,7 @@ void find_extension(char *token)
 
 	fprintf(stdout, "Mimetypes %s and extension %s\n", mimetypes[i][0], mimetypes[i][1]);
 	int len = strlen(mimetypes[i][1]);
-	extn = malloc(len + 1);
+	char * extn = malloc(len + 1);
 	strcpy(extn, mimetypes[i][1]);
 	extn[len + 1] = '\0';
 	fprintf(stdout, "Extension %s\n", extn);
@@ -199,6 +199,9 @@ int uacheck(char *optstring, struct conndata *p)
 ****************************/
 void quality_extension_on_accept(char *accept_string, struct conndata *p)
 {
+	
+	accept_string = accept_string;	/* to avoid unused compiler warning */
+	p = p;
 
 }
 

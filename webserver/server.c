@@ -73,13 +73,6 @@ int main(int argc, char **argv)
 	static int backlog;
 	int i = 0;
 
-<<<<<<< HEAD
-  /*Initialize LRU cache*/
-  web_cache = create_cache();
-=======
->>>>>>> 9a2b7c278bbb0e13b3e0b08340bc4acdf3944278
-
-
 	if (argc > 1)
 	{
 		printf("\n %s : No arguments required. Use only server.cfg\n ", argv[0]);
