@@ -66,7 +66,7 @@ void parse_config()
     trim (value);
 
     /* Copy into correct entry in parameters struct */
-    if (strcmp(name, "server"strncpy(num, c, 1);)==0)
+    if (strcmp(name, "server")==0)
       strncpy (config_file.port, value, MAXLEN);
     else if (strcmp(name, "threads")==0)
       strncpy (config_file.threads, value, MAXLEN);
