@@ -42,8 +42,13 @@ void *thread_main(void *arg)
 	struct Thread *thread_data = (struct Thread *)arg;
 	struct conndata * cdata;
 
+	j=j; /* compiler warning */
 	thread_data->thread_tid = pthread_self() / 256;
+<<<<<<< HEAD
 	printf("Thread created [%lx]\n", (long unsigned int) thread_data->thread_tid);
+=======
+	printf("Thread created [%u]\n", (unsigned int) thread_data->thread_tid);
+>>>>>>> 9a2b7c278bbb0e13b3e0b08340bc4acdf3944278
 	fflush(stdout);
 
 	while(1) {
