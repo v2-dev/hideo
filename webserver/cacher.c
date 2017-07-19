@@ -374,7 +374,9 @@ void releaseFile(struct cache * myCache, char * path, char * ext, int x, int y, 
 	struct hashNode * hn = get_hashNode(myCache->ht, full_name);
 
 	if (hn==NULL){
-			fprintf(stderr,"Unexpected error hasnNode\n");
+			printf("%s\n", full_name);
+			fflush(stdout);
+			fprintf(stderr,"||Unexpected error hasnNode\n");
 			exit(EXIT_FAILURE);
 	}
 	

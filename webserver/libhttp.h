@@ -41,10 +41,10 @@ struct httpread
 			char http_req[MAXREQ];
     	int process_id;			//tid del thread
     	int socketint;			//socket file descriptor
-    	char path_r[256];		//request path
+    	char path_r[512];		//request path
     	char method_r[5];		//request method
-    	char useragent[256];	//user agent
-    	char acceptfld[256];	//accept field
+    	char useragent[512];	//user agent
+    	char acceptfld[512];	//accept field
     	char messages[3000];	//
     	int msgtype;			//
     	int get1head2;
@@ -54,7 +54,7 @@ struct httpread
     	int quality_factor;
     	char options[3000];		//k
     	int return_code;		//Return code
-    	char return_path[256];	//Return path
+    	char return_path[512];	//Return path
     	int isImage;			//IS THIS REAL IMAGE? IS THIS JUST FANTASY?
     };
 

@@ -4,7 +4,7 @@ CHEADERS=$(shell ls *.h)
 CFILES=$(shell ls *.c)
 OBFILES=$(shell ls *.o)
 #HTMLFILES=$(shell ls *.html)
-LIBS=-pthread
+LIBS=-pthread -lwurfl
 TARGET=server
 
 all: $(TARGET)

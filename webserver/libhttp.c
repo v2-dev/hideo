@@ -2,11 +2,13 @@
 #include "mimetypes.h"
 #include "utils.h"
 #include "cacher.h"
+#include "resolutionDevice.h"
 
 
 
 void http_200(struct conndata *conn)
 {
+	
 	char buff[DATLEN];
 
 	sprintf(buff, "HTTP/1.1 200 OK\r\n");
@@ -375,6 +377,7 @@ int send_response(struct conndata *p)
 	printf("\n\tPath =#%s#", p->path_r);
 	if ( p->path_r[0] == '/' && (p->path_r[1] == '\0') ) strcpy(p->path_r, "/index.html");
 	printf("\n\tPath =#%s#", p->path_r);
+	int x, y;
 	
 	int cache_set = 0;
 	int len;
@@ -389,17 +392,18 @@ int send_response(struct conndata *p)
 		*(mypath+1) = 'e';
 		*(mypath+2) = 's';
 		printf("RES: %s\n", mypath);
-		m = obtain_file(web_cache, mypath, "jpg", 100, 100, 100, &len);
+	
+		wurflrdt(hwurfl, p->useragent, &x, &y);
+		printf("x: %d, y: %d\n", x, y);
+		m = obtain_file(web_cache, mypath, "jpg", x, y, 100, &len);
 		if (m == MAP_FAILED){
 			fprintf(stderr,"libhttpc error obtain file\n");
 		}
 		else {
 			printf("pointer: %p\n", m);
 			printf("SIZE: %d\n", len);
-			printf("%c\n", *m);
-			fflush(stdout);
-			printf("\n");
 		}
+		printf("UserAgent: %s\n",p->useragent);
 	}
 	
 	else {
@@ -453,7 +457,7 @@ int send_response(struct conndata *p)
 		conndf_rv = writen(p->socketint, header200, strlen(header200));
 		if (conndf_rv == -1) {
 			if (cache_set){
-				releaseFile(web_cache, mypath, "jpg", 100, 100, 100);
+				releaseFile(web_cache, mypath, "jpg", x, y, 100);
 			}
 			
 			else close(req_fd);
@@ -470,8 +474,6 @@ int send_response(struct conndata *p)
 			char c;
 			for (int i=0; i< len; i++){
 				c = *(m+i);
-				printf("%c\n", c);
-				fflush(stdout);
 				conndf_rv = writen(p->socketint, &c, 1);
 				if (conndf_rv == -1) {
 					printf("lol\n");
@@ -490,7 +492,9 @@ int send_response(struct conndata *p)
 		}
 		
 		if (cache_set){
-			releaseFile(web_cache, mypath, "jpg", 100, 100, 100);
+			printf("\nInit release\n");
+			fflush(stdout);
+			releaseFile(web_cache, mypath, "jpg", x, y, 100);
 		}
 		else{
 			close(req_fd);

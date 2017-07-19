@@ -12,6 +12,7 @@
 #include <signal.h>
 #include "utils.h"
 #include "parse_conf_file.h"
+#include "resolutionDevice.h"
 #include "libhttp.h"
 #include <sys/resource.h>
 #include <sys/time.h>
@@ -80,6 +81,12 @@ int main(int argc, char **argv)
 	}
 
 	web_cache = create_cache();
+
+	hwurfl = get_wurfldb("wurfl-eval.xml");
+	if (hwurfl == NULL){
+		fprintf(stderr, "Error in wurlfd load database\n");
+		exit(EXIT_FAILURE);
+	}
 
 	signal(SIGPIPE, SIG_IGN);
 
