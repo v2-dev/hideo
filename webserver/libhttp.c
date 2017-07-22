@@ -76,20 +76,22 @@ int find_quality(char *token)
 	char *c;
 	char *num;
 	char *last;
+	int q;
+	float allq;
 
 	begin = strstr(token, "q=");
 	if(begin == NULL)
-		return;
+		return 1;
 	fprintf(stdout, "%s\n", begin + 2);
 
 	c = begin+2;
 	/*We assume the default value of q=1*/
 	if(*c == '1' || *c != '0')
-		return;
+		return 1;
 
 	last = strchr(begin, '.');
 	if(last == NULL)
-		return;
+		return 1;
 
 	c = last + 1;
 
@@ -266,11 +268,11 @@ int accheck(char *optstring, struct conndata *p)
 
 	char * strg = p->acceptfld;
 
-	strg = strstr(acceptfld, "*/*"); //check if "*/*" subtoken does exist
+	strg = strstr(p->acceptfld, "*/*"); //check if "*/*" subtoken does exist
 	if(strg != NULL)
 		p->quality_factor= find_quality(strg);  //find quality
 		/*returns the pointer to image/*/
-	strg = strstr(acceptfld, "image/");
+	strg = strstr(p->acceptfld, "image/");
 	if(strg != NULL)
 	{
 		find_extension(strg);
