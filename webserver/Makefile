@@ -12,6 +12,9 @@ $(TARGET): $(CFILES) $(CHEADERS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 
+debug: $(CFILES) $(CHEADERS)
+	$(CC) $(CFLAGS) -ggdb -o $@ $^ $(LDFLAGS)
+
 .PHONY: clean all
 
 clean:

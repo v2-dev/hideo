@@ -35,13 +35,13 @@ char * trim (char * s)
 }
 
 
-void parse_config()
+int parse_config()
 {
   char *s, buff[256];
   FILE *fp = fopen (CONFIG_FILE, "r");
   if (fp == NULL)
   {
-    return;
+    return 0;
   }
 
   /* Read next line */
@@ -79,4 +79,5 @@ void parse_config()
 
   /* Close file */
   fclose (fp);
+  return 1;
 }
