@@ -8,7 +8,7 @@
 
 void http_200(struct conndata *conn)
 {
-	
+
 	char buff[DATLEN];
 
 	sprintf(buff, "HTTP/1.1 200 OK\r\n");
@@ -70,22 +70,59 @@ void http_400(struct conndata *conn)
 }
 
 
-/*to be modified*/
-int find_quality(char * accept){
+int find_quality(char *token)
+{
+	char *begin;
+	char *c;
+	char *num;
+	char *last;
 
-	int q;
-	char * lastQ = strrchr(accept, 'q');
+	begin = strstr(token, "q=");
+	if(begin == NULL)
+		return;
+	fprintf(stdout, "%s\n", begin + 2);
 
-	if (lastQ == NULL) return 0;
-	if (*(lastQ+1) != '=') return 0;
-	if (*(lastQ+2) == '1') return 1;
-	if (*(lastQ+2) != '0') return 0;
-	if (*(lastQ+3) != '.') return 0;
+	c = begin+2;
+	/*We assume the default value of q=1*/
+	if(*c == '1' || *c != '0')
+		return;
 
-	q = *(lastQ+4);
-	if (!((q>'1')&&(q<'9'))) return 0;
+	last = strchr(begin, '.');
+	if(last == NULL)
+		return;
 
-	return ((q-'0')*10);
+	c = last + 1;
+
+	num = malloc(10 * sizeof(char));
+	strcpy(num, "0.");
+
+	int count = 0;
+
+	while(isdigit(*c)){
+		fprintf(stdout, "digit %c", *c);
+		c++;
+		count += 1;
+		fprintf(stdout, "number of digits %d\n", count);
+	}
+	c = last +1;
+	int i = 0;
+
+	char *p;
+	p = num + 2;
+
+	while(i < count){
+		printf("My char %c\n", *c);
+		*(p + i) = *(c + i);
+		i++;
+	}
+	*(p + count) = '\0';
+
+	allq = atof(num);
+
+	q = (float) allq*100;
+	fprintf(stdout, "integer %d\n", q);
+
+	return q;
 }
 
 
@@ -199,12 +236,11 @@ int uacheck(char *optstring, struct conndata *p)
 ****************************/
 void quality_extension_on_accept(char *accept_string, struct conndata *p)
 {
-	
+
 	accept_string = accept_string;	/* to avoid unused compiler warning */
 	p = p;
 
 }
-
 
 int accheck(char *optstring, struct conndata *p)
 {
@@ -228,8 +264,19 @@ int accheck(char *optstring, struct conndata *p)
 
 	fprintf(stdout, "ACCEPT FIELD HERE ---> %s\n", p->acceptfld);
 
+	char * strg = p->acceptfld;
 
-	p->quality_factor = find_quality(p->acceptfld);
+	strg = strstr(acceptfld, "*/*"); //check if "*/*" subtoken does exist
+	if(strg != NULL)
+		p->quality_factor= find_quality(strg);  //find quality
+		/*returns the pointer to image/*/
+	strg = strstr(acceptfld, "image/");
+	if(strg != NULL)
+	{
+		find_extension(strg);
+		p->quality_factor = find_quality(strg);
+	}
+
 	fprintf(stdout, "quality factor %d\n", p->quality_factor);
 	/*
 	strcpy(p->useragent, "");
@@ -240,6 +287,7 @@ int accheck(char *optstring, struct conndata *p)
 	print_message(p);
 	return 1;
 }
+
 
 /****************************
 			Method parsing
@@ -400,7 +448,7 @@ int serve_request(struct conndata * cdata)
 
 	if (send_response(cdata) != 0)
 		return ERROR;
-	
+
 	return 1;
 
 	return SUCCESS;
@@ -423,7 +471,7 @@ int send_response(struct conndata *p)
 	if ( p->path_r[0] == '/' && (p->path_r[1] == '\0') ) strcpy(p->path_r, "/index.html");
 	printf("\n\tPath =#%s#", p->path_r);
 	int x, y;
-	
+
 	int cache_set = 0;
 	int len;
 	char * mypath = NULL;
@@ -437,7 +485,7 @@ int send_response(struct conndata *p)
 		*(mypath+1) = 'e';
 		*(mypath+2) = 's';
 		printf("RES: %s\n", mypath);
-	
+
 		wurflrdt(hwurfl, p->useragent, &x, &y);
 		printf("x: %d, y: %d\n", x, y);
 		m = obtain_file(web_cache, mypath, "jpg", x, y, 100, &len);
@@ -450,7 +498,7 @@ int send_response(struct conndata *p)
 		}
 		printf("UserAgent: %s\n",p->useragent);
 	}
-	
+
 	else {
 		printf("SECONDO FLUSSO\n");
 		//TEST
@@ -475,10 +523,10 @@ int send_response(struct conndata *p)
 		printf("\nARRIVATO QUA\n");
 		p->return_code = 200;
 		unsigned int contlen;
-		
+
 		if (cache_set){
 			contlen = (unsigned int) len;
-			
+
 		}
 
 		else{
@@ -504,9 +552,9 @@ int send_response(struct conndata *p)
 			if (cache_set){
 				releaseFile(web_cache, mypath, "jpg", x, y, 100);
 			}
-			
+
 			else close(req_fd);
-			
+
 
 			return 2;
 
@@ -525,9 +573,9 @@ int send_response(struct conndata *p)
 					return 2;
 				}
 			}
-	
+
 		}
-		
+
 		else{
 		while (read(req_fd, temp, 1)>0)
 		{
@@ -535,7 +583,7 @@ int send_response(struct conndata *p)
 			if (conndf_rv == -1) return 2;
 		}
 		}
-		
+
 		if (cache_set){
 			printf("\nInit release\n");
 			fflush(stdout);
