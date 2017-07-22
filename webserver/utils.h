@@ -64,6 +64,6 @@ void usage(char *);
 /*configuration file functions*/
 void init_parameters();
 char *trim(char *);
-void parse_config();
+int parse_config();
 
 #endif				/*UTILS_H */

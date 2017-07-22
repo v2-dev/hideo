@@ -96,8 +96,11 @@ int main(int argc, char **argv)
 	fprintf(stdout, "Initializing parameters to default values...\n");
 	init_parameters();
 
-	fprintf(stdout, "Reading config file...\n");
-	parse_config();
+	fprintf(stdout, "Reading config file " CONFIG_FILE "\n");
+	if (!parse_config()) {
+		fprintf(stderr, "Failed to read config file: %s\n", strerror(errno));
+		exit(EXIT_FAILURE);
+	}
 
 	fprintf(stdout, "Final values:\n");
 	fprintf(stdout, "Server port: %s, Number of threads: %s, backlog: %s\n", config_file.port, config_file.threads, config_file.backlog);
