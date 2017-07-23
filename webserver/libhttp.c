@@ -140,7 +140,7 @@ char *get_ext (char* mystr)
     return retstr;
 }
 
-void find_extension(char *token)
+void find_extension(char *token, char *extension)
 {
 	char *endptr;
 	int i;
@@ -155,12 +155,9 @@ void find_extension(char *token)
 		return;
 	}
 
-	fprintf(stdout, "Mimetypes %s and extension %s\n", mimetypes[i][0], mimetypes[i][1]);
 	int len = strlen(mimetypes[i][1]);
-	char * extn = malloc(len + 1);
-	strcpy(extn, mimetypes[i][1]);
-	extn[len + 1] = '\0';
-	fprintf(stdout, "Extension %s\n", extn);
+	strcpy(extension, mimetypes[i][1]);
+	extension[len + 1] = '\0';
 }
 
 char *get_mimetype (char* pathstr)

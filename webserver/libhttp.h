@@ -46,6 +46,7 @@ struct httpread
     	char messages[3000];	//
     	int msgtype;			//
     	int get1head2;
+			char *extension;
     	char imgext[8];			//image extension
     	float quality;			//image quality
 			char ext[10];
