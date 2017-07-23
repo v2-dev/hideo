@@ -2,7 +2,7 @@
 #include "mimetypes.h"
 #include "utils.h"
 #include "cacher.h"
-#include "resolutionDevice.h"
+#include "resolutionDevice.h" 
 
 
 
@@ -484,7 +484,7 @@ int send_response(struct conndata *p)
 		strcat(mypath, p->path_r);
 		printf("RES: %s\n", mypath);
 
-		wurflrdt(hwurfl, p->useragent, &x, &y);
+		wurflrdt(hwurfl, p->useragent, &x, &y); 
 		printf("x: %d, y: %d\n", x, y);
 		m = obtain_file(web_cache, mypath, "jpg", x, y, 100, &len);
 		if (m == MAP_FAILED){
