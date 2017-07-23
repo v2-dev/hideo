@@ -160,6 +160,7 @@ void find_extension(char *token, char *extension)
 	extension[len + 1] = '\0';
 }
 
+
 char *get_mimetype (char* pathstr)
 {
 	char extension[5] = "";
@@ -175,7 +176,6 @@ char *get_mimetype (char* pathstr)
 		if (strcmp(extension, mimetypes[i][1]) == 0) return mimetypes[i][0];
 	}
 	return "text/html";
-
 }
 
 struct conndata * create_conndata(void)
@@ -265,6 +265,11 @@ int accheck(char *optstring, struct conndata *p)
 
 	char * strg = p->acceptfld;
 
+	p->extension = malloc(10 * sizeof(char));
+	int len = strlen("png");
+	strcpy(p->extension, "png");
+	p->extension[len + 1] = '\0';
+
 	strg = strstr(p->acceptfld, "*/*"); //check if "*/*" subtoken does exist
 	if(strg != NULL)
 		p->quality_factor= find_quality(strg);  //find quality
@@ -272,7 +277,7 @@ int accheck(char *optstring, struct conndata *p)
 	strg = strstr(p->acceptfld, "image/");
 	if(strg != NULL)
 	{
-		find_extension(strg);
+		find_extension(strg, p->extension);
 		p->quality_factor = find_quality(strg);
 	}
 
@@ -482,8 +487,9 @@ int send_response(struct conndata *p)
 		printf("x: %d, y: %d\n", x, y);
 		printf("ciao\n");
 		printf("fottuto q di merda: %d\n", p->quality_factor);
+		printf("Extension found: %s\n", p->extension);
 		// AL POSTO DI "jpg" DOBBIAMO METTERE L'ESTENSIONE CHE ABBIAMO TROVATO
-		m = obtain_file(web_cache, mypath, "jpg", x, y, p->quality_factor, &len);
+		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len);
 		if (m == MAP_FAILED){
 			fprintf(stderr,"libhttpc error obtain file\n");
 		}
