@@ -476,16 +476,13 @@ int send_response(struct conndata *p)
 
 	int cache_set = 0;
 	int len;
-	char * mypath = NULL;
+	char mypath[300];
 	char * m;
-	if (strncmp("/wurfl", p->path_r, 6)==0){
+	if (strncmp("/res", p->path_r, 4)==0){
 		cache_set = 1;
 		printf("PRIMO FLUSSO\n");
-		mypath = p->path_r;
-		mypath = mypath + 3;
-		*(mypath) = 'r';
-		*(mypath+1) = 'e';
-		*(mypath+2) = 's';
+		strcpy(mypath, "homepage");
+		strcat(mypath, p->path_r);
 		printf("RES: %s\n", mypath);
 
 		wurflrdt(hwurfl, p->useragent, &x, &y);
@@ -504,7 +501,7 @@ int send_response(struct conndata *p)
 	else {
 		printf("SECONDO FLUSSO\n");
 		//TEST
-		char testpath[300] = "path/homepagen";
+		char testpath[300] = "homepage";
 		strcat(testpath, p->path_r);
 		strcpy(p->path_r, testpath);
 		req_fd = open(p->path_r, O_RDONLY);

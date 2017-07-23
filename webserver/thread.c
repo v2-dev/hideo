@@ -58,8 +58,8 @@ void *thread_main(void *arg)
 		fprintf(stdout, "...connection accepted!\n");
 
 		struct timeval timeout;
-    		timeout.tv_sec = 1;
-    		timeout.tv_usec = 0;
+    		timeout.tv_sec = 0;
+    		timeout.tv_usec = 100;
 
    	if (setsockopt(connsd, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
     	unix_error("setsockopt failed\n");
