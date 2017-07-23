@@ -12,7 +12,7 @@
 #include <signal.h>
 #include "utils.h"
 #include "parse_conf_file.h"
-// #include "resolutionDevice.h" TOLTO PER GIULIA: DA RIMETTERE SUCCESSIVAMENTE
+#include "resolutionDevice.h"
 #include "libhttp.h"
 #include <sys/resource.h>
 #include <sys/time.h>
