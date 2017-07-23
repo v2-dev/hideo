@@ -12,7 +12,7 @@
 #include <signal.h>
 #include "utils.h"
 #include "parse_conf_file.h"
-#include "resolutionDevice.h"
+// #include "resolutionDevice.h" TOLTO PER GIULIA: DA RIMETTERE SUCCESSIVAMENTE
 #include "libhttp.h"
 #include <sys/resource.h>
 #include <sys/time.h>
@@ -80,11 +80,12 @@ int main(int argc, char **argv)
 
 	web_cache = create_cache();
 
+	/*
 	hwurfl = get_wurfldb("wurfl-eval.xml");
 	if (hwurfl == NULL){
-		fprintf(stderr, "Error in wurlfd load database\n");
+		fprintf(stderr, "Error in wurlfd load database\n");	TOLTO PER GIULIA: DA RIMETTERE
 		exit(EXIT_FAILURE);
-	}
+	}*/
 
 	signal(SIGPIPE, SIG_IGN);
 

@@ -3,7 +3,7 @@ CHEADERS=$(shell ls *.h)
 CFILES=$(shell ls *.c)
 OBFILES=$(shell ls *.o)
 #HTMLFILES=$(shell ls *.html)
-LDFLAGS=-pthread -lwurfl
+LDFLAGS=-pthread
 TARGET=server
 
 all: $(TARGET)
