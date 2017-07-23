@@ -2,8 +2,10 @@
 #include "convertweb.h"
 
 void exit_on_error(int cond, char * msg){
-	fprintf(stderr, "%s : %s\n", msg, strerror(cond));
-	exit(EXIT_FAILURE);
+	if(cond){
+		fprintf(stderr, "%s : %s\n", msg, strerror(cond));
+		exit(EXIT_FAILURE);
+	}
 }
 
 char * open_and_map_file(char * filename, int * size){
