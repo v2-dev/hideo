@@ -38,7 +38,7 @@ void thread_make(int i)
 
 void *thread_main(void *arg)
 {
-	int				connsd, j = 0, retval = 0;
+	int	connsd, j = 0, retval = 0;
 	struct Thread *thread_data = (struct Thread *)arg;
 	struct conndata * cdata;
 
@@ -58,7 +58,7 @@ void *thread_main(void *arg)
 		fprintf(stdout, "...connection accepted!\n");
 
 		struct timeval timeout;
-    		timeout.tv_sec = 2;
+    		timeout.tv_sec = 1;
     		timeout.tv_usec = 0;
 
    	if (setsockopt(connsd, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
@@ -71,19 +71,18 @@ void *thread_main(void *arg)
 			pthread_exit(NULL);
 
 		cdata = create_conndata();
+		default_conndata(cdata);
 		cdata->socketint = connsd;
 		cdata->process_id = thread_data->thread_tid;
-		cdata->keepalmaxn = 5;
 
 		/******************************
-			Serve request here
+			Serve request to the client
 		*******************************/
 		retval = 1;
 		while(1){
-
 			/*To be implemented: thread sleep until next client request*/
 				retval = serve_request(cdata);
-				if ( retval == ERROR ){
+				if (retval == ERROR){
 					Free(cdata);
 					close(cdata->socketint);
 					break;

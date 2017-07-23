@@ -30,8 +30,6 @@ struct httpread
 	char **array;
 };
 
-
-
 /***************************************************************************************
 	Structure which memorizes http messages, file descriptors, path files.
 	It is created after accepting a connection and destroyed after closing the connection
@@ -48,7 +46,6 @@ struct httpread
     	char messages[3000];	//
     	int msgtype;			//
     	int get1head2;
-    	int keepalmaxn;
     	char imgext[8];			//image extension
     	float quality;			//image quality
 			char ext[10];
@@ -56,9 +53,9 @@ struct httpread
     	char options[3000];		//k
     	int return_code;		//Return code
     	char return_path[512];	//Return path
-    	int isImage;			//IS THIS REAL IMAGE? IS THIS JUST FANTASY?
     };
 
+/*http messages*/
 void http_200(struct conndata *);
 void http_500(struct conndata *);
 void http_404(struct conndata *);
@@ -68,6 +65,7 @@ void http_501(struct conndata *);
 int find_quality(char *);
 char *get_ext(char *);
 struct conndata * create_conndata(void);
+void init_conndata(struct conndata *);
 char *get_mimetype (char* );
 void print_message(struct conndata *);
 int uacheck(char *, struct conndata *);
@@ -76,7 +74,6 @@ int method_parse(char *, struct conndata *);
 int path_parse(char *optstring, struct conndata *);
 int client_request(struct conndata * );
 int send_response(struct conndata *);
-int doit(struct conndata *);
 
 int serve_request(struct conndata *);
 void * create_httpread();

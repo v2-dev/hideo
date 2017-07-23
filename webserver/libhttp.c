@@ -2,8 +2,7 @@
 #include "mimetypes.h"
 #include "utils.h"
 #include "cacher.h"
-#include "resolutionDevice.h" 
-
+#include "resolutionDevice.h"
 
 
 void http_200(struct conndata *conn)
@@ -14,7 +13,7 @@ void http_200(struct conndata *conn)
 	sprintf(buff, "HTTP/1.1 200 OK\r\n");
 	sprintf(buff, "%sServer: Hideo\r\n", buff);
 	sprintf(buff, "%s<html><head><title>200 OK</title></head>"	,buff);
-	sprintf(buff, "%s<body><h1>Everything is fine here!</h1></body></html>\r\n",	buff);
+	sprintf(buff, "%s<body><h1>Everything is fine here!</h1></body></html>\r\n", buff);
 	send_msg(conn->socketint, buff);
 }
 
@@ -90,8 +89,9 @@ int find_quality(char *token)
 		return 100;
 
 	last = strchr(begin, '.');
-	if(last == NULL)
+	if(last == NULL){
 		return 100;
+	}
 
 	c = last + 1;
 
@@ -191,6 +191,16 @@ struct conndata * create_conndata(void)
 		exit(EXIT_FAILURE);
 	}
 	return lt;
+}
+
+
+void default_conndata(struct conndata *p)
+{
+	p->path_r = NULL;
+	P->useragent = NULL;
+	P->acceptfld = NULL;
+	p->imgext = "png";
+	p->quality_factor = 100;
 }
 
 void print_message(struct conndata *p)
@@ -378,6 +388,7 @@ void * create_httpread()
 
 	httpr->dimArray = 0;
 	httpr->array = malloc(sizeof(char *));
+
 	return httpr;
 }
 
@@ -397,13 +408,8 @@ int serve_request(struct conndata * cdata)
 {
 	struct httpread * httpr;
 	httpr = read_request(cdata->socketint);
-	/*
-	 * if (httpr == NULL)
-	{
-		destroy_httpread(httpr);
-		return 0;
-	}
-	* */
+
+	/* Nothing read */
 	if (httpr->dimArray == 0)
 	{
 		destroy_httpread(httpr);
@@ -484,7 +490,7 @@ int send_response(struct conndata *p)
 		strcat(mypath, p->path_r);
 		printf("RES: %s\n", mypath);
 
-		wurflrdt(hwurfl, p->useragent, &x, &y); 
+		wurflrdt(hwurfl, p->useragent, &x, &y);
 		printf("x: %d, y: %d\n", x, y);
 		m = obtain_file(web_cache, mypath, "jpg", x, y, 100, &len);
 		if (m == MAP_FAILED){
@@ -514,6 +520,7 @@ int send_response(struct conndata *p)
 		strcat(p->messages, p->path_r);
 		strcat(p->messages, " non trovato, invio header 404");
 		print_message(p);
+		http_404(p);
 		fprintf(stderr, "\nErrore nella open di %s", p->path_r);
 	}
 	else
