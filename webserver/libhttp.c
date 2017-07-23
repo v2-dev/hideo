@@ -486,7 +486,8 @@ int send_response(struct conndata *p)
 
 		wurflrdt(hwurfl, p->useragent, &x, &y); 
 		printf("x: %d, y: %d\n", x, y);
-		m = obtain_file(web_cache, mypath, "jpg", x, y, 100, &len);
+		printf("q: %d\n", p->quality_factor);
+		m = obtain_file(web_cache, mypath, "jpg", x, y, p->quality_factor, &len);
 		if (m == MAP_FAILED){
 			fprintf(stderr,"libhttpc error obtain file\n");
 		}
@@ -548,7 +549,7 @@ int send_response(struct conndata *p)
 		conndf_rv = writen(p->socketint, header200, strlen(header200));
 		if (conndf_rv == -1) {
 			if (cache_set){
-				releaseFile(web_cache, mypath, "jpg", x, y, 100);
+				releaseFile(web_cache, mypath, "jpg", x, y, p->quality_factor);
 			}
 
 			else close(req_fd);
@@ -585,7 +586,7 @@ int send_response(struct conndata *p)
 		if (cache_set){
 			printf("\nInit release\n");
 			fflush(stdout);
-			releaseFile(web_cache, mypath, "jpg", x, y, 100);
+			releaseFile(web_cache, mypath, "jpg", x, y, p->quality_factor);
 		}
 		else{
 			close(req_fd);
