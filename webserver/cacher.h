@@ -20,7 +20,7 @@
 #define GREEN   "\x1B[32m"
 
 #define SIZE_HASH_TABLE 4
-#define SIZE_RAM_CACHE 2
+#define SIZE_RAM_CACHE 4
 
 /*
 						CACHE
