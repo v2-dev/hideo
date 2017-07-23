@@ -3,7 +3,7 @@
 
 void exit_on_error(int cond, char * msg){
 	if(cond){
-		fprintf(stderr, "Error in %s\n", msg);
+		perror(" ");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -12,17 +12,17 @@ char * open_and_map_file(char * filename, int * size){
 
 	int fd = open(filename, O_RDWR);
 	exit_on_error(fd==-1, "open");
-	
+
 	int len = lseek(fd, 0, SEEK_END);
 	exit_on_error(len==-1, "lseek");
-	
+
 	void * p = mmap(NULL, len, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
 	exit_on_error(p==MAP_FAILED, "mmap");
-	
+
 	close(fd); //not critical
-	
+
 	*size = len;
-	
+
 	return (char *) p;
 }
 
@@ -274,10 +274,10 @@ void moveOnTop_ramNode(struct lruTable * lt, struct ramNode * ramNodeToTop){ /* 
 void delete_ramNode(struct lruTable * lt, struct ramNode * ramNodeToDel){ /* elimina il ramNode scelto dalla tabella LRU */
 
 	struct hashNode * hn = ramNodeToDel->refhash;
-	
+
 	int rc = pthread_mutex_lock(&(hn->hashLock));
 	exit_on_error(rc !=0, "mutex_lock");
-	
+
 	if (hn->count > 0){
 		int rc = pthread_mutex_unlock(&(hn->hashLock));
 		exit_on_error(rc !=0, "mutex_unlock");
@@ -285,7 +285,7 @@ void delete_ramNode(struct lruTable * lt, struct ramNode * ramNodeToDel){ /* eli
 	}
 
 	struct ramNode * ramNodeLeft = ramNodeToDel->prev;
-	struct ramNode * ramNodeRight = ramNodeToDel->next; 
+	struct ramNode * ramNodeRight = ramNodeToDel->next;
 
 	ramNodeLeft->next = ramNodeRight;
 	ramNodeRight->prev = ramNodeLeft;
@@ -300,7 +300,7 @@ void delete_ramNode(struct lruTable * lt, struct ramNode * ramNodeToDel){ /* eli
 	exit_on_error(rc==-1, "munmap");
 
 	free_ramNode(ramNodeToDel); /* libera la memoria del ramNode */
-	
+
 	rc = pthread_mutex_unlock(&(hn->hashLock));
 	if (rc !=0){
 		fprintf(stderr, "Error in mutex unlock\n");
@@ -379,7 +379,7 @@ void releaseFile(struct cache * myCache, char * path, char * ext, int x, int y, 
 			fprintf(stderr,"||Unexpected error hasnNode\n");
 			exit(EXIT_FAILURE);
 	}
-	
+
 	(hn->count)--;
 
 	if (pthread_mutex_unlock(&(hn->hashLock)) != 0){
@@ -412,12 +412,12 @@ char * getAndLockFile(struct cache * myCache,char * stringFile, int * size){
 		int rc;
 		rc = pthread_mutex_lock(&(hn->hashLock));
 		exit_on_error(rc != 0, "mutex_lock");
-		
+
 		if (hn->refram != NULL){ /* se la condizione è verificata allora il file è anche caricato in ram */
 
 			printf("Il file '%s' si trova già in ram. Ti restituisco il suo map: %p\n", hn->name, hn->refram->m);
 			moveOnTop_ramNode(myCache->lt, hn->refram);
-				
+
 			(hn->count)++;
 
 			if (pthread_mutex_unlock(&(myCache->cmutex)) != 0){ /* rilascio mutex */
@@ -426,7 +426,7 @@ char * getAndLockFile(struct cache * myCache,char * stringFile, int * size){
 			}
 
 			*size = hn->refram->len;
-	
+
 			printf("P00INTER: %p\n", hn->refram->m);
 
 			return hn->refram->m;
@@ -436,7 +436,7 @@ char * getAndLockFile(struct cache * myCache,char * stringFile, int * size){
 
 			printf("Il file '%s' è nell'HDD ma non è caricato in ram.\n", stringFile);
 			printf("Caricamento del file '%s' in ram...\n", stringFile);
-			
+
 			int size;
 			char * m = open_and_map_file(stringFile, &size);
 
@@ -451,7 +451,7 @@ char * getAndLockFile(struct cache * myCache,char * stringFile, int * size){
 				fprintf(stderr, "Error in mutex lock\n");
 				exit(EXIT_FAILURE);
 			}
-			
+
 			(hn->count)++;
 			return m;
 		}
@@ -473,7 +473,7 @@ char * insertFile(struct cache * myCache, char * name, int * size){ /* inserisce
 
 	struct hashNode * hn = create_hashNode(name);	/* creazione e inserimento nella tabella hash dell'hashNode relativo al file */
 	insert_hashNode(myCache->ht, hn);
-	
+
 	char * m = open_and_map_file(name, size);
 
 	struct ramNode * rn = create_ramNode(name, m, *size);	/* creazione e inserimento nella testa della tabella LRU del ramNode relativo al 													file */
@@ -484,9 +484,9 @@ char * insertFile(struct cache * myCache, char * name, int * size){ /* inserisce
 	controlSize_lruTable(myCache->lt);
 
 	pthread_mutex_unlock(&(myCache->cmutex)); /* acquisisco mutex */
-	
+
 	(hn->count)++;
-	
+
 	printf("P00INTER||: %p\n", m);
 
 	return m;
@@ -612,7 +612,7 @@ char * obtain_file(struct cache * web_cache, char * path, char * ext, int x, int
 		fprintf(stderr, "Error with mmap\n");
 		exit(EXIT_FAILURE);
 	}
-	 
+
 
 	free(full_name);
 
@@ -646,11 +646,10 @@ int main(){
 			printf("SIZE: %d\n", size);
 
 		}
-		
+
 		printf("\n\n PLUF PLUF %d \n\n", i);
 		i++;
 		sleep(2);
-	
+
 	}
 }*/
-

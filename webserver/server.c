@@ -22,7 +22,6 @@ int listensd;
 char *request;
 
 
-
 void pr_cpu_time(void)
 {
   double	user, sys;

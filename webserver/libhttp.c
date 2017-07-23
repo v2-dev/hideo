@@ -81,17 +81,17 @@ int find_quality(char *token)
 
 	begin = strstr(token, "q=");
 	if(begin == NULL)
-		return 1;
+		return 100;
 	fprintf(stdout, "%s\n", begin + 2);
 
 	c = begin+2;
 	/*We assume the default value of q=1*/
 	if(*c == '1' || *c != '0')
-		return 1;
+		return 100;
 
 	last = strchr(begin, '.');
 	if(last == NULL)
-		return 1;
+		return 100;
 
 	c = last + 1;
 
@@ -238,7 +238,6 @@ int uacheck(char *optstring, struct conndata *p)
 ****************************/
 void quality_extension_on_accept(char *accept_string, struct conndata *p)
 {
-
 	accept_string = accept_string;	/* to avoid unused compiler warning */
 	p = p;
 
