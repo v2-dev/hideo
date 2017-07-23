@@ -194,15 +194,6 @@ struct conndata * create_conndata(void)
 }
 
 
-void default_conndata(struct conndata *p)
-{
-	p->path_r = NULL;
-	P->useragent = NULL;
-	P->acceptfld = NULL;
-	p->imgext = "png";
-	p->quality_factor = 100;
-}
-
 void print_message(struct conndata *p)
 {
 	printf("\n[%x]\t[%d]\t%s", p->process_id, p->socketint, p->messages);
@@ -492,7 +483,8 @@ int send_response(struct conndata *p)
 
 		wurflrdt(hwurfl, p->useragent, &x, &y);
 		printf("x: %d, y: %d\n", x, y);
-		printf("q: %d\n", p->quality_factor);
+		printf("ciao\n");
+		printf("fottuto q di merda: %d\n", p->quality_factor);
 		m = obtain_file(web_cache, mypath, "jpg", x, y, p->quality_factor, &len);
 		if (m == MAP_FAILED){
 			fprintf(stderr,"libhttpc error obtain file\n");

@@ -71,7 +71,6 @@ void *thread_main(void *arg)
 			pthread_exit(NULL);
 
 		cdata = create_conndata();
-		default_conndata(cdata);
 		cdata->socketint = connsd;
 		cdata->process_id = thread_data->thread_tid;
 

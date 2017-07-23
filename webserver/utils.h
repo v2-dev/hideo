@@ -47,8 +47,8 @@ int recv_line(int sockfd, char *buf, int size);
 size_t send_msg(int fd, char *buff);
 ssize_t readn(int fd, void *buf, size_t n);
 ssize_t	writen(int fd, const void *buf, size_t n);
-ssize_t Readline(int sockd, void *vptr, size_t maxlen);
-ssize_t Writeline(int sockd, const void *vptr, size_t n);
+ssize_t Readline(int sockd, void *vptr, ssize_t maxlen);
+ssize_t Writeline(int sockd, const void *vptr, ssize_t n);
 
 /* Memory mapping wrappers */
 void *Mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset);

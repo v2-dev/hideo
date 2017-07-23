@@ -217,14 +217,14 @@ ssize_t writen(int fd, const void *buf, size_t n)
 
 /*  Read a line from a socket  */
 
-ssize_t Readline(int sockd, void *vptr, size_t maxlen) {
+ssize_t Readline(int sockd, void *vptr, ssize_t maxlen) {
 
     ssize_t n, rc;
     char    c, *buffer;
 
     buffer = vptr;
 
-    for ( n = 1; n < maxlen; n++ ) {
+    for ( n = 1; n < maxlen; n++) {
 
 				if ( (rc = read(sockd, &c, 1)) == 1 ) {
 	    			*buffer++ = c;
@@ -251,7 +251,7 @@ ssize_t Readline(int sockd, void *vptr, size_t maxlen) {
 
 /*  Write a line to a socket  */
 
-ssize_t Writeline(int sockd, const void *vptr, size_t n) {
+ssize_t Writeline(int sockd, const void *vptr, ssize_t n) {
     size_t      nleft;
     ssize_t     nwritten;
     const char *buffer;
