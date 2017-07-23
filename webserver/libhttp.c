@@ -591,7 +591,7 @@ int send_response(struct conndata *p)
 			printf("\nInit release\n");
 			fflush(stdout);
 			// AL POSTO DI "jpg" DOBBIAMO METTERE L'ESTENSIONE CHE ABBIAMO TROVATO
-			releaseFile(web_cache, mypath, "jpg", x, y, p->quality_factor);
+			releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor);
 		}
 		else{
 			close(req_fd);
