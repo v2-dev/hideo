@@ -4,24 +4,10 @@
 #include <time.h>
 
 
-void lock(pthread_mutex_t * mux)
-{
-	if (pthread_mutex_lock(mux) != 0)
-		err_exit("Error on pthread_mutex_lock", errno);
-}
-
-void unlock(pthread_mutex_t * mux)
-{
-	if (pthread_mutex_unlock(mux) != 0)
-		err_exit("Error on pthread_mutex_unlock", errno);
-}
-
-
 void millisleep(int milliseconds)
 {
       usleep(milliseconds * 1000);
 }
-
 
 void thread_make(int i)
 {
@@ -89,7 +75,7 @@ void *thread_main(void *arg)
 					close(cdata->socketint);
 					break;
 				}
-				
+
 			}
 	}
 

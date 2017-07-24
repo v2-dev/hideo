@@ -18,9 +18,62 @@
 #include <sys/time.h>
 #include "logger.h"
 
-
 int listensd;
 char *request;
+
+struct node_t *alloc_node()
+{
+	struct node_t *p;
+
+	p = Malloc(sizeof(struct node_t));
+	return p;
+}
+
+void insert_tail(void *v, struct list *l)
+{
+	struct node_t *new_tail;
+	struct node_t *old_tail;
+
+	new_tail = alloc_node();
+	new_tail->value = v;
+	old_tail = l->list_tail;
+
+	new_tail->next = NULL;
+	l->list_tail = new_tail;
+
+	if (l->size != 0)
+		old_tail->next = new_tail;
+	else
+		l->list_head = new_tail;
+
+	l->size += 1;
+
+	return;
+}
+
+void *remove_head(struct list *l)
+{
+	if (l->size > 0) {
+		struct node_t *old_head;
+		void *value;
+
+		old_head = l->list_head;
+		value = old_head->value;
+		if (l->size != 1)
+			l->list_head = old_head->next;
+		else {
+			l->list_head = NULL;
+			l->list_tail = NULL;
+		}
+
+		l->size -= 1;
+		free(old_head);
+
+		return value;
+	} else
+		return NULL;
+}
+
 
 
 void pr_cpu_time(void)
@@ -65,21 +118,26 @@ void sig_int()
 	exit(0);
 }
 
-
 int main(int argc, char **argv)
 {
 	static int nthreads;
 	static short servport;
 	static int backlog;
-	int loglvl;
+  int loglvl;
+  int *sock;
 
 	int i = 0;
 
 	if (argc > 1)
-	{
 		printf("\n %s : No arguments required. Use only server.cfg\n ", argv[0]);
+
+	signal(SIGPIPE, SIG_IGN);
+
+	if (signal(SIGINT, sig_int) == SIG_ERR) {
+		fprintf(stderr, "signal error");
+		exit(1);
 	}
-	
+
 	fprintf(stdout, "Initializing parameters to default values...\n");
 	init_parameters();
 
@@ -158,14 +216,10 @@ int main(int argc, char **argv)
 
 	/* assegna l'indirizzo al socket */
 	if ((bind(listensd, (struct sockaddr *) &servaddr, sizeof(servaddr))) < 0)
-	{
 		unix_error("error on bind()\n");
-	}
 
 	if (listen(listensd, backlog) < 0 )
-	{
 		unix_error("listen\n");
-	}
 
 	tptr = (struct Thread *)Calloc(nthreads, sizeof(struct Thread));
 
