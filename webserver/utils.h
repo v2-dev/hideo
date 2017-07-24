@@ -22,18 +22,10 @@
 #include <time.h>
 
 //#define BACKLOG 256
-#define CONFIG_FILE "server.cfg"
 #define	MAXLINE			4096
 #define BUFSIZE			4096
 #define ERROR				-1
 #define SUCCESS      0
-
-typedef struct {
-	char port[MAXLINE];
-	char threads[MAXLINE];
-	char backlog[MAXLINE];
-} Config;
-Config config_file;
 
 /*Error handlers Wrappers*/
 void unix_error(char *msg);
@@ -63,9 +55,5 @@ void Free(void *ptr);
 int match(const char *, const char *);
 void usage(char *);
 
-/*configuration file functions*/
-void init_parameters();
-char *trim(char *);
-int parse_config();
 
 #endif				/*UTILS_H */

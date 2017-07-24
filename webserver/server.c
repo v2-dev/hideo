@@ -71,6 +71,8 @@ int main(int argc, char **argv)
 	static int nthreads;
 	static short servport;
 	static int backlog;
+  int loglvl;
+
 	int i = 0;
 
 	if (argc > 1)
@@ -79,17 +81,8 @@ int main(int argc, char **argv)
 	}
 
 	web_cache = create_cache();
-	
-	//PER GIULIA: al posto di 7 mettere l'error level preso dal file di config
-	srvlog = create_logger("server.log", 7);
-	
-	
-	//test di esempio
-	toLog(ERR, "un messaggio di errore", srvlog);
-	toLog(WRN, "un messaggio di warning", srvlog);
-	toLog(NFO, "un messaggio di info", srvlog);
 
-	
+
 	hwurfl = get_wurfldb("wurfl-eval.xml");
 	if (hwurfl == NULL){
 		fprintf(stderr, "Error in wurlfd load database\n");
@@ -113,11 +106,20 @@ int main(int argc, char **argv)
 	}
 
 	fprintf(stdout, "Final values:\n");
-	fprintf(stdout, "Server port: %s, Number of threads: %s, backlog: %s\n", config_file.port, config_file.threads, config_file.backlog);
+	fprintf(stdout, "Server port: %s, Number of threads: %s, backlog: %s, LOG_LEVEL: %s\n", config_file.port, config_file.threads, config_file.backlog, config_file.loglvl);
 
 	nthreads = atoi(config_file.threads);	/*number of thread in prethreading */
 	servport = atoi(config_file.port);	/*convert in short integer */
 	backlog = atoi(config_file.backlog); /*backlog size */
+  loglvl = atoi(config_file.loglvl);
+
+  //PER GIULIA: al posto di 7 mettere l'error level preso dal file di config
+	srvlog = create_logger("server.log", loglvl);
+
+	//test di esempio
+	toLog(ERR, "un messaggio di errore", srvlog);
+	toLog(WRN, "un messaggio di warning", srvlog);
+	toLog(NFO, "un messaggio di info", srvlog);
 
 
 	int optval;

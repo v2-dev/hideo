@@ -1,10 +1,36 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdarg.h>
+
+
+#ifndef PARSE_CONF_FILE_H
+#define PARSE_CONF_FILE_H
+
 /*
  * parse: parse simple name/value pairs. Skip comments and space
  **/
-#include "utils.h"
 
 #define MAXLEN 80
 #define CONFIG_FILE "server.cfg"
+
+
+typedef struct {
+	char port[MAXLEN];
+	char threads[MAXLEN];
+	char backlog[MAXLEN];
+  char loglvl[MAXLEN];
+} Config;
+Config config_file;
+
+
+/*configuration file functions*/
+void init_parameters();
+char *trim(char *);
+int parse_config();
+
 
 /* default parameters*/
 void init_parameters ()
@@ -12,6 +38,7 @@ void init_parameters ()
   strncpy (config_file.port, "5700", MAXLEN);
   strncpy (config_file.threads, "10", MAXLEN);
   strncpy (config_file.backlog, "64", MAXLEN);
+  strncpy (config_file.loglvl, "7", MAXLEN);
 }
 
 
@@ -71,7 +98,9 @@ int parse_config()
     else if (strcmp(name, "threads")==0)
       strncpy (config_file.threads, value, MAXLEN);
     else if (strcmp(name, "backlog")==0)
-        strncpy (config_file.backlog, value, MAXLEN);
+      strncpy (config_file.backlog, value, MAXLEN);
+    else if (strcmp(name, "loglvl")==0)
+      strncpy (config_file.loglvl, value, MAXLEN);
     else
       printf ("WARNING: %s/%s: Unknown name/value pair!\n",
         name, value);
@@ -81,3 +110,6 @@ int parse_config()
   fclose (fp);
   return 1;
 }
+
+
+#endif				/*PARSE_CONF_FILE_H */
