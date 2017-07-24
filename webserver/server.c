@@ -16,6 +16,7 @@
 #include "libhttp.h"
 #include <sys/resource.h>
 #include <sys/time.h>
+#include "logger.h"
 
 
 int listensd;
@@ -78,6 +79,15 @@ int main(int argc, char **argv)
 	}
 
 	web_cache = create_cache();
+	
+	//PER GIULIA: al posto di 7 mettere l'error level preso dal file di config
+	srvlog = create_logger("server.log", 7);
+	
+	
+	//test di esempio
+	toLog(ERR, "un messaggio di errore", srvlog);
+	toLog(WRN, "un messaggio di warning", srvlog);
+	toLog(NFO, "un messaggio di info", srvlog);
 
 	
 	hwurfl = get_wurfldb("wurfl-eval.xml");
@@ -108,6 +118,7 @@ int main(int argc, char **argv)
 	nthreads = atoi(config_file.threads);	/*number of thread in prethreading */
 	servport = atoi(config_file.port);	/*convert in short integer */
 	backlog = atoi(config_file.backlog); /*backlog size */
+
 
 	int optval;
 	socklen_t optlen = sizeof(optval);

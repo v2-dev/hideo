@@ -1,5 +1,6 @@
 #include "cacher.h"
 #include "convertweb.h"
+#include "logger.h"
 
 void exit_on_error(int cond, char * msg){
 	if(cond){

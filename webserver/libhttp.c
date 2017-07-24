@@ -3,6 +3,7 @@
 #include "utils.h"
 #include "cacher.h"
 #include "resolutionDevice.h"
+#include "logger.h"
 
 
 void http_200(struct conndata *conn)
