@@ -402,7 +402,7 @@ int serve_request(struct conndata * cdata)
 		return ERROR;
 	}
 
-	if ( method_parse(*(httpr->array), cdata) == ERROR)
+	if (method_parse(*(httpr->array), cdata) == ERROR)
 	{
 			http_400(cdata);
 			destroy_httpread(httpr);
