@@ -6,6 +6,18 @@
 #include "logger.h"
 
 
+void http_generic(struct conndata *conn, char *httpmsg)
+{
+		size_t len;
+
+		len = strlen(httpmsg);
+		buf = Malloc(len);
+
+		sprintf(buf, "%s", httpmsg);
+		send_msg(conn->socketint, buf);
+}
+
+
 void http_200(struct conndata *conn)
 {
 
@@ -16,6 +28,7 @@ void http_200(struct conndata *conn)
 	sprintf(buff, "%s<html><head><title>200 OK</title></head>"	,buff);
 	sprintf(buff, "%s<body><h1>Everything is fine here!</h1></body></html>\r\n", buff);
 	send_msg(conn->socketint, buff);
+
 }
 
 void http_500(struct conndata *conn)
@@ -236,6 +249,7 @@ int accheck(char *optstring, struct conndata *p)
 	 * restituisce -1 in caso di errori
 	 *
 	 */
+
 	char ua_head[] = "Accept:";
 	size_t buf_idx = 0;
 	while (buf_idx < 7)
@@ -394,6 +408,7 @@ int serve_request(struct conndata * cdata)
 		destroy_httpread(httpr);
 		return 0;
 	}
+
 	if (httpr->dimArray == -1)
 	{
 		destroy_httpread(httpr);
@@ -421,7 +436,9 @@ int serve_request(struct conndata * cdata)
 
 	for(i = 1; i<httpr->dimArray; i++)
 	{
+		printf("accheck iniziata\n");
 		v += accheck(*(httpr->array+i), cdata);
+		printf("accheck completata\n");
 		w += uacheck(*(httpr->array+i), cdata);
 	}
 
@@ -438,7 +455,6 @@ int serve_request(struct conndata * cdata)
 
 	return 1;
 
-	return SUCCESS;
 }
 
 
@@ -482,10 +498,9 @@ int send_response(struct conndata *p)
 
 
 	if (fileNotFound) {
-		p->return_code = 404;
 		strcpy(p->messages, "File ");
 		strcat(p->messages, p->path);
-		strcat(p->messages, " non trovato, invio header 404");
+		strcat(p->messages, " non trovato, invio header 404\n");
 		print_message(p);
 		http_404(p);
 		fprintf(stderr, "\nNon presente il file: %s", p->path);
@@ -493,7 +508,6 @@ int send_response(struct conndata *p)
 
 	else {
 
-		p->return_code = 200;
 		unsigned int contlen;
 
 		if (cache_set){
@@ -510,12 +524,11 @@ int send_response(struct conndata *p)
 		//CONTROLLO DELL'ESTENSIONE
 		char mimetype_t[30] = "";
 		strcpy(mimetype_t, get_mimetype(p->path));
-		strcpy(p->messages, "Mimetype: ");
-		strcat(p->messages, mimetype_t);
-		print_message(p);
 		strcat(header200, mimetype_t);
 		strcat(header200, "\r\nContent-Length: ");
+
 		char scontlen[15];
+
 		sprintf(scontlen, "%d\r\n\r\n", contlen);
 		strcat(header200, scontlen);
 
@@ -643,10 +656,7 @@ struct httpread * read_request(int fd)
 		}
 
 		else index++;
-
-
-
-	}
+}
 
 	free(tmpString);
 	return httpr;

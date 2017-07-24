@@ -76,16 +76,47 @@ void *remove_head(struct list *l)
 
 
 
+void pr_cpu_time(void)
+{
+  double	user, sys;
+  struct rusage	myusage, childusage;
+
+  if (getrusage(RUSAGE_SELF, &myusage) < 0)
+  {
+    fprintf(stderr, "errore in getrusage");
+    exit(1);
+  }
+
+  if (getrusage(RUSAGE_CHILDREN, &childusage) < 0)
+  {
+    fprintf(stderr, "errore in getrusage");
+    exit(1);
+  }
+
+  user = (double) myusage.ru_utime.tv_sec +
+		myusage.ru_utime.tv_usec/1000000.0;
+  user += (double) childusage.ru_utime.tv_sec +
+		 childusage.ru_utime.tv_usec/1000000.0;
+  sys = (double) myusage.ru_stime.tv_sec +
+		 myusage.ru_stime.tv_usec/1000000.0;
+  sys += (double) childusage.ru_stime.tv_sec +
+		 childusage.ru_stime.tv_usec/1000000.0;
+
+  printf("\nuser time = %g, sys time = %g\n", user, sys);
+}
+
 void sig_int()
 {
 	int		i;
+	void	pr_cpu_time(void);
+
+	pr_cpu_time();
 
 	for (i = 0; i < nthreads; i++)
 		printf("thread %d, %ld connections\n", i, tptr[i].thread_count);
 
 	exit(0);
 }
-
 
 int main(int argc, char **argv)
 {
@@ -99,14 +130,6 @@ int main(int argc, char **argv)
 
 	if (argc > 1)
 		printf("\n %s : No arguments required. Use only server.cfg\n ", argv[0]);
-
-	web_cache = create_cache();
-
-	hwurfl = get_wurfldb("wurfl-eval.xml");
-	if (hwurfl == NULL){
-		fprintf(stderr, "Error in wurlfd load database\n");
-		exit(EXIT_FAILURE);
-	}
 
 	signal(SIGPIPE, SIG_IGN);
 
@@ -130,9 +153,28 @@ int main(int argc, char **argv)
 	nthreads = atoi(config_file.threads);	/*number of thread in prethreading */
 	servport = atoi(config_file.port);	/*convert in short integer */
 	backlog = atoi(config_file.backlog); /*backlog size */
-  loglvl = atoi(config_file.loglvl);
+	loglvl = atoi(config_file.loglvl);
 
 	srvlog = create_logger("server.log", loglvl);
+
+	toLog(ERR, "un messaggio di errore", srvlog);
+	toLog(WRN, "un messaggio di warning", srvlog);
+	toLog(NFO, "un messaggio di info", srvlog);
+
+	web_cache = create_cache();
+
+	hwurfl = get_wurfldb("wurfl-eval.xml");
+	if (hwurfl == NULL){
+		fprintf(stderr, "Error in wurlfd load database\n");
+		exit(EXIT_FAILURE);
+	}
+
+	signal(SIGPIPE, SIG_IGN);
+
+	if (signal(SIGINT, sig_int) == SIG_ERR) {
+		fprintf(stderr, "signal error");
+		exit(1);
+	}
 
 	int optval;
 	socklen_t optlen = sizeof(optval);

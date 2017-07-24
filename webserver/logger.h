@@ -9,6 +9,10 @@
 #include <time.h>
 #include <pthread.h>
 #include <fcntl.h>
+#include <sys/types.h>
+#include <sys/syscall.h> 
+
+#define _GNU_SOURCE
 
 #define SIZE_TO_FFLUSH 30
 
