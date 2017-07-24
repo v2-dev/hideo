@@ -73,7 +73,7 @@ int find_quality(char *token)
 {
 	char *begin;
 	char *c;
-	char *num;
+	char num[10];
 	char *last;
 	int q;
 	float allq;
@@ -94,8 +94,6 @@ int find_quality(char *token)
 	}
 
 	c = last + 1;
-
-	num = malloc(10 * sizeof(char));
 	strcpy(num, "0.");
 
 	int count = 0;
@@ -458,71 +456,55 @@ int serve_request(struct conndata * cdata)
 int send_response(struct conndata *p)
 {
 
-	char header200[150] = "HTTP/1.1 200 OK\r\nServer: ProgettoIIWIS\r\nConnection: keep-alive\r\nContent-type: ";
-	//char *header400 = "HTTP/1.1 400 Bad Request\nServer: ProgettoIIW-IS\nContent-type: text/html\r\n";
-	//char *header404 = "HTTP/1.1 404 Not Found\nServer: ProgettoIIW-IS\nContent-type: text/html\r\n";
+	char header200[200] = "HTTP/1.1 200 OK\r\nServer: ProgettoIIWIS\r\nConnection: keep-alive\r\nContent-type: ";
 	char *header400 = "HTTP/1.1 400 Bad Request\r\nServer: ProgettoIIWIS\r\nConnection: close\r\n\r\n";
 	char *header404 = "HTTP/1.1 404 Not Found\r\nServer: ProgettoIIWIS\r\nConnection: close\r\n\r\n";
-	//char *keepalive = "Connection: keep-alive\r\n";
+	
+	//se ho selezionato la root
+	if ( p->path_r[0] == '/' && (p->path_r[1] == '\0') ) strcpy(p->path_r, "/index.html");
+
+
 	int req_fd = 0;
 	p->return_code = 400;
-
-	printf("\n\tPath =#%s#", p->path_r);
-	if ( p->path_r[0] == '/' && (p->path_r[1] == '\0') ) strcpy(p->path_r, "/index.html");
-	printf("\n\tPath =#%s#", p->path_r);
-	int x, y;
-
 	int cache_set = 0;
-	int len;
+	int x, y, len;
 	char mypath[300];
 	char * m;
+	int fileNotFound = 0;
+	
 	if (strncmp("/res", p->path_r, 4)==0){
 		cache_set = 1;
-		printf("PRIMO FLUSSO\n");
 		strcpy(mypath, "homepage");
 		strcat(mypath, p->path_r);
-		printf("RES: %s\n", mypath);
 
 		wurflrdt(hwurfl, p->useragent, &x, &y);
-		printf("x: %d, y: %d\n", x, y);
-		printf("ciao\n");
-		printf("fottuto q di merda: %d\n", p->quality_factor);
-		printf("Extension found: %s\n", p->extension);
-		// AL POSTO DI "jpg" DOBBIAMO METTERE L'ESTENSIONE CHE ABBIAMO TROVATO
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len);
-		if (m == MAP_FAILED){
-			fprintf(stderr,"libhttpc error obtain file\n");
+		if (m == NULL){
+			fileNotFound = 1;
 		}
-		else {
-			printf("pointer: %p\n", m);
-			printf("SIZE: %d\n", len);
-		}
-		printf("UserAgent: %s\n",p->useragent);
 	}
 
 	else {
-		printf("SECONDO FLUSSO\n");
-		//TEST
 		char testpath[300] = "homepage";
 		strcat(testpath, p->path_r);
 		strcpy(p->path_r, testpath);
 		req_fd = open(p->path_r, O_RDONLY);
+		if (req_fd==-1) fileNotFound = 1;
 	}
 
 
-	if (req_fd == -1 )
-	{
+	if (fileNotFound) {
 		p->return_code = 404;
 		strcpy(p->messages, "File ");
 		strcat(p->messages, p->path_r);
 		strcat(p->messages, " non trovato, invio header 404");
 		print_message(p);
 		http_404(p);
-		fprintf(stderr, "\nErrore nella open di %s", p->path_r);
+		fprintf(stderr, "\nNon presente il file: %s", p->path_r);
 	}
-	else
-	{
-		printf("\nARRIVATO QUA\n");
+	
+	else {
+
 		p->return_code = 200;
 		unsigned int contlen;
 
@@ -552,52 +534,40 @@ int send_response(struct conndata *p)
 		conndf_rv = writen(p->socketint, header200, strlen(header200));
 		if (conndf_rv == -1) {
 			if (cache_set){
-				// AL POSTO DI "jpg" DOBBIAMO METTERE L'ESTENSIONE CHE ABBIAMO TROVATO
 				releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor);
 			}
-
 			else close(req_fd);
-
-
 			return 2;
-
+		}
+		
+		if (p->get1head2 == 2){
+			if (cache_set){
+				releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor);
+			}
+			else close(req_fd);
+			strcpy(p->messages, "Inviato solo l'Header, metodo HEAD richiesto");
+			print_message(p);
 		}
 
-		size_t size = 1;
-		char *temp;
-		temp = Malloc(sizeof(char) * size);
+
+		char * bytesToSend = Malloc(sizeof(char) * contlen);
 		if (cache_set){
-			char c;
-			for (int i=0; i< len; i++){
-				c = *(m+i);
-				conndf_rv = writen(p->socketint, &c, 1);
+				conndf_rv = writen(p->socketint, m, contlen);
+				Free(bytesToSend);
+				releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor);
 				if (conndf_rv == -1) {
-					printf("lol\n");
 					return 2;
 				}
-			}
-
 		}
 
-		else{
-		while (read(req_fd, temp, 1)>0)
-		{
-			conndf_rv = writen(p->socketint, temp, 1);
+		else {
+			readn(req_fd, bytesToSend, contlen);
+			conndf_rv = writen(p->socketint, bytesToSend, contlen);
+			Free(bytesToSend);
+			close(req_fd);
 			if (conndf_rv == -1) return 2;
 		}
-		}
-
-		if (cache_set){
-			printf("\nInit release\n");
-			fflush(stdout);
-			// AL POSTO DI "jpg" DOBBIAMO METTERE L'ESTENSIONE CHE ABBIAMO TROVATO
-			releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor);
-		}
-		else{
-			close(req_fd);
-		}
-		free(temp);
-		//writen(p->socketint, "\r\n", 2);
+		
 		strcpy(p->messages, "File servito");
 		print_message(p);
 		return 0;

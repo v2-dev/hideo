@@ -8,16 +8,27 @@ void exit_on_error(int cond, char * msg){
 	}
 }
 
+
+/* ritorna NULL in caso di errore */
 char * open_and_map_file(char * filename, int * size){
 
-	int fd = open(filename, O_RDWR);
-	exit_on_error(fd==-1, "open");
-
+	int fd = open(filename, O_RDONLY);
+	if (fd==-1) {
+		fprintf(stderr, "Impossibile aprire il file: %s\n", filename);
+		return NULL;
+	}
+	
 	int len = lseek(fd, 0, SEEK_END);
-	exit_on_error(len==-1, "lseek");
+	if (len==-1) {
+		fprintf(stderr, "Errore in lseek con il file: %s\n", filename);
+		return NULL;
+	}
 
-	void * p = mmap(NULL, len, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-	exit_on_error(p==MAP_FAILED, "mmap");
+	void * p = mmap(NULL, len, PROT_READ, MAP_SHARED, fd, 0);
+	if (p==MAP_FAILED){
+			fprintf(stderr, "Errore mmap con il file : %s\n", filename);
+			return NULL;
+	}
 
 	close(fd); //not critical
 
@@ -374,9 +385,7 @@ void releaseFile(struct cache * myCache, char * path, char * ext, int x, int y, 
 	struct hashNode * hn = get_hashNode(myCache->ht, full_name);
 
 	if (hn==NULL){
-			printf("%s\n", full_name);
-			fflush(stdout);
-			fprintf(stderr,"||Unexpected error hasnNode\n");
+			fprintf(stderr,"Unexpected error hasnNode in releaseFile\n");
 			exit(EXIT_FAILURE);
 	}
 
@@ -386,7 +395,7 @@ void releaseFile(struct cache * myCache, char * path, char * ext, int x, int y, 
 		fprintf(stderr, "Error in pthread_mutex_lock\n");
 		exit(EXIT_FAILURE);
 	}
-	printf("File rilasciato\n");
+	printf("Rilasciato File: %s\n", full_name);
 
 	if (pthread_mutex_unlock(&(myCache->cmutex)) != 0){ /* acquisisco mutex */
 		fprintf(stderr, "Error in mutex unlock\n");
@@ -397,11 +406,10 @@ void releaseFile(struct cache * myCache, char * path, char * ext, int x, int y, 
 
 /* ritorna il file mappato, se non c'è ritorna NULL */
 char * getAndLockFile(struct cache * myCache,char * stringFile, int * size){
-
-	if (pthread_mutex_lock(&(myCache->cmutex)) != 0){ /* acquisisco mutex */
-		fprintf(stderr, "Error in mutex lock\n");
-		exit(EXIT_FAILURE);
-	}
+	
+	int rc;
+	rc = pthread_mutex_lock(&(myCache->cmutex));
+	exit_on_error(rc != 0, "mutex_lock");
 
 	printf("Hai richiesto il file '%s'. Processando...\n", stringFile);
 
@@ -409,7 +417,6 @@ char * getAndLockFile(struct cache * myCache,char * stringFile, int * size){
 
 	if (hn != NULL){ /* se hn != NULL allora il file si trova come MINIMO nell'HDD */
 
-		int rc;
 		rc = pthread_mutex_lock(&(hn->hashLock));
 		exit_on_error(rc != 0, "mutex_lock");
 
@@ -420,14 +427,10 @@ char * getAndLockFile(struct cache * myCache,char * stringFile, int * size){
 
 			(hn->count)++;
 
-			if (pthread_mutex_unlock(&(myCache->cmutex)) != 0){ /* rilascio mutex */
-				fprintf(stderr, "Error in mutex unlock\n");
-				exit(EXIT_FAILURE);
-			}
+			rc = pthread_mutex_unlock(&(myCache->cmutex));
+			exit_on_error(rc != 0, "mutex_unlock");
 
 			*size = hn->refram->len;
-
-			printf("P00INTER: %p\n", hn->refram->m);
 
 			return hn->refram->m;
 		}
@@ -447,11 +450,9 @@ char * getAndLockFile(struct cache * myCache,char * stringFile, int * size){
 
 			printf("Il file '%s' è stato caricato in ram. Ti restituisco il suo map: %p\n", rn->name, rn->m);
 
-			if (pthread_mutex_unlock(&(myCache->cmutex)) != 0){ /* rilascio mutex */
-				fprintf(stderr, "Error in mutex lock\n");
-				exit(EXIT_FAILURE);
-			}
-
+			rc = pthread_mutex_unlock(&(myCache->cmutex));
+			exit_on_error(rc != 0, "mutex_unlock");
+			
 			(hn->count)++;
 			return m;
 		}
@@ -459,10 +460,8 @@ char * getAndLockFile(struct cache * myCache,char * stringFile, int * size){
 
 	printf("Non ho il file '%s' da te richiesto, mi dispiace! Ti restituisco un map di errore: NULL\n", stringFile);
 
-	if (pthread_mutex_unlock(&(myCache->cmutex)) != 0){ /* rilascio mutex */
-		fprintf(stderr, "Error in mutex unlock\n");
-		exit(EXIT_FAILURE);
-	}
+	rc = pthread_mutex_unlock(&(myCache->cmutex));
+	exit_on_error(rc != 0, "mutex_unlock");
 
 	return NULL;
 }
@@ -486,8 +485,6 @@ char * insertFile(struct cache * myCache, char * name, int * size){ /* inserisce
 	pthread_mutex_unlock(&(myCache->cmutex)); /* acquisisco mutex */
 
 	(hn->count)++;
-
-	printf("P00INTER||: %p\n", m);
 
 	return m;
 }
@@ -579,9 +576,6 @@ int compute_full_name(char * full_name, char * path, char * ext, int width, int 
 	return 0;
 }
 
-
-
-
 /* ritorna il file descriptor del file (-1 se errore) */
 char * obtain_file(struct cache * web_cache, char * path, char * ext, int x, int y, int q, int * size){
 
@@ -596,6 +590,7 @@ char * obtain_file(struct cache * web_cache, char * path, char * ext, int x, int
 	/* calcola il nome del file completo, cioe con tutte le directory */
 	if (compute_full_name(full_name, path, ext, x, y, q) == -1){
 		free(full_name);
+		fprintf(stderr, "Errore nella compute_full_name di path: %s, ext: %s, x: %d, y: %d, q: %d", path, ext, x, y, q);
 		return NULL;
 	}
 
@@ -609,47 +604,13 @@ char * obtain_file(struct cache * web_cache, char * path, char * ext, int x, int
 
 	m = insertFile(web_cache, full_name, size);
 	if (m == NULL){
-		fprintf(stderr, "Error with mmap\n");
-		exit(EXIT_FAILURE);
+		fprintf(stderr, "Errore nell'inserimento in cache di: %s\n", full_name);
+		free(full_name);
+		return NULL;
 	}
-
 
 	free(full_name);
 
 	return m;
 
 }
-
-/*
-int main(){
-
-	char * path[] = { "/home/giorgio/Scrivania/img/DonatoFidato.jpg", "/home/giorgio/Scrivania/img/DonatoFidato.jpg",
-	 "/home/giorgio/Scrivania/img/DonatoFidato.jpg", "/home/giorgio/Scrivania/img/DoppiaD.jpg"};
-
-	int x[] = {100,100,40,70};
-	int y[] = {200,500,24,100};
-	char *ext[] = {"png","jpg","jpg","jpg"};
-	int q[] = {20,10,50,60};
-
-	web_cache = create_cache();
-
-	char * m;
-	int size;
-	int i = 0;
-	while(1){
-
-		for(int i = 0;i< 4;i++)  {
-
-			m = obtain_file(web_cache, path[i], ext[i], x[i], y[i], q[i], &size);
-			releaseFile(web_cache, path[i], ext[i], x[i], y[i], q[i]);
-			m = m;
-			printf("SIZE: %d\n", size);
-
-		}
-
-		printf("\n\n PLUF PLUF %d \n\n", i);
-		i++;
-		sleep(2);
-
-	}
-}*/
