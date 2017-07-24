@@ -63,6 +63,15 @@ void free_cache(struct cache * ce){	/* libera la memoria occupata dalla cache */
 
 struct cache * create_cache(){		/* crea una nuova cache */
 
+	int rc1, rc2;
+	rc1 = system("rm -r cache");
+	rc2 = system("mkdir cache");
+	
+	if((rc1==-1)||(rc2==-1)){
+			fprintf(stderr, "Error init cache folder\n");
+			exit(EXIT_FAILURE);
+	}
+	
 	struct cache * myCache = alloc_cache();
 
 	myCache->ht = create_hashTable();

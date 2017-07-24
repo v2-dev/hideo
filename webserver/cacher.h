@@ -19,8 +19,8 @@
 #define RESET  "\x1B[0m"
 #define GREEN   "\x1B[32m"
 
-#define SIZE_HASH_TABLE 4
-#define SIZE_RAM_CACHE 4
+#define SIZE_HASH_TABLE 3
+#define SIZE_RAM_CACHE 8
 
 /*
 						CACHE

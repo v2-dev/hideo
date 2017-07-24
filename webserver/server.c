@@ -79,12 +79,12 @@ int main(int argc, char **argv)
 
 	web_cache = create_cache();
 
-	/*
+	
 	hwurfl = get_wurfldb("wurfl-eval.xml");
 	if (hwurfl == NULL){
-		fprintf(stderr, "Error in wurlfd load database\n");	TOLTO PER GIULIA: DA RIMETTERE
+		fprintf(stderr, "Error in wurlfd load database\n");
 		exit(EXIT_FAILURE);
-	}*/
+	}
 
 	signal(SIGPIPE, SIG_IGN);
 
