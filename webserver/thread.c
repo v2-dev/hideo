@@ -4,22 +4,123 @@
 #include <time.h>
 
 
-void lock(pthread_mutex_t * mux)
-{
-	if (pthread_mutex_lock(mux) != 0)
-		err_exit("Error on pthread_mutex_lock", errno);
-}
-
-void unlock(pthread_mutex_t * mux)
-{
-	if (pthread_mutex_unlock(mux) != 0)
-		err_exit("Error on pthread_mutex_unlock", errno);
-}
-
-
 void millisleep(int milliseconds)
 {
       usleep(milliseconds * 1000);
+}
+
+void check_pool_size()
+{
+	int i, delta_pool_size, err;
+	pthread_t pthread;
+
+	if ((err = pthread_mutex_lock(&pool_size_mutex)) != 0) {
+		fprintf(stderr, "Error in pthread_mutex_lock: %d : %s\n", err, strerror(err));
+		exit(EXIT_FAILURE);
+	}
+
+	if ((pool_free / (double) pool_size) < PERC_MIN_FREE) {
+
+		delta_pool_size = pool_size;
+		pool_free += pool_size;
+		pool_size += pool_size;
+
+		if ((err = pthread_mutex_unlock(&pool_size_mutex)) != 0) {
+			fprintf(stderr, "Error in pthread_mutex_unlock: %d : %s\n", err, strerror(err));
+			exit(EXIT_FAILURE);
+		}
+
+		for (i = 0; i < delta_pool_size; i++)
+			create_pthread(&pthread, thread_main, NULL, PTHREAD_CREATE_DETACHED);
+
+		return;
+
+	} else if ((pool_free / (double) pool_size) > PERC_MAX_FREE && pool_size > 2) {
+
+		pool_size--;
+
+		if ((err = pthread_mutex_unlock(&pool_size_mutex)) != 0) {
+			fprintf(stderr, "Error in pthread_mutex_unlock: %d : %s\n", err, strerror(err));
+			exit(EXIT_FAILURE);
+		}
+
+		pthread_exit(NULL);
+
+	}
+
+	if ((err = pthread_mutex_unlock(&pool_size_mutex)) != 0) {
+		fprintf(stderr, "Error in pthread_mutex_unlock: %d : %s\n", err, strerror(err));
+		exit(EXIT_FAILURE);
+	}
+}
+
+
+void *thread_socket_manager()
+{
+	int listensd, connsd, err, optval;
+	struct sockaddr_in servaddr, cliaddr;
+	socklen_t len;
+	int *sock;
+
+	if ((listensd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+		fprintf(stderr, "Error in socket: %d : %s\n", errno, strerror(errno));
+		exit(EXIT_FAILURE);
+	}
+
+	optval = 1;
+	if (setsockopt(listensd, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(int)) < 0) {
+		fprintf(stderr, "Error in setsockopt: %d : %s\n", errno, strerror(errno));
+		exit(EXIT_FAILURE);
+	}
+
+	memset((void *) &servaddr, 0, sizeof(servaddr));
+	servaddr.sin_family = AF_INET;
+	servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+	servaddr.sin_port = htons(SERV_PORT);
+
+	if ((bind(listensd, (struct sockaddr *) &servaddr, sizeof(servaddr))) < 0) {
+		fprintf(stderr, "Error in bind: %d : %s\n", errno, strerror(errno));
+		exit(EXIT_FAILURE);
+	}
+
+	if (listen(listensd, BACKLOG) < 0) {
+		fprintf(stderr, "Error in listen: %d : %s\n", errno, strerror(errno));
+		exit(EXIT_FAILURE);
+	}
+
+	for (;;) {
+
+		len = sizeof(cliaddr);
+		if ((connsd = accept(listensd, (struct sockaddr *) &cliaddr, &len)) < 0) {
+			fprintf(stderr, "Error in accept: %d : %s\n", errno, strerror(errno));
+			exit(EXIT_FAILURE);
+		}
+
+		if ((sock = malloc(sizeof(int))) == NULL) {
+			fprintf(stderr, "Error in malloc\n");
+			exit(EXIT_FAILURE);
+		}
+
+		*sock = connsd;
+
+		if ((err = pthread_mutex_lock(&pool_mutex)) != 0) {
+			fprintf(stderr, "Error in pthread_mutex_lock: %d : %s\n", err, strerror(err));
+			exit(EXIT_FAILURE);
+		}
+
+		insert_tail(sock, &list_sock);
+
+		if ((err = pthread_cond_signal(&pool_cond)) != 0) {
+			fprintf(stderr, "Error in pthread_cond_signal: %d : %s\n", err, strerror(err));
+			exit(EXIT_FAILURE);
+		}
+
+		if ((err = pthread_mutex_unlock(&pool_mutex)) != 0) {
+			fprintf(stderr, "Error in pthread_mutex_unlock: %d : %s\n", err, strerror(err));
+			exit(EXIT_FAILURE);
+		}
+
+	}
 }
 
 
@@ -86,7 +187,7 @@ void *thread_main(void *arg)
 					close(cdata->socketint);
 					break;
 				}
-				
+
 			}
 	}
 

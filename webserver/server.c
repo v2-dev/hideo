@@ -18,46 +18,67 @@
 #include <sys/time.h>
 #include "logger.h"
 
-
 int listensd;
 char *request;
 
-
-void pr_cpu_time(void)
+struct node_t *alloc_node()
 {
-  double	user, sys;
-  struct rusage	myusage, childusage;
+	struct node_t *p;
 
-  if (getrusage(RUSAGE_SELF, &myusage) < 0)
-  {
-    fprintf(stderr, "errore in getrusage");
-    exit(1);
-  }
-
-  if (getrusage(RUSAGE_CHILDREN, &childusage) < 0)
-  {
-    fprintf(stderr, "errore in getrusage");
-    exit(1);
-  }
-
-  user = (double) myusage.ru_utime.tv_sec +
-		myusage.ru_utime.tv_usec/1000000.0;
-  user += (double) childusage.ru_utime.tv_sec +
-		 childusage.ru_utime.tv_usec/1000000.0;
-  sys = (double) myusage.ru_stime.tv_sec +
-		 myusage.ru_stime.tv_usec/1000000.0;
-  sys += (double) childusage.ru_stime.tv_sec +
-		 childusage.ru_stime.tv_usec/1000000.0;
-
-  printf("\nuser time = %g, sys time = %g\n", user, sys);
+	p = Malloc(sizeof(struct node_t));
+	return p;
 }
+
+void insert_tail(void *v, struct list *l)
+{
+	struct node_t *new_tail;
+	struct node_t *old_tail;
+
+	new_tail = alloc_node();
+	new_tail->value = v;
+	old_tail = l->list_tail;
+
+	new_tail->next = NULL;
+	l->list_tail = new_tail;
+
+	if (l->size != 0)
+		old_tail->next = new_tail;
+	else
+		l->list_head = new_tail;
+
+	l->size += 1;
+
+	return;
+}
+
+void *remove_head(struct list *l)
+{
+	if (l->size > 0) {
+		struct node_t *old_head;
+		void *value;
+
+		old_head = l->list_head;
+		value = old_head->value;
+		if (l->size != 1)
+			l->list_head = old_head->next;
+		else {
+			l->list_head = NULL;
+			l->list_tail = NULL;
+		}
+
+		l->size -= 1;
+		free(old_head);
+
+		return value;
+	} else
+		return NULL;
+}
+
+
 
 void sig_int()
 {
 	int		i;
-	void	pr_cpu_time(void);
-
-	pr_cpu_time();
 
 	for (i = 0; i < nthreads; i++)
 		printf("thread %d, %ld connections\n", i, tptr[i].thread_count);
@@ -72,13 +93,12 @@ int main(int argc, char **argv)
 	static short servport;
 	static int backlog;
   int loglvl;
+  int *sock;
 
 	int i = 0;
 
 	if (argc > 1)
-	{
 		printf("\n %s : No arguments required. Use only server.cfg\n ", argv[0]);
-	}
 
 	web_cache = create_cache();
 
@@ -113,10 +133,6 @@ int main(int argc, char **argv)
   loglvl = atoi(config_file.loglvl);
 
 	srvlog = create_logger("server.log", loglvl);
-
-	toLog(ERR, "un messaggio di errore", srvlog);
-	toLog(WRN, "un messaggio di warning", srvlog);
-	toLog(NFO, "un messaggio di info", srvlog);
 
 	int optval;
 	socklen_t optlen = sizeof(optval);
@@ -158,14 +174,10 @@ int main(int argc, char **argv)
 
 	/* assegna l'indirizzo al socket */
 	if ((bind(listensd, (struct sockaddr *) &servaddr, sizeof(servaddr))) < 0)
-	{
 		unix_error("error on bind()\n");
-	}
 
 	if (listen(listensd, backlog) < 0 )
-	{
 		unix_error("listen\n");
-	}
 
 	tptr = (struct Thread *)Calloc(nthreads, sizeof(struct Thread));
 
