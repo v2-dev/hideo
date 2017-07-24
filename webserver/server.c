@@ -71,7 +71,7 @@ int main(int argc, char **argv)
 	static int nthreads;
 	static short servport;
 	static int backlog;
-  int loglvl;
+	int loglvl;
 
 	int i = 0;
 
@@ -79,22 +79,7 @@ int main(int argc, char **argv)
 	{
 		printf("\n %s : No arguments required. Use only server.cfg\n ", argv[0]);
 	}
-
-	web_cache = create_cache();
-
-	hwurfl = get_wurfldb("wurfl-eval.xml");
-	if (hwurfl == NULL){
-		fprintf(stderr, "Error in wurlfd load database\n");
-		exit(EXIT_FAILURE);
-	}
-
-	signal(SIGPIPE, SIG_IGN);
-
-	if (signal(SIGINT, sig_int) == SIG_ERR) {
-		fprintf(stderr, "signal error");
-		exit(1);
-	}
-
+	
 	fprintf(stdout, "Initializing parameters to default values...\n");
 	init_parameters();
 
@@ -110,13 +95,28 @@ int main(int argc, char **argv)
 	nthreads = atoi(config_file.threads);	/*number of thread in prethreading */
 	servport = atoi(config_file.port);	/*convert in short integer */
 	backlog = atoi(config_file.backlog); /*backlog size */
-  loglvl = atoi(config_file.loglvl);
+	loglvl = atoi(config_file.loglvl);
 
 	srvlog = create_logger("server.log", loglvl);
 
 	toLog(ERR, "un messaggio di errore", srvlog);
 	toLog(WRN, "un messaggio di warning", srvlog);
 	toLog(NFO, "un messaggio di info", srvlog);
+
+	web_cache = create_cache();
+
+	hwurfl = get_wurfldb("wurfl-eval.xml");
+	if (hwurfl == NULL){
+		fprintf(stderr, "Error in wurlfd load database\n");
+		exit(EXIT_FAILURE);
+	}
+
+	signal(SIGPIPE, SIG_IGN);
+
+	if (signal(SIGINT, sig_int) == SIG_ERR) {
+		fprintf(stderr, "signal error");
+		exit(1);
+	}
 
 	int optval;
 	socklen_t optlen = sizeof(optval);

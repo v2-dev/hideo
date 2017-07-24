@@ -421,7 +421,9 @@ int serve_request(struct conndata * cdata)
 
 	for(i = 1; i<httpr->dimArray; i++)
 	{
+		printf("accheck iniziata\n");
 		v += accheck(*(httpr->array+i), cdata);
+		printf("accheck completata\n");
 		w += uacheck(*(httpr->array+i), cdata);
 	}
 

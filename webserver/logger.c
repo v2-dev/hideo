@@ -25,21 +25,27 @@ struct logger * create_logger(char * logPath, int loglvl){	/* crea un nuovo logg
 
 void toLog(int msgt, char * msg, struct logger * myLogger){
 	
+	pid_t tid;
+	tid = syscall(SYS_gettid);
+	
 	if ((msgt==ERR)&&((ERR) & (myLogger->loglvl))){
 		
-		fprintf(myLogger->f, "[ERR] %s\n", msg);
+		fprintf(stderr, "[ERR] [%d] %s\n", tid, msg); //da togliere se non voglio stampare il msg sullo schermo
+		fprintf(myLogger->f, "[ERR] [%d] %s\n", tid, msg);
 	}
 	
 	
 	else if ((msgt==WRN)&&((WRN) & (myLogger->loglvl))){
 		
-		fprintf(myLogger->f, "[WRN] %s\n", msg);
+		fprintf(stdout, "[WRN] [%d] %s\n", tid, msg);  //da togliere se non voglio stampare il msg sullo schermo
+		fprintf(myLogger->f, "[WRN] [%d] %s\n", tid, msg);
 		
 	}
 	
 	else if ((msgt==NFO)&&((NFO) & ((myLogger->loglvl)>>2))){
 		
-		fprintf(myLogger->f, "[NFO] %s\n", msg);
+		fprintf(stdout, "[NFO] [%d] %s\n", tid, msg);  //da togliere se non voglio stampare il msg sullo schermo
+		fprintf(myLogger->f, "[NFO] [%d] %s\n", tid, msg);
 	}
 	
 }
