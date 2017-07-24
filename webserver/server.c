@@ -82,7 +82,6 @@ int main(int argc, char **argv)
 
 	web_cache = create_cache();
 
-
 	hwurfl = get_wurfldb("wurfl-eval.xml");
 	if (hwurfl == NULL){
 		fprintf(stderr, "Error in wurlfd load database\n");
@@ -113,14 +112,11 @@ int main(int argc, char **argv)
 	backlog = atoi(config_file.backlog); /*backlog size */
   loglvl = atoi(config_file.loglvl);
 
-  //PER GIULIA: al posto di 7 mettere l'error level preso dal file di config
 	srvlog = create_logger("server.log", loglvl);
 
-	//test di esempio
 	toLog(ERR, "un messaggio di errore", srvlog);
 	toLog(WRN, "un messaggio di warning", srvlog);
 	toLog(NFO, "un messaggio di info", srvlog);
-
 
 	int optval;
 	socklen_t optlen = sizeof(optval);
