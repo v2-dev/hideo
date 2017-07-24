@@ -448,13 +448,12 @@ int serve_request(struct conndata * cdata)
 
 int send_response(struct conndata *p)
 {
-
 	char header200[200] = "HTTP/1.1 200 OK\r\nServer: ProgettoIIWIS\r\nConnection: keep-alive\r\nContent-type: ";
 	char *header400 = "HTTP/1.1 400 Bad Request\r\nServer: ProgettoIIWIS\r\nConnection: close\r\n\r\n";
 	char *header404 = "HTTP/1.1 404 Not Found\r\nServer: ProgettoIIWIS\r\nConnection: close\r\n\r\n";
 	
 	//se ho selezionato la root
-	if ( p->path_r[0] == '/' && (p->path_r[1] == '\0') ) strcpy(p->path_r, "/index.html");
+	if ( p->path[0] == '/' && (p->path[1] == '\0') ) strcpy(p->path, "/index.html");
 
 	int req_fd = 0;
 	p->return_code = 400;
@@ -464,11 +463,11 @@ int send_response(struct conndata *p)
 	char * m;
 	int fileNotFound = 0;
 	
-	if (strncmp("/res", p->path_r, 4)==0){
+	if (strncmp("/res", p->path, 4)==0){
 		
 		cache_set = 1;
 		strcpy(mypath, "homepage");
-		strcat(mypath, p->path_r);
+		strcat(mypath, p->path);
 		wurflrdt(hwurfl, p->useragent, &x, &y);
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len);
 		if (m == NULL){
@@ -478,9 +477,9 @@ int send_response(struct conndata *p)
 
 	else {
 		char testpath[300] = "homepage";
-		strcat(testpath, p->path_r);
-		strcpy(p->path_r, testpath);
-		req_fd = open(p->path_r, O_RDONLY);
+		strcat(testpath, p->path);
+		strcpy(p->path, testpath);
+		req_fd = open(p->path, O_RDONLY);
 		if (req_fd==-1) fileNotFound = 1;
 	}
 
@@ -492,7 +491,7 @@ int send_response(struct conndata *p)
 		strcat(p->messages, " non trovato, invio header 404");
 		print_message(p);
 		http_404(p);
-		fprintf(stderr, "\nNon presente il file: %s", p->path_r);
+		fprintf(stderr, "\nNon presente il file: %s", p->path);
 	}
 	
 	else {
