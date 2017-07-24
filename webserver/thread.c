@@ -44,8 +44,8 @@ void *thread_main(void *arg)
 		fprintf(stdout, "...connection accepted!\n");
 
 		struct timeval timeout;
-    		timeout.tv_sec = 1;
-    		timeout.tv_usec = 0;
+    		timeout.tv_sec = 0;
+    		timeout.tv_usec = 80000;
 
    	if (setsockopt(connsd, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
     	unix_error("setsockopt failed\n");
@@ -64,9 +64,12 @@ void *thread_main(void *arg)
 			Serve request to the client
 		*******************************/
 		retval = 1;
+		int ii = 0;
 		while(1){
+				printf("thread.c cicle: %d\n", ii++);
 			/*To be implemented: thread sleep until next client request*/
 				retval = serve_request(cdata);
+				printf("retval: %d\n", retval);
 				if (retval == ERROR){
 					Free(cdata);
 					close(cdata->socketint);

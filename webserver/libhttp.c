@@ -9,6 +9,7 @@
 void http_generic(struct conndata *conn, char *httpmsg)
 {
 		size_t len;
+		char *buf;
 
 		len = strlen(httpmsg);
 		buf = Malloc(len);
@@ -406,13 +407,13 @@ int serve_request(struct conndata * cdata)
 	if (httpr->dimArray == 0)
 	{
 		destroy_httpread(httpr);
-		return 0;
+		printf("Niente da leggere\n");
+		return ERROR;
 	}
 
 	if (httpr->dimArray == -1)
 	{
 		destroy_httpread(httpr);
-		http_500(cdata);
 		return ERROR;
 	}
 
@@ -624,21 +625,27 @@ struct httpread * read_request(int fd)
 		n = readn(fd, tmpString+index, 1);
 		if (n==-1)
 		{
+			printf("SOCKET 1\n");
 			httpr->dimArray = -1;
 			break;
 		}
-		if (n==0)
+		if (n==0){
+			printf("SOCKET 2\n");
+			httpr->dimArray = -1;
 			break;
+		}
 
 		if (index==1)
 		{
+			printf("SOCKET 3\n");
 			if ((*(tmpString+index) == '\n')&&(*(tmpString+index-1) == '\r')) break;
 		}
 
 		if (*(tmpString+index) == '\n') {
-
+			printf("SOCKET 4\n");
 			if (*(tmpString+index-1) != '\r')
 			{
+				printf("SOCKET 5\n");
 				//free(tmpString);
 				//destroy_httpread(httpr);
 				break;
@@ -655,8 +662,12 @@ struct httpread * read_request(int fd)
 			index = 0;
 		}
 
-		else index++;
+		else {
+			index++;
+			printf("SOCKET 6\n");
+		}
 }
+
 
 	free(tmpString);
 	return httpr;
