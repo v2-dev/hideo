@@ -64,9 +64,11 @@ void http_501(struct conndata *);
 
 int find_quality(char *);
 char *get_ext(char *);
+char *get_mimetype (char* );
+
 struct conndata * create_conndata(void);
 void init_conndata(struct conndata *);
-char *get_mimetype (char* );
+
 void print_message(struct conndata *);
 int uacheck(char *, struct conndata *);
 int accheck(char *, struct conndata *);
@@ -74,8 +76,8 @@ int method_parse(char *, struct conndata *);
 int path_parse(char *optstring, struct conndata *);
 int client_request(struct conndata * );
 int send_response(struct conndata *);
-
 int serve_request(struct conndata *);
+
 void * create_httpread();
 void destroy_httpread(struct httpread * httpr);
 char * read_string(int fd);
