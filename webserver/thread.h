@@ -6,7 +6,7 @@
 #include <arpa/inet.h>
 
 /* Server TCP pre-threaded
-  accept() in worker thread con mutex
+  accept() on worker thread with mutex
 */
 
 struct Thread{

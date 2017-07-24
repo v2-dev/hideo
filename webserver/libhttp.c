@@ -81,7 +81,6 @@ int find_quality(char *token)
 	begin = strstr(token, "q=");
 	if(begin == NULL)
 		return 100;
-	fprintf(stdout, "%s\n", begin + 2);
 
 	c = begin+2;
 	/*We assume the default value of q=1*/
@@ -101,11 +100,10 @@ int find_quality(char *token)
 	int count = 0;
 
 	while(isdigit(*c)){
-		fprintf(stdout, "digit %c", *c);
 		c++;
 		count += 1;
-		fprintf(stdout, "number of digits %d\n", count);
 	}
+
 	c = last +1;
 	int i = 0;
 
@@ -113,16 +111,14 @@ int find_quality(char *token)
 	p = num + 2;
 
 	while(i < count){
-		printf("My char %c\n", *c);
 		*(p + i) = *(c + i);
 		i++;
 	}
+
 	*(p + count) = '\0';
 
 	allq = atof(num);
-
 	q = (float) allq*100;
-	fprintf(stdout, "integer %d\n", q);
 
 	return q;
 }
@@ -135,7 +131,7 @@ char *get_ext (char* mystr)
     if (mystr == NULL) return NULL;
     if ((retstr = malloc (strlen (mystr) + 1)) == NULL) return NULL;
     lastdot = strrchr (retstr, dot);
-	strcpy(retstr, "");
+		strcpy(retstr, "");
     sscanf(++lastdot, "%s", retstr);
     return retstr;
 }
@@ -234,12 +230,6 @@ int uacheck(char *optstring, struct conndata *p)
 /****************************
 			Accept field parsing
 ****************************/
-void quality_extension_on_accept(char *accept_string, struct conndata *p)
-{
-	accept_string = accept_string;	/* to avoid unused compiler warning */
-	p = p;
-
-}
 
 int accheck(char *optstring, struct conndata *p)
 {
@@ -251,6 +241,7 @@ int accheck(char *optstring, struct conndata *p)
 	 * restituisce -1 in caso di errori
 	 *
 	 */
+	 
 	char ua_head[] = "Accept:";
 	size_t buf_idx = 0;
 	while (buf_idx < 7)
@@ -308,20 +299,20 @@ int method_parse(char *optstring, struct conndata *p)
 	 */
 	if ( !strncmp(optstring, "GET ", 4) )
 	{
-		strcpy(p->method_r, "GET");
+		strcpy(p->method, "GET");
 		p->get1head2 = 1;
 		return 1;
 	}
 
 	else if ( !strncmp(optstring, "HEAD ", 5) )
 	{
-		strcpy(p->method_r, "HEAD");
+		strcpy(p->method, "HEAD");
 		p->get1head2 = 2;
 		return 2;
 	}
 	p->get1head2 = 0;
-	strcpy(p->method_r, "");
-	/*return BAD_REQUEST*/
+	strcpy(p->method, "");
+
 	return ERROR;
 }
 
@@ -341,11 +332,11 @@ int path_parse(char *optstring, struct conndata *p)
 		//printf("\n%d %s", i, optstring+choffset + i);
 		if (optstring[choffset + i] == ' ')
 		{
-			p->path_r[i] = '\0';
+			p->path[i] = '\0';
 			choffset = choffset + i;
 			break;
 		}
-		p->path_r[i] = optstring[choffset + i];
+		p->path[i] = optstring[choffset + i];
 	}
 
 	char header[] = "HTTP/1.1";
@@ -357,10 +348,11 @@ int path_parse(char *optstring, struct conndata *p)
 		}
 
 	strcpy(p->messages, "Header HTTP OK");
+	http_200(p);
 	print_message(p);
 
 	strcpy(p->messages, "Path richiesto: ");
-	strcat(p->messages, p->path_r);
+	strcat(p->messages, p->path);
 	print_message(p);
 
 	//strcpy(p->path_r, path_r);
@@ -411,6 +403,7 @@ int serve_request(struct conndata * cdata)
 	if (httpr->dimArray == -1)
 	{
 		destroy_httpread(httpr);
+		http_500(cdata);
 		return ERROR;
 	}
 
@@ -467,27 +460,27 @@ int send_response(struct conndata *p)
 	int req_fd = 0;
 	p->return_code = 400;
 
-	printf("\n\tPath =#%s#", p->path_r);
-	if ( p->path_r[0] == '/' && (p->path_r[1] == '\0') ) strcpy(p->path_r, "/index.html");
-	printf("\n\tPath =#%s#", p->path_r);
+	printf("\n\tPath =#%s#", p->path);
+	if ( p->path[0] == '/' && (p->path[1] == '\0') ) strcpy(p->path, "/index.html");
+	printf("\n\tPath =#%s#", p->path);
 	int x, y;
 
 	int cache_set = 0;
 	int len;
 	char mypath[300];
 	char * m;
-	if (strncmp("/res", p->path_r, 4)==0){
+	if (strncmp("/res", p->path, 4)==0){
 		cache_set = 1;
 		printf("PRIMO FLUSSO\n");
 		strcpy(mypath, "homepage");
-		strcat(mypath, p->path_r);
+		strcat(mypath, p->path);
 		printf("RES: %s\n", mypath);
 
 		wurflrdt(hwurfl, p->useragent, &x, &y);
 		printf("x: %d, y: %d\n", x, y);
 		printf("ciao\n");
-		printf("fottuto q di merda: %d\n", p->quality_factor);
-		printf("Extension found: %s\n", p->extension);
+		printf("quality factor: %d\n", p->quality_factor);
+		printf("Extension requested: %s\n", p->extension);
 		// AL POSTO DI "jpg" DOBBIAMO METTERE L'ESTENSIONE CHE ABBIAMO TROVATO
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len);
 		if (m == MAP_FAILED){
@@ -504,9 +497,9 @@ int send_response(struct conndata *p)
 		printf("SECONDO FLUSSO\n");
 		//TEST
 		char testpath[300] = "homepage";
-		strcat(testpath, p->path_r);
-		strcpy(p->path_r, testpath);
-		req_fd = open(p->path_r, O_RDONLY);
+		strcat(testpath, p->path);
+		strcpy(p->path, testpath);
+		req_fd = open(p->path, O_RDONLY);
 	}
 
 
@@ -514,11 +507,11 @@ int send_response(struct conndata *p)
 	{
 		p->return_code = 404;
 		strcpy(p->messages, "File ");
-		strcat(p->messages, p->path_r);
+		strcat(p->messages, p->path);
 		strcat(p->messages, " non trovato, invio header 404");
 		print_message(p);
 		http_404(p);
-		fprintf(stderr, "\nErrore nella open di %s", p->path_r);
+		fprintf(stderr, "\nErrore nella open di %s", p->path);
 	}
 	else
 	{
@@ -533,13 +526,13 @@ int send_response(struct conndata *p)
 
 		else{
 			struct stat st;
-			stat(p->path_r, &st);
+			stat(p->path, &st);
 			contlen = st.st_size;
 		}
 
 		//CONTROLLO DELL'ESTENSIONE
 		char mimetype_t[30] = "";
-		strcpy(mimetype_t, get_mimetype(p->path_r));
+		strcpy(mimetype_t, get_mimetype(p->path));
 		strcpy(p->messages, "Mimetype: ");
 		strcat(p->messages, mimetype_t);
 		print_message(p);

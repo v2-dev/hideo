@@ -39,8 +39,8 @@ struct httpread
 			char http_req[MAXREQ];
     	int process_id;			//tid del thread
     	int socketint;			//socket file descriptor
-    	char path_r[512];		//request path
-    	char method_r[5];		//request method
+    	char path[512];		//request path
+    	char method[5];		//request method
     	char useragent[512];	//user agent
     	char acceptfld[512];	//accept field
     	char messages[3000];	//
@@ -61,7 +61,6 @@ void http_200(struct conndata *);
 void http_500(struct conndata *);
 void http_404(struct conndata *);
 void http_501(struct conndata *);
-
 
 int find_quality(char *);
 char *get_ext(char *);

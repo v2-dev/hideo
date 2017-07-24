@@ -86,6 +86,7 @@ void *thread_main(void *arg)
 					close(cdata->socketint);
 					break;
 				}
+				
 			}
 	}
 
