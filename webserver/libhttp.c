@@ -471,6 +471,9 @@ int send_response(struct conndata *p)
 		wurflrdt(hwurfl, p->useragent, &x, &y);
 
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 22c9e52d48344ec9645e6052f2441a2a0ef7124f
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
 		if (m == NULL){
 			fileNotFound = 1;
@@ -478,13 +481,26 @@ int send_response(struct conndata *p)
 	}
 	
 	else if (strncmp("/thumbs", p->path, 7)==0){
+<<<<<<< HEAD
+=======
 		printf("mmap\n");
+>>>>>>> 22c9e52d48344ec9645e6052f2441a2a0ef7124f
 		cache_set = 1;
 		strcpy(mypath, "homepage/res");
 		strcat(mypath, (p->path)+7);
 		x=300;y=300;
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
 		if (m == NULL){
+<<<<<<< HEAD
+			fileNotFound = 1;
+		}
+	}
+	
+	else {
+		cache_set = 2;
+		strcpy(mypath, "homepage");
+		strcat(mypath, p->path);	
+=======
 =======
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len);
 		if (m == NULL) {
@@ -503,11 +519,14 @@ int send_response(struct conndata *p)
 		strcpy(mypath, "homepage");
 		strcat(mypath, p->path);
 		
+>>>>>>> 22c9e52d48344ec9645e6052f2441a2a0ef7124f
 		x=0;y=0;
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
 		if (m == NULL){
 			fileNotFound = 1;
 		}
+<<<<<<< HEAD
+=======
 =======
 		char testpath[300] = "homepage";
 		strcat(testpath, p->path);
@@ -516,8 +535,8 @@ int send_response(struct conndata *p)
 		if (req_fd == -1)
 			fileNotFound = 1;
 >>>>>>> 51bbbc060e92bf23a587ff49f212bb5481d94900
+>>>>>>> 22c9e52d48344ec9645e6052f2441a2a0ef7124f
 	}
-
 
 	if (fileNotFound) {
 		strcpy(p->messages, "File ");

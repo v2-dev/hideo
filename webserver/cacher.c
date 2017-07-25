@@ -394,6 +394,9 @@ void summary_cache(struct cache *myCache)
 }
 
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 22c9e52d48344ec9645e6052f2441a2a0ef7124f
 void releaseFile(struct cache * myCache, char * path, char * ext, int x, int y, int q, int cache_set){
 	
 =======
@@ -406,10 +409,13 @@ void releaseFile(struct cache *myCache, char *path, char *ext, int x, int y, int
 	rc = pthread_mutex_lock(&(myCache->cmutex));
 	exit_on_error(rc != 0, "Error in mutex lock cache");
 
+<<<<<<< HEAD
+=======
 	char *full_name = malloc(250 * sizeof(char));
 	exit_on_error(full_name == NULL, "Memory allocation error");
 
 <<<<<<< HEAD
+>>>>>>> 22c9e52d48344ec9645e6052f2441a2a0ef7124f
 	if (cache_set==1){
 		/* calcola il nome del file completo, cioe con tutte le directory */
 		if (compute_full_name(full_name, path, ext, x, y, q) == -1){
@@ -417,11 +423,16 @@ void releaseFile(struct cache *myCache, char *path, char *ext, int x, int y, int
 			toLog(ERR, "Error in compute_full_name", srvlog);
 			exit(EXIT_FAILURE);
 		}
+<<<<<<< HEAD
+=======
 	
+>>>>>>> 22c9e52d48344ec9645e6052f2441a2a0ef7124f
 	}
 	
 	else {
 			strcpy(full_name, path);
+<<<<<<< HEAD
+=======
 =======
 
 	/* calcola il nome del file completo, cioe con tutte le directory */
@@ -430,6 +441,7 @@ void releaseFile(struct cache *myCache, char *path, char *ext, int x, int y, int
 		toLog(ERR, "Error in compute_full_name", srvlog);
 		exit(EXIT_FAILURE);
 >>>>>>> 51bbbc060e92bf23a587ff49f212bb5481d94900
+>>>>>>> 22c9e52d48344ec9645e6052f2441a2a0ef7124f
 	}
 
 	struct hashNode *hn = get_hashNode(myCache->ht, full_name);
@@ -540,11 +552,11 @@ char *insertFile(struct cache *myCache, char *name, int *size)
 	//printf("Il file '%s' è stato inserito nell'HDD. E' stato anche inserito nella ram con fileDescriptor: %d \n", rn->name, rn->fd);
 
 	controlSize_lruTable(myCache->lt);
+	
+	(hn->count)++;
 
 	rc = pthread_mutex_unlock(&(myCache->cmutex));	/* acquisisco mutex */
 	exit_on_error(rc != 0, "Error in mutex_unlock cache");
-
-	(hn->count)++;
 
 	return m;
 }
@@ -646,9 +658,13 @@ int compute_full_name(char *full_name, char *path, char *ext, int width, int hei
 <<<<<<< HEAD
 char * obtain_file(struct cache * web_cache, char * path, char * ext, int x, int y, int q, int * size, int cache_set){
 =======
+<<<<<<< HEAD
+char * obtain_file(struct cache * web_cache, char * path, char * ext, int x, int y, int q, int * size, int cache_set){
+=======
 char *obtain_file(struct cache *web_cache, char *path, char *ext, int x, int y, int q, int *size)
 {
 >>>>>>> 51bbbc060e92bf23a587ff49f212bb5481d94900
+>>>>>>> 22c9e52d48344ec9645e6052f2441a2a0ef7124f
 
 	char *full_name = malloc(220 * sizeof(char));
 	char *m;
@@ -661,6 +677,9 @@ char *obtain_file(struct cache *web_cache, char *path, char *ext, int x, int y, 
 	if (cache_set==1){
 
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 22c9e52d48344ec9645e6052f2441a2a0ef7124f
 		/* calcola il nome del file completo, cioe con tutte le directory */
 		if (compute_full_name(full_name, path, ext, x, y, q) == -1){
 			char print_msg[400];
@@ -676,6 +695,8 @@ char *obtain_file(struct cache *web_cache, char *path, char *ext, int x, int y, 
 		
 		strcpy(full_name, path);
 		
+<<<<<<< HEAD
+=======
 =======
 	/* calcola il nome del file completo, cioe con tutte le directory */
 	if (compute_full_name(full_name, path, ext, x, y, q) == -1) {
@@ -685,6 +706,7 @@ char *obtain_file(struct cache *web_cache, char *path, char *ext, int x, int y, 
 		free(full_name);
 		return NULL;
 >>>>>>> 51bbbc060e92bf23a587ff49f212bb5481d94900
+>>>>>>> 22c9e52d48344ec9645e6052f2441a2a0ef7124f
 	}
 
 	/* se il file è nella cache, ritorna il suo fileDescriptor */
@@ -693,10 +715,13 @@ char *obtain_file(struct cache *web_cache, char *path, char *ext, int x, int y, 
 	if (m != NULL) return m;
 	
 	if (cache_set==1){
+<<<<<<< HEAD
+=======
 =======
 	if (m != NULL)
 		return m;
 >>>>>>> 51bbbc060e92bf23a587ff49f212bb5481d94900
+>>>>>>> 22c9e52d48344ec9645e6052f2441a2a0ef7124f
 
 		/* il file non c'è, bisogna convertirlo dall'originale */
 		file_convert(path, ext, x, y, q);
