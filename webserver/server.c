@@ -27,12 +27,12 @@ void pr_cpu_time(void)
 	struct rusage myusage, childusage;
 
 	if (getrusage(RUSAGE_SELF, &myusage) < 0) {
-    toLog(ERR, "error in getrusage\n", srvlog);
+    		toLog(ERR, srvlog, "error in getrusage\n");
 		exit(EXIT_FAILURE);
 	}
 
 	if (getrusage(RUSAGE_CHILDREN, &childusage) < 0) {
-		toLog(ERR, "error in getrusage\n", srvlog);
+		toLog(ERR, srvlog, "error in getrusage\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -43,7 +43,7 @@ void pr_cpu_time(void)
 
   char buf[256];
 	sprintf(buf, "\nuser time = %g, sys time = %g\n", user, sys);
-  toLog(NFO, buf, srvlog);
+  toLog(NFO,srvlog ,buf);
 }
 
 void sig_int()
@@ -89,20 +89,20 @@ int main(int argc, char **argv)
 	backlog = atoi(config_file.backlog);	/*backlog size */
 	loglvl = atoi(config_file.loglvl);
 
-	srvlog = create_logger("server.log", loglvl);
+	srvlog = create_logger("server.log", loglvl, 1);
 
 	web_cache = create_cache();
 
 	hwurfl = get_wurfldb("wurfl-eval.xml");
 	if (hwurfl == NULL) {
-    toLog(ERR, "Error in wurlfd load database\n", srvlog);
+    toLog(ERR,srvlog, "Error in wurlfd load database\n");
 		exit(EXIT_FAILURE);
 	}
 
 	signal(SIGPIPE, SIG_IGN);
 
 	if (signal(SIGINT, sig_int) == SIG_ERR) {
-		toLog(ERR, "Error in signal\n", srvlog);
+		toLog(ERR,srvlog, "Error in signal\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -113,7 +113,7 @@ int main(int argc, char **argv)
 
 	if ((listensd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) {	/* crea il socket */
 		perror("error in socket()\n");
-    toLog(ERR, "Error in socket()\n", srvlog);
+    toLog(ERR,srvlog, "Error in socket()\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -126,24 +126,24 @@ int main(int argc, char **argv)
 	optlen = sizeof(optval);
 
 	if (setsockopt(listensd, SOL_SOCKET, SO_REUSEPORT, &optval, optlen) < 0)
-    toLog(WRN, "Unable to set SO_REUSEPORT on listening socket\n", srvlog);
+    toLog(WRN,srvlog, "Unable to set SO_REUSEPORT on listening socket\n");
 
 	if (setsockopt(listensd, SOL_SOCKET, SO_KEEPALIVE, &optval, optlen) < 0) {
 		perror("errore in setsockopt");
-    toLog(ERR, "cannot set SO_KEEPALIVE option on socket. Abort.\n", srvlog);
+    toLog(ERR,srvlog, "cannot set SO_KEEPALIVE option on socket. Abort.\n");
 		close(listensd);
 		exit(EXIT_FAILURE);
 	}
-  toLog(NFO, "SO_KEEPALIVE set\n", srvlog);
+  toLog(NFO,srvlog ,"SO_KEEPALIVE set\n");
 
 	/* assegna l'indirizzo al socket */
 	if ((bind(listensd, (struct sockaddr *) &servaddr, sizeof(servaddr))) < 0) {
-      toLog(ERR, "error on bind()", srvlog);
+      toLog(ERR, srvlog, "error on bind()");
       exit(EXIT_FAILURE);
   }
 
 	if (listen(listensd, backlog) < 0) {
-    toLog(ERR, "error on listen socket()", srvlog);
+    toLog(ERR,srvlog,"error on listen socket()");
     exit(EXIT_FAILURE);
   }
 
@@ -151,7 +151,7 @@ int main(int argc, char **argv)
 
 	/*mutex initializer */
 	if (pthread_mutex_init(&mtx, NULL) != 0){
-    toLog(ERR, "Error on pthread_mutex_init()", srvlog);
+    toLog(ERR,srvlog, "Error on pthread_mutex_init()");
     exit(EXIT_FAILURE);
   }
 

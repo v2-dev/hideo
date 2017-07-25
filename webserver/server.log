@@ -1,0 +1,48 @@
+[NFO] [5024] Cache folder created
+[NFO] [5024] Cache manager initialized correctly
+[NFO] [5024] SO_KEEPALIVE set
+
+[NFO] [5053] Thread created [2442349559]
+[NFO] [5054] Thread created [2442316775]
+[NFO] [5053] ...connection accepted!
+[NFO] [5053] closing connection...
+[NFO] [5053] ...connection closed.
+[NFO] [5054] ...connection accepted!
+[NFO] [5053] ...connection accepted!
+[NFO] [5053] closing connection...
+[NFO] [5053] ...connection closed.
+[NFO] [5053] ...connection accepted!
+[NFO] [5054] closing connection...
+[NFO] [5054] ...connection closed.
+[NFO] [5054] ...connection accepted!
+[NFO] [5053] closing connection...
+[NFO] [5053] ...connection closed.
+[NFO] [5053] ...connection accepted!
+[NFO] [5054] closing connection...
+[NFO] [5054] ...connection closed.
+[NFO] [5054] ...connection accepted!
+[ERR] [5053] Error opening: homepage/favicon.ico
+[ERR] [5053] Error insert in cache the file: homepage/favicon.ico
+
+[NFO] [5053] closing connection...
+[NFO] [5053] ...connection closed.
+[NFO] [5054] closing connection...
+[NFO] [5054] ...connection closed.
+[NFO] [5053] ...connection accepted!
+[NFO] [5053] closing connection...
+[NFO] [5053] ...connection closed.
+[NFO] [5054] ...connection accepted!
+[NFO] [5054] closing connection...
+[NFO] [5054] ...connection closed.
+[NFO] [5053] ...connection accepted!
+[NFO] [5053] closing connection...
+[NFO] [5053] ...connection closed.
+[NFO] [5054] ...connection accepted!
+[NFO] [5054] closing connection...
+[NFO] [5054] ...connection closed.
+[NFO] [5053] ...connection accepted!
+[NFO] [5053] closing connection...
+[NFO] [5053] ...connection closed.
+[NFO] [5054] ...connection accepted!
+[NFO] [5054] closing connection...
+[NFO] [5054] ...connection closed.

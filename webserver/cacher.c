@@ -5,9 +5,7 @@
 void exit_on_error(int cond, char *msg)
 {
 	if (cond) {
-		char print_msg[350];
-		sprintf(print_msg, "%s", msg);
-		toLog(ERR, print_msg, srvlog);
+		toLog(ERR, srvlog, "%s", msg);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -17,26 +15,21 @@ void exit_on_error(int cond, char *msg)
 char *open_and_map_file(char *filename, int *size)
 {
 
-	char print_msg[350];
-
 	int fd = open(filename, O_RDONLY);
 	if (fd == -1) {
-		sprintf(print_msg, "Error opening: %s", filename);
-		toLog(ERR, print_msg, srvlog);
+		toLog(ERR,srvlog, "Error opening: %s", filename);
 		return NULL;
 	}
 
 	int len = lseek(fd, 0, SEEK_END);
 	if (len == -1) {
-		sprintf(print_msg, "Error in lseek with file: %s\n", filename);
-		toLog(ERR, print_msg, srvlog);
+		toLog(ERR, srvlog, "Error in lseek with file: %s", filename);
 		return NULL;
 	}
 
 	void *p = mmap(NULL, len, PROT_READ, MAP_SHARED, fd, 0);
 	if (p == MAP_FAILED) {
-		sprintf(print_msg, "Error in mmap with file: %s\n", filename);
-		toLog(ERR, print_msg, srvlog);
+		toLog(ERR, srvlog, "Error in mmap with file: %s", filename);
 		return NULL;
 	}
 
@@ -78,11 +71,11 @@ struct cache *create_cache()
 	rc2 = system("mkdir cache");
 
 	if ((rc1 == -1) || (rc2 == -1)) {
-		toLog(ERR, "Error init cache folder", srvlog);
+		toLog(ERR, srvlog, "Error init cache folder");
 		exit(EXIT_FAILURE);
 	}
 
-	toLog(NFO, "Cache folder created", srvlog);
+	toLog(NFO, srvlog, "Cache folder created");
 
 	struct cache *myCache = alloc_cache();
 
@@ -92,7 +85,7 @@ struct cache *create_cache()
 	int rc = pthread_mutex_init(&(myCache->cmutex), NULL);	//inizializzo il mutex
 	exit_on_error(rc != 0, "Error in mutex_init cache");
 
-	toLog(NFO, "Cache manager initialized correctly", srvlog);
+	toLog(NFO, srvlog, "Cache manager initialized correctly");
 
 	return myCache;
 }
@@ -286,9 +279,7 @@ void controlSize_lruTable(struct lruTable *lt)
 				   elimina il ramNode utilizzato meno recentemente */
 
 	if (lt->count > SIZE_RAM_CACHE) {
-		char print_msg[350];
-		sprintf(print_msg, "The maximum number of files mapped in RAM has been reached: %d", SIZE_RAM_CACHE);
-		toLog(NFO, print_msg, srvlog);
+		toLog(NFO, srvlog, "The maximum number of files mapped in RAM has been reached: %d", SIZE_RAM_CACHE);
 		delete_ramNode(lt, lt->rear->prev);
 	}
 }
@@ -312,8 +303,6 @@ void moveOnTop_ramNode(struct lruTable *lt, struct ramNode *ramNodeToTop)
 void delete_ramNode(struct lruTable *lt, struct ramNode *ramNodeToDel)
 {				/* elimina il ramNode scelto dalla tabella LRU */
 
-	char print_msg[350];
-
 	struct hashNode *hn = ramNodeToDel->refhash;
 
 	int rc = pthread_mutex_lock(&(hn->hashLock));
@@ -335,8 +324,7 @@ void delete_ramNode(struct lruTable *lt, struct ramNode *ramNodeToDel)
 
 	ramNodeToDel->refhash->refram = NULL;	/* disassocia il ramNode con il suo hashNode */
 
-	sprintf(print_msg, "'%s' is deleted from RAM", ramNodeToDel->name);
-	toLog(NFO, print_msg, srvlog);
+	toLog(NFO, srvlog, "'%s' is deleted from RAM", ramNodeToDel->name);
 
 	rc = munmap(ramNodeToDel->m, ramNodeToDel->len);
 	exit_on_error(rc == -1, "Error in munmap");
@@ -408,7 +396,7 @@ void releaseFile(struct cache * myCache, char * path, char * ext, int x, int y, 
 		/* calcola il nome del file completo, cioe con tutte le directory */
 		if (compute_full_name(full_name, path, ext, x, y, q) == -1){
 			free(full_name);
-			toLog(ERR, "Error in compute_full_name", srvlog);
+			toLog(ERR, srvlog, "Error in compute_full_name");
 			exit(EXIT_FAILURE);
 		}
 
@@ -421,7 +409,7 @@ void releaseFile(struct cache * myCache, char * path, char * ext, int x, int y, 
 	struct hashNode *hn = get_hashNode(myCache->ht, full_name);
 
 	if (hn == NULL) {
-		toLog(ERR, "Unexpected error hasnNode in releaseFile: the file does not exist", srvlog);
+		toLog(ERR, srvlog, "Unexpected error hasnNode in releaseFile: the file does not exist");
 		exit(EXIT_FAILURE);
 	}
 
@@ -587,9 +575,7 @@ int compute_full_name(char *full_name, char *path, char *ext, int width, int hei
 	char *tempStr = strrchr(name, '/');
 
 	if (tempStr == NULL) {
-		char print_msg[350];
-		sprintf(print_msg, "Wrong format file (1): %s", name);
-		toLog(WRN, print_msg, srvlog);
+		toLog(WRN, srvlog, "Wrong format file (1): %s", name);
 		return -1;
 	}
 
@@ -597,9 +583,7 @@ int compute_full_name(char *full_name, char *path, char *ext, int width, int hei
 
 	char *tempStrTwo = strrchr(name, '.');
 	if (tempStrTwo == NULL) {
-		char print_msg[350];
-		sprintf(print_msg, "Wrong format file (2): %s", name);
-		toLog(WRN, print_msg, srvlog);
+		toLog(WRN, srvlog, "Wrong format file (2): %s", name);
 		return -1;
 	}
 
@@ -635,18 +619,13 @@ char * obtain_file(struct cache * web_cache, char * path, char * ext, int x, int
 	char *full_name = malloc(220 * sizeof(char));
 	char *m;
 
-	if (full_name == NULL) {
-		toLog(ERR, "Memory allocation error", srvlog);;
-		exit(EXIT_FAILURE);
-	}
+	exit_on_error(full_name==NULL, "Memory allocation error");
 	
 	if (cache_set==1){
 		
 		/* calcola il nome del file completo, cioe con tutte le directory */
 		if (compute_full_name(full_name, path, ext, x, y, q) == -1){
-			char print_msg[400];
-			sprintf(print_msg, "Error in compute_full_name path: %s, ext: %s, x: %d, y: %d, q: %d", path, ext, x, y, q);
-			toLog(ERR, print_msg, srvlog);
+			toLog(ERR, srvlog, "Error in compute_full_name path: %s, ext: %s, x: %d, y: %d, q: %d", path, ext, x, y, q);
 			free(full_name);
 			return NULL;
 		}
@@ -670,9 +649,7 @@ char * obtain_file(struct cache * web_cache, char * path, char * ext, int x, int
 
 	m = insertFile(web_cache, full_name, size);
 	if (m == NULL) {
-		char print_msg[400];
-		sprintf(print_msg, "Error insert in cache the file: %s\n", full_name);
-		toLog(ERR, print_msg, srvlog);
+		toLog(ERR, srvlog,"Error insert in cache the file: %s\n", full_name);
 		free(full_name);
 		return NULL;
 	}
