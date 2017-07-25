@@ -48,7 +48,6 @@ void pr_cpu_time(void)
 
 void sig_int()
 {
-	int i;
 	void pr_cpu_time(void);
 
 	pr_cpu_time();
@@ -61,9 +60,7 @@ int main(int argc, char **argv)
 	static int nthreads;
 	static short servport;
 	static int backlog;
-	int loglvl;
-
-	int i = 0;
+	int loglvl, i;
 
 	if (argc > 1)
 		printf("\n %s : No arguments required. Use only server.cfg\n ", argv[0]);
@@ -81,7 +78,7 @@ int main(int argc, char **argv)
 	fprintf(stdout, "Reading config file " CONFIG_FILE "\n");
 	if (!parse_config()) {
 		fprintf(stderr, "Failed to read config file: %s\n", strerror(errno));
-		exit(EXIT_FAILURE);
+    fprintf(stderr, "[WRN] %s will be executed with default values\n", argv[0]);
 	}
 
 	fprintf(stdout, "Final values:\n");
