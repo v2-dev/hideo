@@ -469,11 +469,6 @@ int send_response(struct conndata *p)
 		strcpy(mypath, "homepage");
 		strcat(mypath, p->path);
 		wurflrdt(hwurfl, p->useragent, &x, &y);
-
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 22c9e52d48344ec9645e6052f2441a2a0ef7124f
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
 		if (m == NULL){
 			fileNotFound = 1;
@@ -481,17 +476,12 @@ int send_response(struct conndata *p)
 	}
 	
 	else if (strncmp("/thumbs", p->path, 7)==0){
-<<<<<<< HEAD
-=======
-		printf("mmap\n");
->>>>>>> 22c9e52d48344ec9645e6052f2441a2a0ef7124f
 		cache_set = 1;
 		strcpy(mypath, "homepage/res");
 		strcat(mypath, (p->path)+7);
 		x=300;y=300;
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
 		if (m == NULL){
-<<<<<<< HEAD
 			fileNotFound = 1;
 		}
 	}
@@ -500,42 +490,10 @@ int send_response(struct conndata *p)
 		cache_set = 2;
 		strcpy(mypath, "homepage");
 		strcat(mypath, p->path);	
-=======
-=======
-		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len);
-		if (m == NULL) {
->>>>>>> 51bbbc060e92bf23a587ff49f212bb5481d94900
-			fileNotFound = 1;
-		}
-		
-	
-	
-	}
-
-	else {
-<<<<<<< HEAD
-		printf("page\n");
-		cache_set = 2;
-		strcpy(mypath, "homepage");
-		strcat(mypath, p->path);
-		
->>>>>>> 22c9e52d48344ec9645e6052f2441a2a0ef7124f
-		x=0;y=0;
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
-		if (m == NULL){
+		if (m == NULL) {
 			fileNotFound = 1;
 		}
-<<<<<<< HEAD
-=======
-=======
-		char testpath[300] = "homepage";
-		strcat(testpath, p->path);
-		strcpy(p->path, testpath);
-		req_fd = open(p->path, O_RDONLY);
-		if (req_fd == -1)
-			fileNotFound = 1;
->>>>>>> 51bbbc060e92bf23a587ff49f212bb5481d94900
->>>>>>> 22c9e52d48344ec9645e6052f2441a2a0ef7124f
 	}
 
 	if (fileNotFound) {
@@ -575,7 +533,6 @@ int send_response(struct conndata *p)
 
 		conndf_rv = writen(p->socketint, header200, strlen(header200));
 		if (conndf_rv == -1) {
-<<<<<<< HEAD
 			if (cache_set){
 				releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor, cache_set);
 			}
@@ -588,26 +545,10 @@ int send_response(struct conndata *p)
 				releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor, cache_set);
 			}
 			else close(req_fd);
-=======
-			if (cache_set) {
-				releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor);
-			} else
-				close(req_fd);
 			return 2;
 		}
 
-		if (p->get1head2 == 2) {
-			if (cache_set) {
-				releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor);
-			} else
-				close(req_fd);
->>>>>>> 51bbbc060e92bf23a587ff49f212bb5481d94900
-			strcpy(p->messages, "Inviato solo l'Header, metodo HEAD richiesto");
-			print_message(p);
-		}
 
-
-<<<<<<< HEAD
 		char * bytesToSend = Malloc(sizeof(char) * contlen);
 		if (cache_set){
 				conndf_rv = writen(p->socketint, m, contlen);
@@ -616,16 +557,6 @@ int send_response(struct conndata *p)
 				if (conndf_rv == -1) {
 					return 2;
 				}
-=======
-		char *bytesToSend = Malloc(sizeof(char) * contlen);
-		if (cache_set) {
-			conndf_rv = writen(p->socketint, m, contlen);
-			Free(bytesToSend);
-			releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor);
-			if (conndf_rv == -1) {
-				return 2;
-			}
->>>>>>> 51bbbc060e92bf23a587ff49f212bb5481d94900
 		}
 
 		else {
