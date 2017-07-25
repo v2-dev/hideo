@@ -362,7 +362,7 @@ void summary_cache(struct cache * myCache){	/* stampa varie informazioni sullo s
 	}
 }
 
-void releaseFile(struct cache * myCache, char * path, char * ext, int x, int y, int q){
+void releaseFile(struct cache * myCache, char * path, char * ext, int x, int y, int q, int cache_set){
 	
 	int rc;
 	
@@ -372,12 +372,18 @@ void releaseFile(struct cache * myCache, char * path, char * ext, int x, int y, 
 	char * full_name = malloc(250 * sizeof(char));
 	exit_on_error(full_name==NULL, "Memory allocation error");
 
-
-	/* calcola il nome del file completo, cioe con tutte le directory */
-	if (compute_full_name(full_name, path, ext, x, y, q) == -1){
-		free(full_name);
-		toLog(ERR, "Error in compute_full_name", srvlog);
-		exit(EXIT_FAILURE);
+	if (cache_set==1){
+		/* calcola il nome del file completo, cioe con tutte le directory */
+		if (compute_full_name(full_name, path, ext, x, y, q) == -1){
+			free(full_name);
+			toLog(ERR, "Error in compute_full_name", srvlog);
+			exit(EXIT_FAILURE);
+		}
+	
+	}
+	
+	else {
+			strcpy(full_name, path);
 	}
 
 	struct hashNode * hn = get_hashNode(myCache->ht, full_name);
@@ -588,7 +594,7 @@ int compute_full_name(char * full_name, char * path, char * ext, int width, int 
 }
 
 /* ritorna il file descriptor del file (-1 se errore) */
-char * obtain_file(struct cache * web_cache, char * path, char * ext, int x, int y, int q, int * size){
+char * obtain_file(struct cache * web_cache, char * path, char * ext, int x, int y, int q, int * size, int cache_set){
 
 	char * full_name = malloc(220 * sizeof(char));
 	char * m;
@@ -597,23 +603,37 @@ char * obtain_file(struct cache * web_cache, char * path, char * ext, int x, int
 		toLog(ERR, "Memory allocation error", srvlog);;
 		exit(EXIT_FAILURE);
 	}
+	
+	if (cache_set==1){
 
-	/* calcola il nome del file completo, cioe con tutte le directory */
-	if (compute_full_name(full_name, path, ext, x, y, q) == -1){
-		char print_msg[400];
-		sprintf(print_msg, "Error in compute_full_name path: %s, ext: %s, x: %d, y: %d, q: %d", path, ext, x, y, q);
-		toLog(ERR, print_msg, srvlog);
-		free(full_name);
-		return NULL;
+		/* calcola il nome del file completo, cioe con tutte le directory */
+		if (compute_full_name(full_name, path, ext, x, y, q) == -1){
+			char print_msg[400];
+			sprintf(print_msg, "Error in compute_full_name path: %s, ext: %s, x: %d, y: %d, q: %d", path, ext, x, y, q);
+			toLog(ERR, print_msg, srvlog);
+			free(full_name);
+			return NULL;
+		}
+	
+	}
+	
+	else {
+		
+		strcpy(full_name, path);
+		
 	}
 
 	/* se il file è nella cache, ritorna il suo fileDescriptor */
 	m = getAndLockFile(web_cache, full_name, size);
 	if (m != NULL) return m;
+	
+	if (cache_set==1){
 
-	/* il file non c'è, bisogna convertirlo dall'originale */
-	file_convert(path, ext, x, y, q);
-	//printf("fullname: %s\n", full_name);
+		/* il file non c'è, bisogna convertirlo dall'originale */
+		file_convert(path, ext, x, y, q);
+		//printf("fullname: %s\n", full_name);
+	
+	}
 
 	m = insertFile(web_cache, full_name, size);
 	if (m == NULL){
