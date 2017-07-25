@@ -1,5 +1,6 @@
 #include "utils.h"
 
+
 void err_exit(const char *errmsg, int errnum)
 {
 	fprintf(stderr, "%s\n", errmsg);
@@ -10,8 +11,8 @@ void err_exit(const char *errmsg, int errnum)
 /* unix-style error */
 void unix_error(char *msg)
 {
-    fprintf(stderr, "%s: %s\n", msg, strerror(errno));
-    exit(0);
+	fprintf(stderr, "%s: %s\n", msg, strerror(errno));
+	exit(0);
 }
 
 /*************************************
@@ -39,34 +40,34 @@ void printerr_and_exit(const char *errmsg)
 
 void *Malloc(size_t size)
 {
-    void *p;
+	void *p;
 
-    if ((p  = malloc(size)) == NULL)
-			unix_error("Malloc error");
-    return p;
+	if ((p = malloc(size)) == NULL)
+		unix_error("Malloc error");
+	return p;
 }
 
 void *Realloc(void *ptr, size_t size)
 {
-    void *p;
+	void *p;
 
-    if ((p  = realloc(ptr, size)) == NULL)
-			unix_error("Realloc error");
-    return p;
+	if ((p = realloc(ptr, size)) == NULL)
+		unix_error("Realloc error");
+	return p;
 }
 
 void *Calloc(size_t nmemb, size_t size)
 {
-    void *p;
+	void *p;
 
-    if ((p = calloc(nmemb, size)) == NULL)
-			unix_error("Calloc error");
-    return p;
+	if ((p = calloc(nmemb, size)) == NULL)
+		unix_error("Calloc error");
+	return p;
 }
 
 void Free(void *ptr)
 {
-    free(ptr);
+	free(ptr);
 	ptr = NULL;
 }
 
@@ -75,17 +76,17 @@ void Free(void *ptr)
  ***************************************/
 void *Mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset)
 {
-    void *ptr;
+	void *ptr;
 
-    if ((ptr = mmap(addr, len, prot, flags, fd, offset)) == ((void *) -1))
-			unix_error("mmap error");
-    return(ptr);
+	if ((ptr = mmap(addr, len, prot, flags, fd, offset)) == ((void *) -1))
+		unix_error("mmap error");
+	return (ptr);
 }
 
 void Munmap(void *start, size_t length)
 {
-    if (munmap(start, length) < 0)
-			unix_error("munmap error");
+	if (munmap(start, length) < 0)
+		unix_error("munmap error");
 }
 
 size_t recv_msg(int fd, char *usr_buff, size_t nbytes)
@@ -175,103 +176,104 @@ size_t send_msg(int fd, char *buff)
 
 ssize_t readn(int fd, void *buf, size_t n)
 {
-  size_t  nleft;
-  ssize_t nread;
-  char *ptr;
+	size_t nleft;
+	ssize_t nread;
+	char *ptr;
 
-  ptr = buf;
-  nleft = n;
-  while (nleft > 0) {
-    if ((nread = read(fd, ptr, nleft)) < 0) {
-      if (errno == EINTR)
-        nread = 0;
-      else
-        return(-1);
-    }
-    else if (nread == 0)
-      break;	/* EOF */
+	ptr = buf;
+	nleft = n;
+	while (nleft > 0) {
+		if ((nread = read(fd, ptr, nleft)) < 0) {
+			if (errno == EINTR)
+				nread = 0;
+			else
+				return (-1);
+		} else if (nread == 0)
+			break;	/* EOF */
 
-    nleft -= nread;
-    ptr += nread;
-  }
-  return(n-nleft);	/* restituisce >= 0 */
+		nleft -= nread;
+		ptr += nread;
+	}
+	return (n - nleft);	/* restituisce >= 0 */
 }
 
 /******/
 ssize_t writen(int fd, const void *buf, size_t n)
 {
-  size_t nleft;
-  ssize_t nwritten;
-  const char *ptr;
+	size_t nleft;
+	ssize_t nwritten;
+	const char *ptr;
 
-  ptr = buf;
-  nleft = n;
-  while (nleft > 0) {
-    if ((nwritten = write(fd, ptr, nleft)) <= 0) {
-       if ((nwritten < 0) && (errno == EINTR)) nwritten = 0;
-       else return(-1);	    /* errore */
-    }
-    nleft -= nwritten;
-    ptr += nwritten;
-  }
-  return(n-nleft);	/* restituisce >= 0 */
+	ptr = buf;
+	nleft = n;
+	while (nleft > 0) {
+		if ((nwritten = write(fd, ptr, nleft)) <= 0) {
+			if ((nwritten < 0) && (errno == EINTR))
+				nwritten = 0;
+			else
+				return (-1);	/* errore */
+		}
+		nleft -= nwritten;
+		ptr += nwritten;
+	}
+	return (n - nleft);	/* restituisce >= 0 */
 }
 
 
 /*  Read a line from a socket  */
 
-ssize_t Readline(int sockd, void *vptr, ssize_t maxlen) {
+ssize_t Readline(int sockd, void *vptr, ssize_t maxlen)
+{
 
-    ssize_t n, rc;
-    char    c, *buffer;
+	ssize_t n, rc;
+	char c, *buffer;
 
-    buffer = vptr;
+	buffer = vptr;
 
-    for ( n = 1; n < maxlen; n++) {
+	for (n = 1; n < maxlen; n++) {
 
-				if ( (rc = read(sockd, &c, 1)) == 1 ) {
-	    			*buffer++ = c;
-	    			if ( c == '\n' )
-							break;
-						}
-				else if ( rc == 0 ) {
-	    		if ( n == 1 )
-						return 0;
-	    		else
-						break;
-				}
-				else {
-	    		if ( errno == EINTR )
-						continue;
-	    	unix_error("Error in Readline()");
-			}
-    }
+		if ((rc = read(sockd, &c, 1)) == 1) {
+			*buffer++ = c;
+			if (c == '\n')
+				break;
+		} else if (rc == 0) {
+			if (n == 1)
+				return 0;
+			else
+				break;
+		} else {
+			if (errno == EINTR)
+				continue;
+			unix_error("Error in Readline()");
+		}
+	}
 
-    *buffer = 0;
-    return n;
+	*buffer = 0;
+	return n;
 }
 
 
 /*  Write a line to a socket  */
 
-ssize_t Writeline(int sockd, const void *vptr, ssize_t n) {
-    size_t      nleft;
-    ssize_t     nwritten;
-    const char *buffer;
+ssize_t Writeline(int sockd, const void *vptr, ssize_t n)
+{
+	size_t nleft;
+	ssize_t nwritten;
+	const char *buffer;
 
-    buffer = vptr;
-    nleft  = n;
+	buffer = vptr;
+	nleft = n;
 
-    while ( nleft > 0 ) {
-	if ( (nwritten = write(sockd, buffer, nleft)) <= 0 ) {
-	    if ( errno == EINTR )
-		nwritten = 0;
-	    else
-		unix_error("Error in Writeline()");
+	while (nleft > 0) {
+		if ((nwritten = write(sockd, buffer, nleft)) <= 0) {
+			if (errno == EINTR)
+				nwritten = 0;
+			else
+				unix_error("Error in Writeline()");
+		}
+		nleft -= nwritten;
+		buffer += nwritten;
 	}
-	nleft  -= nwritten;
-	buffer += nwritten;
-    }
 
-    return n;
+	return n;
 }

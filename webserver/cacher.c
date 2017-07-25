@@ -2,8 +2,9 @@
 #include "convertweb.h"
 #include "logger.h"
 
-void exit_on_error(int cond, char * msg){
-	if(cond){
+void exit_on_error(int cond, char *msg)
+{
+	if (cond) {
 		char print_msg[350];
 		sprintf(print_msg, "%s", msg);
 		toLog(ERR, print_msg, srvlog);
@@ -13,102 +14,110 @@ void exit_on_error(int cond, char * msg){
 
 
 /* ritorna NULL in caso di errore */
-char * open_and_map_file(char * filename, int * size){
+char *open_and_map_file(char *filename, int *size)
+{
 
 	char print_msg[350];
-	
+
 	int fd = open(filename, O_RDONLY);
-	if (fd==-1) {
+	if (fd == -1) {
 		sprintf(print_msg, "Error opening: %s", filename);
 		toLog(ERR, print_msg, srvlog);
 		return NULL;
 	}
-	
+
 	int len = lseek(fd, 0, SEEK_END);
-	if (len==-1) {
+	if (len == -1) {
 		sprintf(print_msg, "Error in lseek with file: %s\n", filename);
 		toLog(ERR, print_msg, srvlog);
 		return NULL;
 	}
 
-	void * p = mmap(NULL, len, PROT_READ, MAP_SHARED, fd, 0);
-	if (p==MAP_FAILED){
-			sprintf(print_msg, "Error in mmap with file: %s\n", filename);
-			toLog(ERR, print_msg, srvlog);
-			return NULL;
+	void *p = mmap(NULL, len, PROT_READ, MAP_SHARED, fd, 0);
+	if (p == MAP_FAILED) {
+		sprintf(print_msg, "Error in mmap with file: %s\n", filename);
+		toLog(ERR, print_msg, srvlog);
+		return NULL;
 	}
 
-	close(fd); //not critical
+	close(fd);		//not critical
 
 	*size = len;
 
 	return (char *) p;
 }
 
-int openFittizia(){ /* serve solo per fare alcuni test velocemente */
+int openFittizia()
+{				/* serve solo per fare alcuni test velocemente */
 
 	//n++;
 	return 0;
 
 }
 
-struct cache * alloc_cache(void){ 	/* alloca la memoria per una cache */
+struct cache *alloc_cache(void)
+{				/* alloca la memoria per una cache */
 
-	struct cache * ce;
+	struct cache *ce;
 	ce = malloc(sizeof(struct cache));
-	exit_on_error(ce==NULL, "Memory allocation error");
+	exit_on_error(ce == NULL, "Memory allocation error");
 	return ce;
 }
 
-void free_cache(struct cache * ce){	/* libera la memoria occupata dalla cache */
+void free_cache(struct cache *ce)
+{				/* libera la memoria occupata dalla cache */
 
 	free(ce);
 }
 
-struct cache * create_cache(){		/* crea una nuova cache */
+struct cache *create_cache()
+{				/* crea una nuova cache */
 
 	int rc1, rc2;
 	rc1 = system("rm -r cache");
 	rc2 = system("mkdir cache");
-	
-	if((rc1==-1)||(rc2==-1)){
-			toLog(ERR, "Error init cache folder", srvlog);
-			exit(EXIT_FAILURE);
+
+	if ((rc1 == -1) || (rc2 == -1)) {
+		toLog(ERR, "Error init cache folder", srvlog);
+		exit(EXIT_FAILURE);
 	}
-	
+
 	toLog(NFO, "Cache folder created", srvlog);
-	
-	struct cache * myCache = alloc_cache();
+
+	struct cache *myCache = alloc_cache();
 
 	myCache->ht = create_hashTable();
 	myCache->lt = create_lruTable();
 
-	int rc = pthread_mutex_init(&(myCache->cmutex), NULL); //inizializzo il mutex
+	int rc = pthread_mutex_init(&(myCache->cmutex), NULL);	//inizializzo il mutex
 	exit_on_error(rc != 0, "Error in mutex_init cache");
-	
+
 	toLog(NFO, "Cache manager initialized correctly", srvlog);
 
 	return myCache;
 }
 
 
-struct lruTable * alloc_lruTable(void){ 	/* alloca la memoria per una tabella LRU */
+struct lruTable *alloc_lruTable(void)
+{				/* alloca la memoria per una tabella LRU */
 
-	struct lruTable * lt;
+	struct lruTable *lt;
 	lt = malloc(sizeof(struct lruTable));
-	exit_on_error(lt==NULL, "Memory allocation error");
+	exit_on_error(lt == NULL, "Memory allocation error");
 	return lt;
 }
 
-void free_lruTable(struct lruTable * lt){	/* libera la memoria occupata da una tabella LRU */
+void free_lruTable(struct lruTable *lt)
+{				/* libera la memoria occupata da una tabella LRU */
 
 	free(lt);
 }
 
 
-struct lruTable * create_lruTable(void){	/* crea una tabella LRU */
+struct lruTable *create_lruTable(void)
+{				/* crea una tabella LRU */
 
-	struct lruTable * lt;
+	struct lruTable *lt;
 	lt = alloc_lruTable();
 
 	lt->count = 0;
@@ -122,90 +131,102 @@ struct lruTable * create_lruTable(void){	/* crea una tabella LRU */
 }
 
 
-struct hashNode ** create_hashTable(void){	/* crea una tabella hash */
+struct hashNode **create_hashTable(void)
+{				/* crea una tabella hash */
 
-	struct hashNode ** ht;
+	struct hashNode **ht;
 
 	size_t size = sizeof(struct hashNode *) * (SIZE_HASH_TABLE);
 	ht = malloc(size);
-	exit_on_error(ht==NULL, "Memory allocation error");
+	exit_on_error(ht == NULL, "Memory allocation error");
 
-	for(int i = 0; i < SIZE_HASH_TABLE; i++) ht[i] = NULL;
+	for (int i = 0; i < SIZE_HASH_TABLE; i++)
+		ht[i] = NULL;
 
 	return ht;
 }
 
-struct hashNode * alloc_hashNode(void){		/* alloca la memoria per un hashNode */
+struct hashNode *alloc_hashNode(void)
+{				/* alloca la memoria per un hashNode */
 
-	struct hashNode * hn;
+	struct hashNode *hn;
 	hn = malloc(sizeof(struct hashNode));
-	exit_on_error(hn==NULL, "Memory allocation error");
+	exit_on_error(hn == NULL, "Memory allocation error");
 	return hn;
 }
 
-struct hashNode * create_hashNode(char * name){		/* crea un nuovo hashNode */
+struct hashNode *create_hashNode(char *name)
+{				/* crea un nuovo hashNode */
 
-	struct hashNode * hn = alloc_hashNode();
+	struct hashNode *hn = alloc_hashNode();
 
 	strcpy(hn->name, name);
 	hn->next = NULL;
 	hn->refram = NULL;
-	
+
 	int rc = pthread_mutex_init(&(hn->hashLock), NULL);
 	exit_on_error(rc != 0, "Error in pthread_mutex_init hashLock");
 
 	return hn;
 }
 
-int get_hashValue(char *s){ 	/* ottiene la chiave per la stringa s per la tabella hash */
+int get_hashValue(char *s)
+{				/* ottiene la chiave per la stringa s per la tabella hash */
 
 	long value = 0;
 
-	for (int i =0;*(s+i) != '\0'; i++)
-		value = value + *(s+i);
+	for (int i = 0; *(s + i) != '\0'; i++)
+		value = value + *(s + i);
 
 	int key = (int) value % SIZE_HASH_TABLE;
 	return key;
 }
 
-void visit_hashLine(struct hashNode ** ht, int key){ /* stampa i nomi degli hashNode di una determinata riga della tabella hash */
+void visit_hashLine(struct hashNode **ht, int key)
+{				/* stampa i nomi degli hashNode di una determinata riga della tabella hash */
 
 	struct hashNode *temp = ht[key];
 
-	while (temp != NULL){
+	while (temp != NULL) {
 
 		printf("%s\n", temp->name);
 		temp = temp->next;
 	}
 }
 
-struct hashNode * get_hashNode(struct hashNode ** ht, char * name){	/* ritorna l'hashNode con il nome scelto */
+struct hashNode *get_hashNode(struct hashNode **ht, char *name)
+{				/* ritorna l'hashNode con il nome scelto */
 
 	int key = get_hashValue(name);
 
-	struct hashNode * temp = ht[key];
+	struct hashNode *temp = ht[key];
 
-	while (temp != NULL){
+	while (temp != NULL) {
 
-		if (strcmp(temp->name, name)==0) break;
-		else temp = temp->next;
+		if (strcmp(temp->name, name) == 0)
+			break;
+		else
+			temp = temp->next;
 	}
 
 	return temp;
 
 }
 
-int insert_hashNode(struct hashNode ** ht, struct hashNode * hn){ 	/* inserisce un hashNode nella tabella hash */
+int insert_hashNode(struct hashNode **ht, struct hashNode *hn)
+{				/* inserisce un hashNode nella tabella hash */
 
-	struct hashNode * hashNodeToSearch = get_hashNode(ht, hn->name);
+	struct hashNode *hashNodeToSearch = get_hashNode(ht, hn->name);
 
-	if (hashNodeToSearch != NULL) return 0; /* questo hashNode è già presente */
+	if (hashNodeToSearch != NULL)
+		return 0;	/* questo hashNode è già presente */
 
 	int key = get_hashValue(hn->name);
 
-	if (ht[key] == NULL) ht[key] = hn;
+	if (ht[key] == NULL)
+		ht[key] = hn;
 	else {
-		struct hashNode * temp = ht[key];
+		struct hashNode *temp = ht[key];
 		ht[key] = hn;
 		hn->next = temp;
 	}
@@ -213,24 +234,27 @@ int insert_hashNode(struct hashNode ** ht, struct hashNode * hn){ 	/* inserisce 
 	return 1;
 }
 
-struct ramNode * alloc_ramNode(void){	 /* alloca la memoria per un nuovo ramNode */
+struct ramNode *alloc_ramNode(void)
+{				/* alloca la memoria per un nuovo ramNode */
 
-	struct ramNode * rn;
+	struct ramNode *rn;
 	rn = malloc(sizeof(struct ramNode));
-	exit_on_error(rn==NULL, "Memory allocation error");
+	exit_on_error(rn == NULL, "Memory allocation error");
 	return rn;
 }
 
-void free_ramNode(struct ramNode * rn){	  /* libera la memoria del ramNode */
+void free_ramNode(struct ramNode *rn)
+{				/* libera la memoria del ramNode */
 
 	free(rn);
 }
 
-struct ramNode * create_ramNode(char *name, char * m, int size){ /* crea un nuovo ramNode */
+struct ramNode *create_ramNode(char *name, char *m, int size)
+{				/* crea un nuovo ramNode */
 
-	struct ramNode * rn;
+	struct ramNode *rn;
 	rn = alloc_ramNode();
-	
+
 	strcpy(rn->name, name);
 
 	rn->next = NULL;
@@ -242,7 +266,8 @@ struct ramNode * create_ramNode(char *name, char * m, int size){ /* crea un nuov
 	return rn;
 }
 
-void insert_ramNode(struct lruTable * lt, struct ramNode * new_ramNode, struct hashNode * hn){  /* inserisce un ramNode nella tabella LRU */
+void insert_ramNode(struct lruTable *lt, struct ramNode *new_ramNode, struct hashNode *hn)
+{				/* inserisce un ramNode nella tabella LRU */
 
 	new_ramNode->next = lt->front->next;
 	new_ramNode->prev = lt->front;
@@ -252,25 +277,27 @@ void insert_ramNode(struct lruTable * lt, struct ramNode * new_ramNode, struct h
 
 	(lt->count)++;
 
-	associate(hn, new_ramNode);  /* collega il ramNode con il rispettivo hashNode e viceversa */
+	associate(hn, new_ramNode);	/* collega il ramNode con il rispettivo hashNode e viceversa */
 
 }
 
-void controlSize_lruTable(struct lruTable * lt){ /* se ci sono più di SIZE_RAM_CACHE istanze di ramNode,
-							elimina il ramNode utilizzato meno recentemente */
-							
-	if (lt->count > SIZE_RAM_CACHE)	{
+void controlSize_lruTable(struct lruTable *lt)
+{				/* se ci sono più di SIZE_RAM_CACHE istanze di ramNode,
+				   elimina il ramNode utilizzato meno recentemente */
+
+	if (lt->count > SIZE_RAM_CACHE) {
 		char print_msg[350];
-		sprintf(print_msg, "The maximum number of files mapped in RAM has been reached: %d", SIZE_RAM_CACHE);	
+		sprintf(print_msg, "The maximum number of files mapped in RAM has been reached: %d", SIZE_RAM_CACHE);
 		toLog(NFO, print_msg, srvlog);
 		delete_ramNode(lt, lt->rear->prev);
 	}
 }
 
-void moveOnTop_ramNode(struct lruTable * lt, struct ramNode * ramNodeToTop){ /* sposta il ramNode scelto nella testa della tabella LRU */
+void moveOnTop_ramNode(struct lruTable *lt, struct ramNode *ramNodeToTop)
+{				/* sposta il ramNode scelto nella testa della tabella LRU */
 
-	struct ramNode * ramNodeLeft = ramNodeToTop->prev;
-	struct ramNode * ramNodeRight = ramNodeToTop->next;
+	struct ramNode *ramNodeLeft = ramNodeToTop->prev;
+	struct ramNode *ramNodeRight = ramNodeToTop->next;
 
 	ramNodeLeft->next = ramNodeRight;
 	ramNodeRight->prev = ramNodeLeft;
@@ -282,96 +309,107 @@ void moveOnTop_ramNode(struct lruTable * lt, struct ramNode * ramNodeToTop){ /* 
 	lt->front->next = ramNodeToTop;
 }
 
-void delete_ramNode(struct lruTable * lt, struct ramNode * ramNodeToDel){ /* elimina il ramNode scelto dalla tabella LRU */
+void delete_ramNode(struct lruTable *lt, struct ramNode *ramNodeToDel)
+{				/* elimina il ramNode scelto dalla tabella LRU */
 
 	char print_msg[350];
-	
-	struct hashNode * hn = ramNodeToDel->refhash;
+
+	struct hashNode *hn = ramNodeToDel->refhash;
 
 	int rc = pthread_mutex_lock(&(hn->hashLock));
-	exit_on_error(rc !=0, "Error in mutex_lock hashLock");
+	exit_on_error(rc != 0, "Error in mutex_lock hashLock");
 
-	if (hn->count > 0){
+	if (hn->count > 0) {
 		int rc = pthread_mutex_unlock(&(hn->hashLock));
-		exit_on_error(rc !=0, "Error in mutex_unlock hashLock");
+		exit_on_error(rc != 0, "Error in mutex_unlock hashLock");
 		return;
 	}
 
-	struct ramNode * ramNodeLeft = ramNodeToDel->prev;
-	struct ramNode * ramNodeRight = ramNodeToDel->next;
+	struct ramNode *ramNodeLeft = ramNodeToDel->prev;
+	struct ramNode *ramNodeRight = ramNodeToDel->next;
 
 	ramNodeLeft->next = ramNodeRight;
 	ramNodeRight->prev = ramNodeLeft;
 
 	(lt->count)--;
 
-	ramNodeToDel->refhash->refram = NULL; /* disassocia il ramNode con il suo hashNode*/
+	ramNodeToDel->refhash->refram = NULL;	/* disassocia il ramNode con il suo hashNode */
 
 	sprintf(print_msg, "'%s' is deleted from RAM", ramNodeToDel->name);
 	toLog(NFO, print_msg, srvlog);
 
 	rc = munmap(ramNodeToDel->m, ramNodeToDel->len);
-	exit_on_error(rc==-1, "Error in munmap");
+	exit_on_error(rc == -1, "Error in munmap");
 
-	free_ramNode(ramNodeToDel); /* libera la memoria del ramNode */
+	free_ramNode(ramNodeToDel);	/* libera la memoria del ramNode */
 
 	rc = pthread_mutex_unlock(&(hn->hashLock));
 	exit_on_error(rc != 0, "Error in mutex unlock hashLock");
 
 }
 
-void visit_lruTable(struct lruTable * lt){	/* stampa il nome di tutti i ramNode presenti nella tabella LRU */
+void visit_lruTable(struct lruTable *lt)
+{				/* stampa il nome di tutti i ramNode presenti nella tabella LRU */
 
-	struct ramNode * temp_ramNode = lt->front->next;
-	struct ramNode * end_ramNode = lt->rear;
+	struct ramNode *temp_ramNode = lt->front->next;
+	struct ramNode *end_ramNode = lt->rear;
 
-	while (temp_ramNode != end_ramNode){
+	while (temp_ramNode != end_ramNode) {
 
 		//printf("Il file '%s' è presente in ram, con fileDescriptor: %d\n", temp_ramNode->name, temp_ramNode->fd);
 		temp_ramNode = temp_ramNode->next;
 	}
 }
 
-void associate(struct hashNode * hn, struct ramNode * rn){	/* associa il ramNode con il relativo hashNode */
+void associate(struct hashNode *hn, struct ramNode *rn)
+{				/* associa il ramNode con il relativo hashNode */
 
 	hn->refram = rn;
 	rn->refhash = hn;
 }
 
-void summary_cache(struct cache * myCache){	/* stampa varie informazioni sullo stato della cache */
+void summary_cache(struct cache *myCache)
+{				/* stampa varie informazioni sullo stato della cache */
 
 	printf("\n\n............RIEPILOGO STATO DELLA CACHE............\n\n");
 
 	printf("In questo momento ci sono %d file caricati in ram.\n\n", myCache->lt->count);
 
-	struct hashNode * temp_hashNode = NULL;
-	struct ramNode * temp_ramNode = NULL;
-	struct hashNode ** ht = myCache->ht;
+	struct hashNode *temp_hashNode = NULL;
+	struct ramNode *temp_ramNode = NULL;
+	struct hashNode **ht = myCache->ht;
 
-	for(int i = 0; i < SIZE_HASH_TABLE; i++){
+	for (int i = 0; i < SIZE_HASH_TABLE; i++) {
 
 		temp_hashNode = ht[i];
 
-		while (temp_hashNode != NULL){
+		while (temp_hashNode != NULL) {
 
 			printf("Il file '%s' è presente nell'HDD, con key: %d\n", temp_hashNode->name, i);
 			if ((temp_ramNode = temp_hashNode->refram) != NULL)
-						printf("Il file '%s' è anche presente in ram con map: %p\n", temp_ramNode->name, 									temp_ramNode->m);
+				printf("Il file '%s' è anche presente in ram con map: %p\n", temp_ramNode->name, temp_ramNode->m);
 			temp_hashNode = temp_hashNode->next;
 		}
 	}
 }
 
+<<<<<<< HEAD
 void releaseFile(struct cache * myCache, char * path, char * ext, int x, int y, int q, int cache_set){
 	
+=======
+void releaseFile(struct cache *myCache, char *path, char *ext, int x, int y, int q)
+{
+
+>>>>>>> 51bbbc060e92bf23a587ff49f212bb5481d94900
 	int rc;
-	
+
 	rc = pthread_mutex_lock(&(myCache->cmutex));
 	exit_on_error(rc != 0, "Error in mutex lock cache");
-	
-	char * full_name = malloc(250 * sizeof(char));
-	exit_on_error(full_name==NULL, "Memory allocation error");
 
+	char *full_name = malloc(250 * sizeof(char));
+	exit_on_error(full_name == NULL, "Memory allocation error");
+
+<<<<<<< HEAD
 	if (cache_set==1){
 		/* calcola il nome del file completo, cioe con tutte le directory */
 		if (compute_full_name(full_name, path, ext, x, y, q) == -1){
@@ -384,45 +422,54 @@ void releaseFile(struct cache * myCache, char * path, char * ext, int x, int y, 
 	
 	else {
 			strcpy(full_name, path);
+=======
+
+	/* calcola il nome del file completo, cioe con tutte le directory */
+	if (compute_full_name(full_name, path, ext, x, y, q) == -1) {
+		free(full_name);
+		toLog(ERR, "Error in compute_full_name", srvlog);
+		exit(EXIT_FAILURE);
+>>>>>>> 51bbbc060e92bf23a587ff49f212bb5481d94900
 	}
 
-	struct hashNode * hn = get_hashNode(myCache->ht, full_name);
+	struct hashNode *hn = get_hashNode(myCache->ht, full_name);
 
-	if (hn==NULL){
-			toLog(ERR, "Unexpected error hasnNode in releaseFile: the file does not exist", srvlog);
-			exit(EXIT_FAILURE);
+	if (hn == NULL) {
+		toLog(ERR, "Unexpected error hasnNode in releaseFile: the file does not exist", srvlog);
+		exit(EXIT_FAILURE);
 	}
-	
+
 	rc = pthread_mutex_lock(&(hn->hashLock));
 	exit_on_error(rc != 0, "Error in mutex lock hashLock");
-	
+
 	(hn->count)--;
-	
+
 	rc = pthread_mutex_unlock(&(hn->hashLock));
 	exit_on_error(rc != 0, "Error in mutex unlock hashLock");
-	
+
 	rc = pthread_mutex_unlock(&(myCache->cmutex));
 	exit_on_error(rc != 0, "Error in mutex unlock cache");
 
 }
 
 /* ritorna il file mappato, se non c'è ritorna NULL */
-char * getAndLockFile(struct cache * myCache,char * stringFile, int * size){
-	
+char *getAndLockFile(struct cache *myCache, char *stringFile, int *size)
+{
+
 	int rc;
 	rc = pthread_mutex_lock(&(myCache->cmutex));
 	exit_on_error(rc != 0, "Error in mutex_lock cache");
 
 	//printf("Hai richiesto il file '%s'. Processando...\n", stringFile);
 
-	struct hashNode * hn = get_hashNode(myCache->ht, stringFile);
+	struct hashNode *hn = get_hashNode(myCache->ht, stringFile);
 
-	if (hn != NULL){ /* se hn != NULL allora il file si trova come MINIMO nell'HDD */
+	if (hn != NULL) {	/* se hn != NULL allora il file si trova come MINIMO nell'HDD */
 
 		rc = pthread_mutex_lock(&(hn->hashLock));
 		exit_on_error(rc != 0, "mutex_lock");
 
-		if (hn->refram != NULL){ /* se la condizione è verificata allora il file è anche caricato in ram */
+		if (hn->refram != NULL) {	/* se la condizione è verificata allora il file è anche caricato in ram */
 
 			//printf("Il file '%s' si trova già in ram. Ti restituisco il suo map: %p\n", hn->name, hn->refram->m);
 			moveOnTop_ramNode(myCache->lt, hn->refram);
@@ -431,7 +478,7 @@ char * getAndLockFile(struct cache * myCache,char * stringFile, int * size){
 
 			rc = pthread_mutex_unlock(&(myCache->cmutex));
 			exit_on_error(rc != 0, "Error in mutex_unlock cache");
-			
+
 			rc = pthread_mutex_unlock(&(hn->hashLock));
 			exit_on_error(rc != 0, "Error in mutex_unlock hashLock");
 
@@ -440,15 +487,15 @@ char * getAndLockFile(struct cache * myCache,char * stringFile, int * size){
 			return hn->refram->m;
 		}
 
-		else { /* il file non sta in ram, bisogna caricarlo mediante una open-mmap */
+		else {		/* il file non sta in ram, bisogna caricarlo mediante una open-mmap */
 
 			//printf("Il file '%s' è nell'HDD ma non è caricato in ram.\n", stringFile);
 			//printf("Caricamento del file '%s' in ram...\n", stringFile);
 
 			int size;
-			char * m = open_and_map_file(stringFile, &size);
+			char *m = open_and_map_file(stringFile, &size);
 
-			struct ramNode * rn = create_ramNode(stringFile, m, size); /* creazione e inserimento del ramNode associato a quel file */
+			struct ramNode *rn = create_ramNode(stringFile, m, size);	/* creazione e inserimento del ramNode associato a quel file */
 			insert_ramNode(myCache->lt, rn, hn);
 
 			controlSize_lruTable(myCache->lt);
@@ -457,16 +504,15 @@ char * getAndLockFile(struct cache * myCache,char * stringFile, int * size){
 
 			rc = pthread_mutex_unlock(&(myCache->cmutex));
 			exit_on_error(rc != 0, "Error in mutex_unlock cache");
-			
+
 			(hn->count)++;
-			
+
 			rc = pthread_mutex_unlock(&(hn->hashLock));
 			exit_on_error(rc != 0, "Error in mutex_unlock hashLock");
-			
+
 			return m;
 		}
 	}
-
 	//printf("Non ho il file '%s' da te richiesto, mi dispiace! Ti restituisco un map di errore: NULL\n", stringFile);
 
 	rc = pthread_mutex_unlock(&(myCache->cmutex));
@@ -475,26 +521,27 @@ char * getAndLockFile(struct cache * myCache,char * stringFile, int * size){
 	return NULL;
 }
 
-char * insertFile(struct cache * myCache, char * name, int * size){ /* inserisce un nuovo file in cache */
+char *insertFile(struct cache *myCache, char *name, int *size)
+{				/* inserisce un nuovo file in cache */
 
 	int rc;
-	
-	rc = pthread_mutex_lock(&(myCache->cmutex)); /* acquisisco mutex */
+
+	rc = pthread_mutex_lock(&(myCache->cmutex));	/* acquisisco mutex */
 	exit_on_error(rc != 0, "Error in mutex_lock cache");
 
-	struct hashNode * hn = create_hashNode(name);	/* creazione e inserimento nella tabella hash dell'hashNode relativo al file */
+	struct hashNode *hn = create_hashNode(name);	/* creazione e inserimento nella tabella hash dell'hashNode relativo al file */
 	insert_hashNode(myCache->ht, hn);
 
-	char * m = open_and_map_file(name, size);
+	char *m = open_and_map_file(name, size);
 
-	struct ramNode * rn = create_ramNode(name, m, *size);	/* creazione e inserimento nella testa della tabella LRU del ramNode relativo al 													file */
+	struct ramNode *rn = create_ramNode(name, m, *size);	/* creazione e inserimento nella testa della tabella LRU del ramNode relativo al                                                                                                        file */
 	insert_ramNode(myCache->lt, rn, hn);
 
 	//printf("Il file '%s' è stato inserito nell'HDD. E' stato anche inserito nella ram con fileDescriptor: %d \n", rn->name, rn->fd);
 
 	controlSize_lruTable(myCache->lt);
 
-	rc = pthread_mutex_unlock(&(myCache->cmutex)); /* acquisisco mutex */
+	rc = pthread_mutex_unlock(&(myCache->cmutex));	/* acquisisco mutex */
 	exit_on_error(rc != 0, "Error in mutex_unlock cache");
 
 	(hn->count)++;
@@ -504,38 +551,39 @@ char * insertFile(struct cache * myCache, char * name, int * size){ /* inserisce
 
 void clearScreen()
 {
-  const char* CLEAR_SCREE_ANSI = "\e[1;1H\e[2J";
-  int n = write(STDOUT_FILENO,CLEAR_SCREE_ANSI,12);
-	if (n==-1){
+	const char *CLEAR_SCREE_ANSI = "\e[1;1H\e[2J";
+	int n = write(STDOUT_FILENO, CLEAR_SCREE_ANSI, 12);
+	if (n == -1) {
 		fprintf(stderr, "Error in write");
 		exit(EXIT_FAILURE);
 	}
 }
 
 
-void summary_cache2(struct cache * myCache){	/* stampa varie informazioni sullo stato della cache */
+void summary_cache2(struct cache *myCache)
+{				/* stampa varie informazioni sullo stato della cache */
 
 	clearScreen();
 
 	printf("\n\t[RIEPILOGO STATO DELLA CACHE]\n");
 	printf("\nIn questo momento ci sono %d file caricati in ram.", myCache->lt->count);
 
-	struct hashNode * temp_hashNode = NULL;
-	struct ramNode * temp_ramNode = NULL;
-	struct hashNode ** ht = myCache->ht;
+	struct hashNode *temp_hashNode = NULL;
+	struct ramNode *temp_ramNode = NULL;
+	struct hashNode **ht = myCache->ht;
 
-	for(int i = 0; i < SIZE_HASH_TABLE; i++){
+	for (int i = 0; i < SIZE_HASH_TABLE; i++) {
 
 		printf("\n\nKey %d", i);
 		temp_hashNode = ht[i];
 
-		while (temp_hashNode != NULL){
+		while (temp_hashNode != NULL) {
 			//print_hashNode(temp_hashNode);
 			printf("\n\tHash: %s", temp_hashNode->name);
 			if ((temp_ramNode = temp_hashNode->refram) != NULL)
-						//print_ramNode(temp_hashNode->refram);
-						//printf("\n\tRam: %d", temp_ramNode->fd);
-			temp_hashNode = temp_hashNode->next;
+				//print_ramNode(temp_hashNode->refram);
+				//printf("\n\tRam: %d", temp_ramNode->fd);
+				temp_hashNode = temp_hashNode->next;
 			printf("\n");
 		}
 	}
@@ -545,13 +593,14 @@ void summary_cache2(struct cache * myCache){	/* stampa varie informazioni sullo 
 
 
 /* calcola nome completo del file, comprese tutte le directory, ritorna -1 se errore */
-int compute_full_name(char * full_name, char * path, char * ext, int width, int height, int q){
+int compute_full_name(char *full_name, char *path, char *ext, int width, int height, int q)
+{
 
 	char name[50];
 	strcpy(name, path);
-	char * tempStr = strrchr(name, '/');
+	char *tempStr = strrchr(name, '/');
 
-	if (tempStr == NULL){
+	if (tempStr == NULL) {
 		char print_msg[350];
 		sprintf(print_msg, "Wrong format file (1): %s", name);
 		toLog(WRN, print_msg, srvlog);
@@ -560,8 +609,8 @@ int compute_full_name(char * full_name, char * path, char * ext, int width, int 
 
 	tempStr++;
 
-	char * tempStrTwo =  strrchr(name, '.');
-	if (tempStrTwo == NULL){
+	char *tempStrTwo = strrchr(name, '.');
+	if (tempStrTwo == NULL) {
 		char print_msg[350];
 		sprintf(print_msg, "Wrong format file (2): %s", name);
 		toLog(WRN, print_msg, srvlog);
@@ -594,18 +643,24 @@ int compute_full_name(char * full_name, char * path, char * ext, int width, int 
 }
 
 /* ritorna il file descriptor del file (-1 se errore) */
+<<<<<<< HEAD
 char * obtain_file(struct cache * web_cache, char * path, char * ext, int x, int y, int q, int * size, int cache_set){
+=======
+char *obtain_file(struct cache *web_cache, char *path, char *ext, int x, int y, int q, int *size)
+{
+>>>>>>> 51bbbc060e92bf23a587ff49f212bb5481d94900
 
-	char * full_name = malloc(220 * sizeof(char));
-	char * m;
+	char *full_name = malloc(220 * sizeof(char));
+	char *m;
 
-	if (full_name == NULL){
+	if (full_name == NULL) {
 		toLog(ERR, "Memory allocation error", srvlog);;
 		exit(EXIT_FAILURE);
 	}
 	
 	if (cache_set==1){
 
+<<<<<<< HEAD
 		/* calcola il nome del file completo, cioe con tutte le directory */
 		if (compute_full_name(full_name, path, ext, x, y, q) == -1){
 			char print_msg[400];
@@ -621,13 +676,27 @@ char * obtain_file(struct cache * web_cache, char * path, char * ext, int x, int
 		
 		strcpy(full_name, path);
 		
+=======
+	/* calcola il nome del file completo, cioe con tutte le directory */
+	if (compute_full_name(full_name, path, ext, x, y, q) == -1) {
+		char print_msg[400];
+		sprintf(print_msg, "Error in compute_full_name path: %s, ext: %s, x: %d, y: %d, q: %d", path, ext, x, y, q);
+		toLog(ERR, print_msg, srvlog);
+		free(full_name);
+		return NULL;
+>>>>>>> 51bbbc060e92bf23a587ff49f212bb5481d94900
 	}
 
 	/* se il file è nella cache, ritorna il suo fileDescriptor */
 	m = getAndLockFile(web_cache, full_name, size);
+<<<<<<< HEAD
 	if (m != NULL) return m;
 	
 	if (cache_set==1){
+=======
+	if (m != NULL)
+		return m;
+>>>>>>> 51bbbc060e92bf23a587ff49f212bb5481d94900
 
 		/* il file non c'è, bisogna convertirlo dall'originale */
 		file_convert(path, ext, x, y, q);
@@ -636,7 +705,7 @@ char * obtain_file(struct cache * web_cache, char * path, char * ext, int x, int
 	}
 
 	m = insertFile(web_cache, full_name, size);
-	if (m == NULL){
+	if (m == NULL) {
 		char print_msg[400];
 		sprintf(print_msg, "Error insert in cache the file: %s\n", full_name);
 		toLog(ERR, print_msg, srvlog);

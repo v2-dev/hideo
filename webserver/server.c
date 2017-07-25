@@ -21,101 +21,39 @@
 int listensd;
 char *request;
 
-struct node_t *alloc_node()
-{
-	struct node_t *p;
-
-	p = Malloc(sizeof(struct node_t));
-	return p;
-}
-
-void insert_tail(void *v, struct list *l)
-{
-	struct node_t *new_tail;
-	struct node_t *old_tail;
-
-	new_tail = alloc_node();
-	new_tail->value = v;
-	old_tail = l->list_tail;
-
-	new_tail->next = NULL;
-	l->list_tail = new_tail;
-
-	if (l->size != 0)
-		old_tail->next = new_tail;
-	else
-		l->list_head = new_tail;
-
-	l->size += 1;
-
-	return;
-}
-
-void *remove_head(struct list *l)
-{
-	if (l->size > 0) {
-		struct node_t *old_head;
-		void *value;
-
-		old_head = l->list_head;
-		value = old_head->value;
-		if (l->size != 1)
-			l->list_head = old_head->next;
-		else {
-			l->list_head = NULL;
-			l->list_tail = NULL;
-		}
-
-		l->size -= 1;
-		free(old_head);
-
-		return value;
-	} else
-		return NULL;
-}
-
-
-
 void pr_cpu_time(void)
 {
-  double	user, sys;
-  struct rusage	myusage, childusage;
+	double user, sys;
+	struct rusage myusage, childusage;
 
-  if (getrusage(RUSAGE_SELF, &myusage) < 0)
-  {
-    fprintf(stderr, "errore in getrusage");
-    exit(1);
-  }
+	if (getrusage(RUSAGE_SELF, &myusage) < 0) {
+    toLog(ERR, "error in getrusage\n", srvlog);
+		exit(EXIT_FAILURE);
+	}
 
-  if (getrusage(RUSAGE_CHILDREN, &childusage) < 0)
-  {
-    fprintf(stderr, "errore in getrusage");
-    exit(1);
-  }
+	if (getrusage(RUSAGE_CHILDREN, &childusage) < 0) {
+		toLog(ERR, "error in getrusage\n", srvlog);
+		exit(EXIT_FAILURE);
+	}
 
-  user = (double) myusage.ru_utime.tv_sec +
-		myusage.ru_utime.tv_usec/1000000.0;
-  user += (double) childusage.ru_utime.tv_sec +
-		 childusage.ru_utime.tv_usec/1000000.0;
-  sys = (double) myusage.ru_stime.tv_sec +
-		 myusage.ru_stime.tv_usec/1000000.0;
-  sys += (double) childusage.ru_stime.tv_sec +
-		 childusage.ru_stime.tv_usec/1000000.0;
+	user = (double) myusage.ru_utime.tv_sec + myusage.ru_utime.tv_usec / 1000000.0;
+	user += (double) childusage.ru_utime.tv_sec + childusage.ru_utime.tv_usec / 1000000.0;
+	sys = (double) myusage.ru_stime.tv_sec + myusage.ru_stime.tv_usec / 1000000.0;
+	sys += (double) childusage.ru_stime.tv_sec + childusage.ru_stime.tv_usec / 1000000.0;
 
-  printf("\nuser time = %g, sys time = %g\n", user, sys);
+  char buf[256];
+	sprintf(buf, "\nuser time = %g, sys time = %g\n", user, sys);
+  toLog(NFO, buf, srvlog);
 }
 
 void sig_int()
 {
-	int		i;
-	void	pr_cpu_time(void);
+	int i;
+	void pr_cpu_time(void);
 
 	pr_cpu_time();
 
-	for (i = 0; i < nthreads; i++)
-		printf("thread %d, %ld connections\n", i, tptr[i].thread_count);
-
-	exit(0);
+	exit(EXIT_SUCCESS);
 }
 
 int main(int argc, char **argv)
@@ -123,8 +61,7 @@ int main(int argc, char **argv)
 	static int nthreads;
 	static short servport;
 	static int backlog;
-  int loglvl;
-  int *sock;
+	int loglvl;
 
 	int i = 0;
 
@@ -152,28 +89,24 @@ int main(int argc, char **argv)
 
 	nthreads = atoi(config_file.threads);	/*number of thread in prethreading */
 	servport = atoi(config_file.port);	/*convert in short integer */
-	backlog = atoi(config_file.backlog); /*backlog size */
+	backlog = atoi(config_file.backlog);	/*backlog size */
 	loglvl = atoi(config_file.loglvl);
 
 	srvlog = create_logger("server.log", loglvl);
 
-	toLog(ERR, "un messaggio di errore", srvlog);
-	toLog(WRN, "un messaggio di warning", srvlog);
-	toLog(NFO, "un messaggio di info", srvlog);
-
 	web_cache = create_cache();
 
 	hwurfl = get_wurfldb("wurfl-eval.xml");
-	if (hwurfl == NULL){
-		fprintf(stderr, "Error in wurlfd load database\n");
+	if (hwurfl == NULL) {
+    toLog(ERR, "Error in wurlfd load database\n", srvlog);
 		exit(EXIT_FAILURE);
 	}
 
 	signal(SIGPIPE, SIG_IGN);
 
 	if (signal(SIGINT, sig_int) == SIG_ERR) {
-		fprintf(stderr, "signal error");
-		exit(1);
+		toLog(ERR, "Error in signal\n", srvlog);
+		exit(EXIT_FAILURE);
 	}
 
 	int optval;
@@ -181,56 +114,55 @@ int main(int argc, char **argv)
 
 	struct sockaddr_in servaddr;
 
-	if ((listensd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
-	{ 	/* crea il socket */
+	if ((listensd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) {	/* crea il socket */
 		perror("error in socket()\n");
-		exit(1);
+    toLog(ERR, "Error in socket()\n", srvlog);
+		exit(EXIT_FAILURE);
 	}
 
-	memset((void *)&servaddr, 0, sizeof(servaddr));
+	memset((void *) &servaddr, 0, sizeof(servaddr));
 	servaddr.sin_family = AF_INET;
-	servaddr.sin_addr.s_addr = htonl(INADDR_ANY); /* il server accetta connessioni su una qualunque delle sue intefacce di rete */
-	servaddr.sin_port = htons(servport); /* numero di porta del server */
+	servaddr.sin_addr.s_addr = htonl(INADDR_ANY);	/* il server accetta connessioni su una qualunque delle sue intefacce di rete */
+	servaddr.sin_port = htons(servport);	/* numero di porta del server */
 
 	optval = 1;
 	optlen = sizeof(optval);
 
-  if(setsockopt(listensd, SOL_SOCKET, SO_REUSEPORT, &optval, optlen) < 0)
-		print_err_msg("Unable to set SO_REUSEPORT on listening socket\n");
+	if (setsockopt(listensd, SOL_SOCKET, SO_REUSEPORT, &optval, optlen) < 0)
+    toLog(WRN, "Unable to set SO_REUSEPORT on listening socket\n", srvlog);
 
-	if(setsockopt(listensd, SOL_SOCKET, SO_KEEPALIVE, &optval, optlen) < 0)
-	{
+	if (setsockopt(listensd, SOL_SOCKET, SO_KEEPALIVE, &optval, optlen) < 0) {
 		perror("errore in setsockopt");
+    toLog(ERR, "cannot set SO_KEEPALIVE option on socket. Abort.\n", srvlog);
 		close(listensd);
 		exit(EXIT_FAILURE);
 	}
-	printf("SO_KEEPALIVE impostata\n");
-
-	if(getsockopt(listensd, SOL_SOCKET, SO_KEEPALIVE, &optval, &optlen) < 0)
-	{
-		perror("errore in getsockopt");
-		close(listensd);
-		exit(EXIT_FAILURE);
-	}
-	printf("SO_KEEPALIVE è %s\n", (optval ? "ON" : "OFF"));
+  toLog(NFO, "SO_KEEPALIVE set\n", srvlog);
 
 	/* assegna l'indirizzo al socket */
-	if ((bind(listensd, (struct sockaddr *) &servaddr, sizeof(servaddr))) < 0)
-		unix_error("error on bind()\n");
+	if ((bind(listensd, (struct sockaddr *) &servaddr, sizeof(servaddr))) < 0) {
+      toLog(ERR, "error on bind()", srvlog);
+      exit(EXIT_FAILURE);
+  }
 
-	if (listen(listensd, backlog) < 0 )
-		unix_error("listen\n");
+	if (listen(listensd, backlog) < 0) {
+    toLog(ERR, "error on listen socket()", srvlog);
+    exit(EXIT_FAILURE);
+  }
 
-	tptr = (struct Thread *)Calloc(nthreads, sizeof(struct Thread));
+	tptr = (struct Thread *) Calloc(nthreads + 1, sizeof(struct Thread));
 
-  /*mutex initializer*/
-  if(pthread_mutex_init(&mtx, NULL) != 0)
-    err_exit("Error on pthread_mutex_init()\n", errno);
+	/*mutex initializer */
+	if (pthread_mutex_init(&mtx, NULL) != 0){
+    toLog(ERR, "Error on pthread_mutex_init()", srvlog);
+    exit(EXIT_FAILURE);
+  }
 
 	for (i = 0; i < nthreads; i++)
-		thread_make(i);			/* only main thread returns */
+		thread_make(i);	/* only main thread returns */
 
+	for (;;) {
+		pause();
+	}
 
-	for ( ; ; )
-		pause();	/* everything done by threads */
 }
