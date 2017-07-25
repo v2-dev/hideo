@@ -21,20 +21,19 @@
 int listensd;
 char *request;
 
-
 void pr_cpu_time(void)
 {
 	double user, sys;
 	struct rusage myusage, childusage;
 
 	if (getrusage(RUSAGE_SELF, &myusage) < 0) {
-		fprintf(stderr, "errore in getrusage");
-		exit(1);
+    toLog(ERR, "error in getrusage\n", srvlog);
+		exit(EXIT_FAILURE);
 	}
 
 	if (getrusage(RUSAGE_CHILDREN, &childusage) < 0) {
-		fprintf(stderr, "errore in getrusage");
-		exit(1);
+		toLog(ERR, "error in getrusage\n", srvlog);
+		exit(EXIT_FAILURE);
 	}
 
 	user = (double) myusage.ru_utime.tv_sec + myusage.ru_utime.tv_usec / 1000000.0;
@@ -42,7 +41,9 @@ void pr_cpu_time(void)
 	sys = (double) myusage.ru_stime.tv_sec + myusage.ru_stime.tv_usec / 1000000.0;
 	sys += (double) childusage.ru_stime.tv_sec + childusage.ru_stime.tv_usec / 1000000.0;
 
-	printf("\nuser time = %g, sys time = %g\n", user, sys);
+  char buf[256];
+	sprintf(buf, "\nuser time = %g, sys time = %g\n", user, sys);
+  toLog(NFO, buf, srvlog);
 }
 
 void sig_int()
@@ -52,10 +53,7 @@ void sig_int()
 
 	pr_cpu_time();
 
-	for (i = 0; i < nthreads; i++)
-		printf("thread %d, %ld connections\n", i, tptr[i].thread_count);
-
-	exit(0);
+	exit(EXIT_SUCCESS);
 }
 
 int main(int argc, char **argv)
@@ -64,7 +62,6 @@ int main(int argc, char **argv)
 	static short servport;
 	static int backlog;
 	int loglvl;
-	int *sock;
 
 	int i = 0;
 
@@ -97,23 +94,19 @@ int main(int argc, char **argv)
 
 	srvlog = create_logger("server.log", loglvl);
 
-	toLog(ERR, "un messaggio di errore", srvlog);
-	toLog(WRN, "un messaggio di warning", srvlog);
-	toLog(NFO, "un messaggio di info", srvlog);
-
 	web_cache = create_cache();
 
 	hwurfl = get_wurfldb("wurfl-eval.xml");
 	if (hwurfl == NULL) {
-		fprintf(stderr, "Error in wurlfd load database\n");
+    toLog(ERR, "Error in wurlfd load database\n", srvlog);
 		exit(EXIT_FAILURE);
 	}
 
 	signal(SIGPIPE, SIG_IGN);
 
 	if (signal(SIGINT, sig_int) == SIG_ERR) {
-		fprintf(stderr, "signal error");
-		exit(1);
+		toLog(ERR, "Error in signal\n", srvlog);
+		exit(EXIT_FAILURE);
 	}
 
 	int optval;
@@ -123,7 +116,8 @@ int main(int argc, char **argv)
 
 	if ((listensd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) {	/* crea il socket */
 		perror("error in socket()\n");
-		exit(1);
+    toLog(ERR, "Error in socket()\n", srvlog);
+		exit(EXIT_FAILURE);
 	}
 
 	memset((void *) &servaddr, 0, sizeof(servaddr));
@@ -135,35 +129,34 @@ int main(int argc, char **argv)
 	optlen = sizeof(optval);
 
 	if (setsockopt(listensd, SOL_SOCKET, SO_REUSEPORT, &optval, optlen) < 0)
-		print_err_msg("Unable to set SO_REUSEPORT on listening socket\n");
+    toLog(WRN, "Unable to set SO_REUSEPORT on listening socket\n", srvlog);
 
 	if (setsockopt(listensd, SOL_SOCKET, SO_KEEPALIVE, &optval, optlen) < 0) {
 		perror("errore in setsockopt");
+    toLog(ERR, "cannot set SO_KEEPALIVE option on socket. Abort.\n", srvlog);
 		close(listensd);
 		exit(EXIT_FAILURE);
 	}
-	printf("SO_KEEPALIVE impostata\n");
-
-	if (getsockopt(listensd, SOL_SOCKET, SO_KEEPALIVE, &optval, &optlen) < 0) {
-		perror("errore in getsockopt");
-		close(listensd);
-		exit(EXIT_FAILURE);
-	}
-	printf("SO_KEEPALIVE è %s\n", (optval ? "ON" : "OFF"));
+  toLog(NFO, "SO_KEEPALIVE set\n", srvlog);
 
 	/* assegna l'indirizzo al socket */
-	if ((bind(listensd, (struct sockaddr *) &servaddr, sizeof(servaddr))) < 0)
-		unix_error("error on bind()\n");
+	if ((bind(listensd, (struct sockaddr *) &servaddr, sizeof(servaddr))) < 0) {
+      toLog(ERR, "error on bind()", srvlog);
+      exit(EXIT_FAILURE);
+  }
 
-	if (listen(listensd, backlog) < 0)
-		unix_error("listen\n");
+	if (listen(listensd, backlog) < 0) {
+    toLog(ERR, "error on listen socket()", srvlog);
+    exit(EXIT_FAILURE);
+  }
 
 	tptr = (struct Thread *) Calloc(nthreads + 1, sizeof(struct Thread));
 
 	/*mutex initializer */
-	if (pthread_mutex_init(&mtx, NULL) != 0)
-		err_exit("Error on pthread_mutex_init()\n", errno);
-
+	if (pthread_mutex_init(&mtx, NULL) != 0){
+    toLog(ERR, "Error on pthread_mutex_init()", srvlog);
+    exit(EXIT_FAILURE);
+  }
 
 	for (i = 0; i < nthreads; i++)
 		thread_make(i);	/* only main thread returns */

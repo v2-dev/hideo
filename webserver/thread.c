@@ -4,12 +4,10 @@
 #include <time.h>
 
 
-
 void millisleep(int milliseconds)
 {
 	usleep(milliseconds * 1000);
 }
-
 
 void thread_make(int i)
 {
@@ -17,6 +15,7 @@ void thread_make(int i)
 	pthread_attr_t attr;
 	int err;
 	tptr[i].thread_count = i;
+
 
 	if ((err = pthread_attr_init(&attr)) != 0) {
 		fprintf(stderr, "Error in pthread_attr_init: %d : %s\n", err, strerror(err));
