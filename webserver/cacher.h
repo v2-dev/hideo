@@ -19,8 +19,8 @@
 #define RESET  "\x1B[0m"
 #define GREEN   "\x1B[32m"
 
-#define SIZE_HASH_TABLE 3
-#define SIZE_RAM_CACHE 8
+#define SIZE_HASH_TABLE 96
+#define SIZE_RAM_CACHE 1024
 
 /*
 						CACHE
@@ -89,8 +89,8 @@ struct cache { 		/* la cache è formata dalla tabella HASH e dalla tabella LRU *
 
 struct cache * web_cache;
 
-char * obtain_file(struct cache * web_cache, char * path, char * ext, int x, int y, int q, int * size);
-void releaseFile(struct cache * myCache, char * path, char * ext, int x, int y, int q);
+char * obtain_file(struct cache * web_cache, char * path, char * ext, int x, int y, int q, int * size,int cache_set);
+void releaseFile(struct cache * myCache, char * path, char * ext, int x, int y, int q, int cache_set);
 int compute_full_name(char * full_name, char * path, char * ext, int width, int height, int q);
 struct hashNode ** create_hashTable(void);
 struct hashNode * alloc_hashNode(void);

@@ -5,7 +5,6 @@
 #include "resolutionDevice.h"
 #include "logger.h"
 
-
 void http_generic(struct conndata *conn, char *httpmsg)
 {
 		size_t len;
@@ -483,20 +482,33 @@ int send_response(struct conndata *p)
 		strcat(mypath, p->path);
 		wurflrdt(hwurfl, p->useragent, &x, &y);
 
-		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len);
+		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
 		if (m == NULL){
 			fileNotFound = 1;
 		}
 	}
-
-	else {
-		char testpath[300] = "homepage";
-		strcat(testpath, p->path);
-		strcpy(p->path, testpath);
-		req_fd = open(p->path, O_RDONLY);
-		if (req_fd==-1) fileNotFound = 1;
+	
+	else if (strncmp("/thumbs", p->path, 7)==0){
+		cache_set = 1;
+		strcpy(mypath, "homepage/res");
+		strcat(mypath, (p->path)+7);
+		x=300;y=300;
+		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
+		if (m == NULL){
+			fileNotFound = 1;
+		}
 	}
-
+	
+	else {
+		cache_set = 2;
+		strcpy(mypath, "homepage");
+		strcat(mypath, p->path);	
+		x=0;y=0;
+		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
+		if (m == NULL){
+			fileNotFound = 1;
+		}
+	}
 
 	if (fileNotFound) {
 		strcpy(p->messages, "File ");
@@ -536,7 +548,7 @@ int send_response(struct conndata *p)
 		conndf_rv = writen(p->socketint, header200, strlen(header200));
 		if (conndf_rv == -1) {
 			if (cache_set){
-				releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor);
+				releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor, cache_set);
 			}
 			else close(req_fd);
 			return 2;
@@ -544,7 +556,7 @@ int send_response(struct conndata *p)
 
 		if (p->get1head2 == 2){
 			if (cache_set){
-				releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor);
+				releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor, cache_set);
 			}
 			else close(req_fd);
 			strcpy(p->messages, "Inviato solo l'Header, metodo HEAD richiesto");
@@ -556,7 +568,7 @@ int send_response(struct conndata *p)
 		if (cache_set){
 				conndf_rv = writen(p->socketint, m, contlen);
 				Free(bytesToSend);
-				releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor);
+				releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor, cache_set);
 				if (conndf_rv == -1) {
 					return 2;
 				}
