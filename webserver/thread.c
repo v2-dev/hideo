@@ -69,7 +69,7 @@ void *thread_main(void *arg)
 
 		struct timeval timeout;
 		timeout.tv_sec = 0;
-		timeout.tv_usec = 80000;
+		timeout.tv_usec = 75000;
 
 		if (setsockopt(connsd, SOL_SOCKET, SO_RCVTIMEO, (char *) &timeout, sizeof(timeout)) < 0){
 			toLog(ERR, srvlog, "setsockopt SO_RCVTIMEO failed");

@@ -422,9 +422,7 @@ int serve_request(struct conndata *cdata)
 	int v = 0, w = 0;
 
 	for (i = 1; i < httpr->dimArray; i++) {
-		printf("accheck iniziata\n");
 		v += accheck(*(httpr->array + i), cdata);
-		printf("accheck completata\n");
 		w += uacheck(*(httpr->array + i), cdata);
 	}
 
@@ -453,15 +451,14 @@ int send_response(struct conndata *p)
 	if (p->path[0] == '/' && (p->path[1] == '\0'))
 		strcpy(p->path, "/index.html");
 
-	int req_fd = 0;
 	p->return_code = 400;
-	int cache_set = 0;
+	int cache_set;
 	int x, y, len;
 	x=0;
 	y=0;
 	char mypath[300];
 	char *m;
-	int fileNotFound = 0;
+	int fileNotFound = 1;
 
 	if (strncmp("/res", p->path, 4) == 0) {
 
@@ -470,8 +467,8 @@ int send_response(struct conndata *p)
 		strcat(mypath, p->path);
 		wurflrdt(hwurfl, p->useragent, &x, &y);
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
-		if (m == NULL){
-			fileNotFound = 1;
+		if (m != NULL){
+			fileNotFound = 0;
 		}
 	}
 	
@@ -479,10 +476,14 @@ int send_response(struct conndata *p)
 		cache_set = 1;
 		strcpy(mypath, "homepage/res");
 		strcat(mypath, (p->path)+7);
-		x=300;y=300;
+		wurflrdt(hwurfl, p->useragent, &x, &y);
+		printf("x1: %d y1: %d\n", x, y);
+		x = (int)(x/4.0);
+		y = (int) (y/4.0);
+		printf("x2: %d y2: %d\n", x, y);
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
-		if (m == NULL){
-			fileNotFound = 1;
+		if (m != NULL){
+			fileNotFound = 0;
 		}
 	}
 	
@@ -491,8 +492,8 @@ int send_response(struct conndata *p)
 		strcpy(mypath, "homepage");
 		strcat(mypath, p->path);	
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
-		if (m == NULL) {
-			fileNotFound = 1;
+		if (m != NULL) {
+			fileNotFound = 0;
 		}
 	}
 
@@ -508,63 +509,32 @@ int send_response(struct conndata *p)
 	else {
 
 		unsigned int contlen;
-
-		if (cache_set) {
-			contlen = (unsigned int) len;
-
-		}
-
-		else {
-			struct stat st;
-			stat(p->path, &st);
-			contlen = st.st_size;
-		}
+		contlen = (unsigned int) len;
 
 		//CONTROLLO DELL'ESTENSIONE
 		char mimetype_t[30] = "";
 		strcpy(mimetype_t, get_mimetype(p->path));
 		strcat(header200, mimetype_t);
 		strcat(header200, "\r\nContent-Length: ");
-
 		char scontlen[15];
-
 		sprintf(scontlen, "%d\r\n\r\n", contlen);
 		strcat(header200, scontlen);
 
 		conndf_rv = writen(p->socketint, header200, strlen(header200));
 		if (conndf_rv == -1) {
-			if (cache_set){
 				releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor, cache_set);
-			}
-			else close(req_fd);
-			return 2;
+				return 2;
 		}
 
 		if (p->get1head2 == 2){
-			if (cache_set){
 				releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor, cache_set);
-			}
-			else close(req_fd);
-			return 2;
+				return 2;
 		}
 
-
-		char * bytesToSend = Malloc(sizeof(char) * contlen);
-		if (cache_set){
-				conndf_rv = writen(p->socketint, m, contlen);
-				Free(bytesToSend);
-				releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor, cache_set);
-				if (conndf_rv == -1) {
-					return 2;
-				}
-		}
-
-		else {
-			readn(req_fd, bytesToSend, contlen);
-			conndf_rv = writen(p->socketint, bytesToSend, contlen);
-			Free(bytesToSend);
-			close(req_fd);
-			if (conndf_rv == -1)
+	
+		conndf_rv = writen(p->socketint, m, contlen);
+		releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor, cache_set);
+		if (conndf_rv == -1) {
 				return 2;
 		}
 
@@ -616,35 +586,25 @@ struct httpread *read_request(int fd)
 	int index = 0;
 	char *tmpString = malloc(sizeof(char) * 300);
 
-
 	while (1) {
-		//------------
 		n = readn(fd, tmpString + index, 1);
 		if (n == -1) {
-			printf("SOCKET 1\n");
 			httpr->dimArray = -1;
 			break;
 		}
 		if (n == 0) {
-			printf("SOCKET 2\n");
-			httpr->dimArray = -1;
+			httpr->dimArray = -1; //l'header non è terminato correttamente
 			break;
 		}
 
 		if (index == 1) {
-			printf("SOCKET 3\n");
 			if ((*(tmpString + index) == '\n') && (*(tmpString + index - 1) == '\r'))
 				break;
 		}
 
 		if (*(tmpString + index) == '\n') {
-			printf("SOCKET 4\n");
 			if (*(tmpString + index - 1) != '\r') {
-				printf("SOCKET 5\n");
-				//free(tmpString);
-				//destroy_httpread(httpr);
 				break;
-				//return NULL;
 			}
 
 			*(tmpString + index) = '\0';
@@ -659,10 +619,8 @@ struct httpread *read_request(int fd)
 
 		else {
 			index++;
-			printf("SOCKET 6\n");
 		}
 	}
-
 
 	free(tmpString);
 	return httpr;
