@@ -477,10 +477,9 @@ int send_response(struct conndata *p)
 		strcpy(mypath, "homepage/res");
 		strcat(mypath, (p->path)+7);
 		wurflrdt(hwurfl, p->useragent, &x, &y);
-		printf("x1: %d y1: %d\n", x, y);
-		x = (int)(x/4.0);
-		y = (int) (y/4.0);
-		printf("x2: %d y2: %d\n", x, y);
+		x = (int)(x/3.4);
+		y = (int) (y/3.4);
+
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
 		if (m != NULL){
 			fileNotFound = 0;
