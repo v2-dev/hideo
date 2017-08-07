@@ -27,6 +27,7 @@ void http_200(struct conndata *conn)
 	sprintf(buff, "%sServer: Hideo\r\n", buff);
 	sprintf(buff, "%s<html><head><title>200 OK</title></head>", buff);
 	sprintf(buff, "%s<body><h1>Everything is fine here!</h1></body></html>\r\n", buff);
+	toLog(NFO, logger, "HTTP/1.1 200 OK\r\n");
 	send_msg(conn->socketint, buff);
 
 }
@@ -38,6 +39,7 @@ void http_500(struct conndata *conn)
 	sprintf(buff, "HTTP/1.1 500 INTERNAL SERVER ERROR\r\n");
 	sprintf(buff, "%sServer: Hideo\r\n", buff);
 
+	toLog(ERR, logger, "HTTP/1.1 500 INTERNAL SERVER ERROR\r\n");
 	send_msg(conn->socketint, buff);
 }
 
@@ -50,6 +52,7 @@ void http_501(struct conndata *conn)
 	sprintf(buff, "%s<html><head><title>501 NOT IMPLEMENTED</title></head>", buff);
 	sprintf(buff, "%s<body><h1>The method or request you made is not implemented</h1></body></html>\r\n", buff);
 
+	toLog(ERR, logger, "HTTP/1.1 501 NOT IMPLEMENTED\r\n");
 	send_msg(conn->socketint, buff);
 }
 
@@ -62,6 +65,7 @@ void http_404(struct conndata *conn)
 	sprintf(buff, "%s<html><head><title>404 Not Found</title></head>", buff);
 	sprintf(buff, "%s<body><h1>404 File Not found</h1></body></html>\r\n", buff);
 
+	toLog(ERR, logger, "HTTP/1.1 404 NOT FOUND\r\n");
 	send_msg(conn->socketint, buff);
 }
 
@@ -70,10 +74,11 @@ void http_400(struct conndata *conn)
 {
 	char buff[DATLEN];
 
-	sprintf(buff, "HTTP/1.1 404 BAD REQUEST\r\n");
+	sprintf(buff, "HTTP/1.1 400 BAD REQUEST\r\n");
 	sprintf(buff, "%sServer: Hideo\r\n\r\n", buff);
 	sprintf(buff, "%s<html><head><title>400 bad request</title></head>", buff);
 
+	toLog(ERR, logger, "HTTP/1.1 400 BAD REQUEST\r\n");
 	send_msg(conn->socketint, buff);
 }
 
@@ -227,6 +232,7 @@ int uacheck(char *optstring, struct conndata *p)
 	   for (buf_idx = 11; buf_idx <= strlen(optstring); buf_idx++) strcat(p->useragent, optstring[buf_idx]);
 	 */
 	strcpy(p->messages, "User Agent = ");
+	toLog(NFO, logger, p->useragent);
 	strcat(p->messages, p->useragent);
 	print_message(p);
 	return 1;
@@ -283,7 +289,11 @@ int accheck(char *optstring, struct conndata *p)
 	   for (buf_idx = 11; buf_idx <= strlen(optstring); buf_idx++) strcat(p->useragent, optstring[buf_idx]);
 	 */
 	strcpy(p->messages, "Accept = ");
+	toLog(NFO, logger, "Accept = ");
+
+	toLog(NFO, logger, p->acceptfld);
 	strcat(p->messages, p->acceptfld);
+
 	print_message(p);
 	return 1;
 }
@@ -344,15 +354,20 @@ int path_parse(char *optstring, struct conndata *p)
 	char header[] = "HTTP/1.1";
 	if (!strncmp(optstring + choffset, header, 8)) {
 		strcpy(p->messages, "Header HTTP mancante od incompleto!");
+		toLog(ERR, logger, "Missing header.\n");
 		print_message(p);
 		return ERROR;
 	}
 
-	strcpy(p->messages, "Header HTTP OK");
+	strcpy(p->messages, );
+	toLog(NFO, logger, "Header HTTP OK");
+
 	http_200(p);
 	print_message(p);
 
 	strcpy(p->messages, "Path richiesto: ");
+	toLog(NFO, logger, "Request path: %s", p->path);
+
 	strcat(p->messages, p->path);
 	print_message(p);
 
@@ -361,14 +376,15 @@ int path_parse(char *optstring, struct conndata *p)
 }
 
 
-void *create_httpread()
+void *create_httpread(struct conndata *p)
 {
 	struct httpread *httpr;
 	httpr = malloc(sizeof(struct httpread));
 
 	if (httpr == NULL) {
 		fprintf(stderr, "Memory allocation error\n");
-		exit(EXIT_FAILURE);
+		toLog(ERR, logger, "Memory allocation error\n");
+		http_500(p->socketint);
 	}
 
 	httpr->dimArray = 0;
@@ -397,6 +413,7 @@ int serve_request(struct conndata *cdata)
 	if (httpr->dimArray == 0) {
 		destroy_httpread(httpr);
 		printf("Niente da leggere\n");
+		toLog(ERR, logger, "Nothing to read\n");
 		return ERROR;
 	}
 
@@ -469,9 +486,10 @@ int send_response(struct conndata *p)
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
 		if (m != NULL){
 			fileNotFound = 0;
+			toLog(ERR, logger, "fileNotFound");
 		}
 	}
-	
+
 	else if (strncmp("/thumbs", p->path, 7)==0){
 		cache_set = 1;
 		strcpy(mypath, "homepage/res");
@@ -483,16 +501,18 @@ int send_response(struct conndata *p)
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
 		if (m != NULL){
 			fileNotFound = 0;
+			toLog(ERR, logger, "fileNotFound");
 		}
 	}
-	
+
 	else {
 		cache_set = 2;
 		strcpy(mypath, "homepage");
-		strcat(mypath, p->path);	
+		strcat(mypath, p->path);
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
 		if (m != NULL) {
 			fileNotFound = 0;
+			toLog(ERR, logger, "fileNotFound");
 		}
 	}
 
@@ -530,7 +550,7 @@ int send_response(struct conndata *p)
 				return 2;
 		}
 
-	
+
 		conndf_rv = writen(p->socketint, m, contlen);
 		releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor, cache_set);
 		if (conndf_rv == -1) {
@@ -538,6 +558,7 @@ int send_response(struct conndata *p)
 		}
 
 		strcpy(p->messages, "File servito");
+		toLog(NFO, logger, "file served");
 		print_message(p);
 		return 0;
 	}
