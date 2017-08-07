@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <errno.h> 
+#include <errno.h>
 #include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -9,7 +9,7 @@
 #include <time.h>
 #include <pthread.h>
 #include <stdarg.h>
-#include <sys/syscall.h> 
+#include <sys/syscall.h>
 
 #define _GNU_SOURCE
 
@@ -17,7 +17,7 @@
 #define	WRN	0x02
 #define NFO	0x03
 
-/*	 /-----------------------------\ 
+/*	 /-----------------------------\
  * 	|			Log Level			|
  * 	|								|
  * 	| Info	| Warn	| Error	| Level	|
@@ -38,17 +38,17 @@
  * 	|-------|-------|-------|-------|
  * 	|   *	|   *	|	*	|	7	|
  * 	 \-----------------------------/
- * 
+ *
  */
 
 struct logNode {	/* rappresenta un messaggio che deve essere scritto nel file di log*/
-	
+
 	char *text;
 	struct logNode * next;
 	struct logNode * prev;
 	int type;	//ERR, WRN, NFO
 	int tid;
-	
+
 };
 
 struct logger{ 		/* è una struttura che contiene una coda di logNode */
@@ -61,7 +61,7 @@ struct logger{ 		/* è una struttura che contiene una coda di logNode */
 
 	pthread_mutex_t log_mtx;
 	pthread_cond_t log_cond;
-		
+
 	pthread_t tid_garbadge;
 
 	int printOnScreen;

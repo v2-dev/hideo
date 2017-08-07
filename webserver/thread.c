@@ -77,12 +77,12 @@ void *thread_main(void *arg)
 		}
 
 		if (setsockopt(connsd, SOL_SOCKET, SO_SNDTIMEO, (char *) &timeout, sizeof(timeout)) < 0){
-			toLog(ERR,srvlog, "setsockopt SO_SNDTIMEO failed");
+			toLog(ERR, srvlog, "setsockopt SO_SNDTIMEO failed");
 			pthread_exit(NULL);
 		}
 
 		if (pthread_mutex_unlock(&mtx) < 0){
-			toLog(ERR,srvlog, "error on pthread_mutex_unlock()");
+			toLog(ERR, srvlog, "error on pthread_mutex_unlock()");
 			pthread_exit(NULL);
 		}
 

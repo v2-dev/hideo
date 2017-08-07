@@ -27,7 +27,7 @@ void http_200(struct conndata *conn)
 	sprintf(buff, "%sServer: Hideo\r\n", buff);
 	sprintf(buff, "%s<html><head><title>200 OK</title></head>", buff);
 	sprintf(buff, "%s<body><h1>Everything is fine here!</h1></body></html>\r\n", buff);
-	toLog(NFO, logger, "HTTP/1.1 200 OK\r\n");
+	toLog(NFO, srvlog, "HTTP/1.1 200 OK\r\n");
 	send_msg(conn->socketint, buff);
 
 }
@@ -39,7 +39,7 @@ void http_500(struct conndata *conn)
 	sprintf(buff, "HTTP/1.1 500 INTERNAL SERVER ERROR\r\n");
 	sprintf(buff, "%sServer: Hideo\r\n", buff);
 
-	toLog(ERR, logger, "HTTP/1.1 500 INTERNAL SERVER ERROR\r\n");
+	toLog(ERR, srvlog, "HTTP/1.1 500 INTERNAL SERVER ERROR\r\n");
 	send_msg(conn->socketint, buff);
 }
 
@@ -52,7 +52,7 @@ void http_501(struct conndata *conn)
 	sprintf(buff, "%s<html><head><title>501 NOT IMPLEMENTED</title></head>", buff);
 	sprintf(buff, "%s<body><h1>The method or request you made is not implemented</h1></body></html>\r\n", buff);
 
-	toLog(ERR, logger, "HTTP/1.1 501 NOT IMPLEMENTED\r\n");
+	toLog(ERR, srvlog, "HTTP/1.1 501 NOT IMPLEMENTED\r\n");
 	send_msg(conn->socketint, buff);
 }
 
@@ -65,7 +65,7 @@ void http_404(struct conndata *conn)
 	sprintf(buff, "%s<html><head><title>404 Not Found</title></head>", buff);
 	sprintf(buff, "%s<body><h1>404 File Not found</h1></body></html>\r\n", buff);
 
-	toLog(ERR, logger, "HTTP/1.1 404 NOT FOUND\r\n");
+	toLog(ERR, srvlog, "HTTP/1.1 404 NOT FOUND\r\n");
 	send_msg(conn->socketint, buff);
 }
 
@@ -78,7 +78,7 @@ void http_400(struct conndata *conn)
 	sprintf(buff, "%sServer: Hideo\r\n\r\n", buff);
 	sprintf(buff, "%s<html><head><title>400 bad request</title></head>", buff);
 
-	toLog(ERR, logger, "HTTP/1.1 400 BAD REQUEST\r\n");
+	toLog(ERR, srvlog, "HTTP/1.1 400 BAD REQUEST\r\n");
 	send_msg(conn->socketint, buff);
 }
 
@@ -232,7 +232,6 @@ int uacheck(char *optstring, struct conndata *p)
 	   for (buf_idx = 11; buf_idx <= strlen(optstring); buf_idx++) strcat(p->useragent, optstring[buf_idx]);
 	 */
 	strcpy(p->messages, "User Agent = ");
-	toLog(NFO, logger, p->useragent);
 	strcat(p->messages, p->useragent);
 	print_message(p);
 	return 1;
@@ -289,9 +288,9 @@ int accheck(char *optstring, struct conndata *p)
 	   for (buf_idx = 11; buf_idx <= strlen(optstring); buf_idx++) strcat(p->useragent, optstring[buf_idx]);
 	 */
 	strcpy(p->messages, "Accept = ");
-	toLog(NFO, logger, "Accept = ");
+	toLog(NFO, srvlog, "Accept = ");
 
-	toLog(NFO, logger, p->acceptfld);
+	toLog(NFO, srvlog, p->acceptfld);
 	strcat(p->messages, p->acceptfld);
 
 	print_message(p);
@@ -354,19 +353,19 @@ int path_parse(char *optstring, struct conndata *p)
 	char header[] = "HTTP/1.1";
 	if (!strncmp(optstring + choffset, header, 8)) {
 		strcpy(p->messages, "Header HTTP mancante od incompleto!");
-		toLog(ERR, logger, "Missing header.\n");
+		toLog(ERR, srvlog, "Missing header.\n");
 		print_message(p);
 		return ERROR;
 	}
 
-	strcpy(p->messages, );
-	toLog(NFO, logger, "Header HTTP OK");
+	strcpy(p->messages, "Header HTTP OK");
+	toLog(NFO, srvlog, "Header HTTP OK");
 
 	http_200(p);
 	print_message(p);
 
 	strcpy(p->messages, "Path richiesto: ");
-	toLog(NFO, logger, "Request path: %s", p->path);
+	toLog(NFO, srvlog, "Request path: %s", p->path);
 
 	strcat(p->messages, p->path);
 	print_message(p);
@@ -376,16 +375,10 @@ int path_parse(char *optstring, struct conndata *p)
 }
 
 
-void *create_httpread(struct conndata *p)
+void *create_httpread()
 {
 	struct httpread *httpr;
-	httpr = malloc(sizeof(struct httpread));
-
-	if (httpr == NULL) {
-		fprintf(stderr, "Memory allocation error\n");
-		toLog(ERR, logger, "Memory allocation error\n");
-		http_500(p->socketint);
-	}
+	httpr = Malloc(sizeof(struct httpread));
 
 	httpr->dimArray = 0;
 	httpr->array = malloc(sizeof(char *));
@@ -413,7 +406,7 @@ int serve_request(struct conndata *cdata)
 	if (httpr->dimArray == 0) {
 		destroy_httpread(httpr);
 		printf("Niente da leggere\n");
-		toLog(ERR, logger, "Nothing to read\n");
+		toLog(ERR, srvlog, "Nothing to read\n");
 		return ERROR;
 	}
 
@@ -486,7 +479,7 @@ int send_response(struct conndata *p)
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
 		if (m != NULL){
 			fileNotFound = 0;
-			toLog(ERR, logger, "fileNotFound");
+			toLog(ERR, srvlog, "fileNotFound");
 		}
 	}
 
@@ -501,7 +494,7 @@ int send_response(struct conndata *p)
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
 		if (m != NULL){
 			fileNotFound = 0;
-			toLog(ERR, logger, "fileNotFound");
+			toLog(ERR, srvlog, "fileNotFound");
 		}
 	}
 
@@ -512,7 +505,7 @@ int send_response(struct conndata *p)
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
 		if (m != NULL) {
 			fileNotFound = 0;
-			toLog(ERR, logger, "fileNotFound");
+			toLog(ERR, srvlog, "fileNotFound");
 		}
 	}
 
@@ -558,7 +551,7 @@ int send_response(struct conndata *p)
 		}
 
 		strcpy(p->messages, "File servito");
-		toLog(NFO, logger, "file served");
+		toLog(NFO, srvlog, "file served");
 		print_message(p);
 		return 0;
 	}
