@@ -44,6 +44,7 @@
 struct logNode {	/* rappresenta un messaggio che deve essere scritto nel file di log*/
 
 	char *text;
+	char *timestamp;
 	struct logNode * next;
 	struct logNode * prev;
 	int type;	//ERR, WRN, NFO
@@ -71,3 +72,4 @@ struct logger * srvlog;
 
 void toLog(int type, struct logger * myLogger, char * buf, ...);
 struct logger * create_logger(char * pathLog, int log_lvl, int printOnScreen);
+char* getDateString();
