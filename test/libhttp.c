@@ -465,7 +465,8 @@ int send_response(struct conndata *p)
 		cache_set = 1;
 		strcpy(mypath, "homepage");
 		strcat(mypath, p->path);
-		wurflrdt(hwurfl, p->useragent, &x, &y);
+		//wurflrdt(hwurfl, p->useragent, &x, &y); VERSIONE TEST, IMMAGINI FISSE
+		x = 1024; y= 768;
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
 		if (m != NULL){
 			fileNotFound = 0;
@@ -476,9 +477,14 @@ int send_response(struct conndata *p)
 		cache_set = 1;
 		strcpy(mypath, "homepage/res");
 		strcat(mypath, (p->path)+7);
-		wurflrdt(hwurfl, p->useragent, &x, &y);
+		
+		/*
+		wurflrdt(hwurfl, p->useragent, &x, &y); VERSIONE TEST, IMMAGINI FISSE
 		x = (int)(x/3.4);
-		y = (int) (y/3.4);
+		y = (int) (y/3.4);*/
+		
+		x = 300;
+		y = 300;
 
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
 		if (m != NULL){

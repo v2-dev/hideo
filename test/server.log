@@ -1,55 +1,57 @@
-[NFO] [26282] Cache folder created
-[NFO] [26282] Cache manager initialized correctly
-[NFO] [26282] SO_KEEPALIVE set
+[NFO] [4161] Cache folder created
+[NFO] [4161] Cache manager initialized correctly
+[NFO] [4161] SO_KEEPALIVE set
 
-[NFO] [26307] Thread created [336774535]
-[NFO] [26305] Thread created [336840103]
-[NFO] [26306] Thread created [336807319]
-[NFO] [26304] Thread created [336872887]
-[NFO] [26308] Thread created [336217463]
-[NFO] [26309] Thread created [336741751]
-[NFO] [26310] Thread created [336708967]
-[NFO] [26311] Thread created [336676183]
-[NFO] [26312] Thread created [336643399]
-[NFO] [26313] Thread created [336330743]
-[NFO] [26307] ...connection accepted!
-[NFO] [26305] ...connection accepted!
-[NFO] [26306] ...connection accepted!
-[NFO] [26304] ...connection accepted!
-[NFO] [26308] ...connection accepted!
-[NFO] [26309] ...connection accepted!
-[NFO] [26304] closing connection...
-[NFO] [26304] ...connection closed.
-[NFO] [26306] closing connection...
-[NFO] [26306] ...connection closed.
-[NFO] [26309] closing connection...
-[NFO] [26309] ...connection closed.
-[NFO] [26305] closing connection...
-[NFO] [26305] ...connection closed.
-[NFO] [26307] closing connection...
-[NFO] [26307] ...connection closed.
-[NFO] [26308] closing connection...
-[NFO] [26308] ...connection closed.
-[NFO] [26310] ...connection accepted!
-[NFO] [26310] closing connection...
-[NFO] [26310] ...connection closed.
-[NFO] [26311] ...connection accepted!
-[NFO] [26311] closing connection...
-[NFO] [26311] ...connection closed.
-[NFO] [26312] ...connection accepted!
-[NFO] [26312] closing connection...
-[NFO] [26312] ...connection closed.
-[NFO] [26313] ...connection accepted!
-[NFO] [26313] closing connection...
-[NFO] [26313] ...connection closed.
-[NFO] [26304] ...connection accepted!
-[NFO] [26304] closing connection...
-[NFO] [26304] ...connection closed.
-[NFO] [26306] ...connection accepted!
-[NFO] [26306] closing connection...
-[NFO] [26306] ...connection closed.
-[NFO] [26309] ...connection accepted!
-[NFO] [26309] closing connection...
+[NFO] [4170] Thread created [546988231]
+[NFO] [4169] Thread created [547021015]
+[NFO] [4171] Thread created [546431159]
+[NFO] [4172] Thread created [546955447]
+[NFO] [4173] Thread created [546922663]
+[NFO] [4175] Thread created [546570231]
+[NFO] [4174] Thread created [546889879]
+[NFO] [4176] Thread created [546537447]
+[NFO] [4177] Thread created [546504663]
+[NFO] [4178] Thread created [546471879]
+[NFO] [4170] ...connection accepted!
+[NFO] [4170] closing connection...
+[NFO] [4170] ...connection closed.
+[NFO] [4169] ...connection accepted!
+[NFO] [4171] ...connection accepted!
+[NFO] [4172] ...connection accepted!
+[NFO] [4173] ...connection accepted!
+[NFO] [4175] ...connection accepted!
+[NFO] [4174] ...connection accepted!
+[NFO] [4169] closing connection...
+[NFO] [4169] ...connection closed.
+[NFO] [4174] closing connection...
+[NFO] [4174] ...connection closed.
+[NFO] [4175] closing connection...
+[NFO] [4175] ...connection closed.
+[NFO] [4172] closing connection...
+[NFO] [4172] ...connection closed.
+[ERR] [4173] Error opening: homepage/favicon.ico
+[ERR] [4173] Error insert in cache the file: homepage/favicon.ico
+
+[NFO] [4173] closing connection...
+[NFO] [4173] ...connection closed.
+[NFO] [4171] closing connection...
+[NFO] [4171] ...connection closed.
+[NFO] [4176] ...connection accepted!
+[NFO] [4176] closing connection...
+[NFO] [4176] ...connection closed.
+[NFO] [4177] ...connection accepted!
+[NFO] [4177] closing connection...
+[NFO] [4177] ...connection closed.
+[NFO] [4178] ...connection accepted!
+[NFO] [4178] closing connection...
+[NFO] [4178] ...connection closed.
+[NFO] [4170] ...connection accepted!
+[NFO] [4170] closing connection...
+[NFO] [4170] ...connection closed.
+[NFO] [4169] ...connection accepted!
+[NFO] [4169] closing connection...
+[NFO] [4169] ...connection closed.
+ion...
 [NFO] [26309] ...connection closed.
 [NFO] [26305] ...connection accepted!
 [NFO] [26305] closing connection...
