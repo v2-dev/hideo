@@ -5,10 +5,15 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+
 /* Server TCP pre-threaded with dynamic pool size
   accept() on main, worker thread with condition and mutex
 */
 
+pthread_mutex_t pool_mutex;
+pthread_cond_t pool_cond;
+int pool_size;
+int pool_free;
 
 int				listensd, nthreads;
 socklen_t		addrlen;

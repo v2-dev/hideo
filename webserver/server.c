@@ -61,6 +61,11 @@ int main(int argc, char **argv)
 	static short servport;
 	static int backlog;
 	int loglvl, i;
+	struct sockaddr_in servaddr, cliaddr;
+	socklen_t len;
+	int *sock;
+	int optval;
+	socklen_t optlen = sizeof(optval);
 
 	if (argc > 1)
 		printf("\n %s : No arguments required. Use only server.cfg\n ", argv[0]);
@@ -105,11 +110,6 @@ int main(int argc, char **argv)
 		toLog(ERR,srvlog, "Error in signal\n");
 		exit(EXIT_FAILURE);
 	}
-
-	int optval;
-	socklen_t optlen = sizeof(optval);
-
-	struct sockaddr_in servaddr;
 
 	if ((listensd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) {	/* crea il socket */
 		perror("error in socket()\n");
@@ -158,8 +158,39 @@ int main(int argc, char **argv)
 	for (i = 0; i < nthreads; i++)
 		thread_make(i);	/* only main thread returns */
 
-	for (;;) {
-		pause();
-	}
+ 	/*********************************THE LAST INSTRUCTION*******************************************/
+	/*for (;;) {
+
+		len = sizeof(cliaddr);
+		if ((connsd = accept(listensd, (struct sockaddr *) &cliaddr, &len)) < 0) {
+			toLog(ERR,srvlog, "Error in accept");
+			exit(EXIT_FAILURE);
+		}
+
+		sock = Malloc(sizeof(int));
+
+		*sock = connsd;
+
+		if ((err = pthread_mutex_lock(&pool_mutex)) != 0) {
+			toLog(ERR, srvlog, "Error on pthread_mutex_lock");
+			exit(EXIT_FAILURE);
+		}
+
+		insert_tail(sock, &list_sock);
+
+		if ((err = pthread_cond_signal(&pool_cond)) != 0) {
+			toLog(ERR, srvlog, "Error in pthread_cond_signal: %d : %s\n", err, strerror(err));
+			exit(EXIT_FAILURE);
+		}
+
+		if ((err = pthread_mutex_unlock(&pool_mutex)) != 0) {
+			toLog(ERR, srvlog, "Error in pthread_mutex_unlock: %d : %s\n", err, strerror(err));
+			exit(EXIT_FAILURE);
+		}
+
+	}*/
+/**************************************************************************************************/
+
+
 
 }

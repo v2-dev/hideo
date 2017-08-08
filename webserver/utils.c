@@ -277,3 +277,63 @@ ssize_t Writeline(int sockd, const void *vptr, ssize_t n)
 
 	return n;
 }
+
+
+
+struct node_t *alloc_node()
+{
+	struct node_t *p;
+
+	p = malloc(sizeof(struct node_t));
+	if (p == NULL) {
+		fprintf(stderr, "Memory allocation error\n");
+		exit(EXIT_FAILURE);
+	}
+	return p;
+}
+
+void insert_tail(void *v, struct list *l)
+{
+	struct node_t *new_tail;
+	struct node_t *old_tail;
+
+	new_tail = alloc_node();
+	new_tail->value = v;
+	old_tail = l->list_tail;
+
+	new_tail->next = NULL;
+	l->list_tail = new_tail;
+
+	if (l->size != 0)
+		old_tail->next = new_tail;
+	else
+		l->list_head = new_tail;
+
+	l->size += 1;
+
+	return;
+}
+
+void *remove_head(struct list *l)
+{
+	if (l->size > 0) {
+		struct node_t *old_head;
+		void *value;
+
+		old_head = l->list_head;
+		value = old_head->value;
+		if (l->size != 1)
+			l->list_head = old_head->next;
+		else {
+			l->list_head = NULL;
+			l->list_tail = NULL;
+		}
+
+		l->size -= 1;
+		free(old_head);
+
+		return value;
+	} else
+		return NULL;
+
+}

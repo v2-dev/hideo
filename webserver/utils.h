@@ -27,6 +27,24 @@
 #define ERROR				-1
 #define SUCCESS      0
 
+
+struct list {
+	int size;
+	struct node_t *list_head;
+	struct node_t *list_tail;
+};
+
+struct node_t {
+	void *value;
+	struct node_t *next;
+};
+
+struct list list_sock;
+
+struct node_t *alloc_node();
+void insert_tail(void *v, struct list *l);
+void *remove_head(struct list *l);
+
 /*Error handlers Wrappers*/
 void unix_error(char *msg);
 void err_exit(const char *errmsg, int errnum);
