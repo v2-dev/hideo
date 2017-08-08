@@ -12,8 +12,6 @@
 
 pthread_mutex_t pool_mutex;
 pthread_cond_t pool_cond;
-int pool_size;
-int pool_free;
 
 int				listensd, nthreads;
 socklen_t		addrlen;
@@ -28,11 +26,12 @@ struct Thread{
 
 struct Thread	*tptr;		/* array of Thread structures; calloc'ed */
 
-void create_pthread(pthread_t *, void *, void *, int);
-
 void lock(pthread_mutex_t *);
 void unlock(pthread_mutex_t *);
+
 void thread_make(int );
+void *thread_main(void *);
+
 void millisleep(int milliseconds);
 
 #endif

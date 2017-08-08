@@ -13,7 +13,7 @@ void millisleep(int milliseconds)
 
 void thread_make(int i)
 {
-	void *thread_main(void *);
+
 	pthread_attr_t attr;
 	tptr[i].thread_count = i;
 
@@ -41,51 +41,88 @@ void thread_make(int i)
 }
 
 
+void thread_job(struct conndata *cdata)
+{
+	int retval = 1;
+
+	while (1) {
+		/*To be implemented: thread sleep until next client request */
+		retval = serve_request(cdata);
+
+		if (retval == ERROR) {
+			toLog(NFO,srvlog, "closing connection...");
+			Free(cdata);
+			close(cdata->socketint);
+			toLog(NFO,srvlog, "...connection closed.");
+			break;
+		}
+
+	}
+
+}
+
+
 void *thread_main(void *arg)
 {
-	int connsd, retval = 0;
+	int connsd, err;
+	struct timeval timeout;
 	struct Thread *thread_data = (struct Thread *) arg;
 	struct conndata *cdata;
 
+	int *sock;
+
+	connsd = -1;
+
 	thread_data->thread_tid = pthread_self() / 256;
 
-	char *buf = Malloc(256);
-	sprintf(buf, "Thread created [%u]", (unsigned int) thread_data->thread_tid);
-	toLog(NFO,srvlog, buf);
-	free(buf);
+	toLog(NFO,srvlog, "Thread created [%u]", (unsigned int) thread_data->thread_tid);
 
-	while (1) {
+	for (;;) {
 
-		if (pthread_mutex_lock(&mtx) < 0){
+		/*if (connsd != -1) {
+
+			if (close(connsd) < 0) {
+				fprintf(stderr, "Error in close: %d : %s\n", errno, strerror(errno));
+				exit(EXIT_FAILURE);
+			}
+
+		}*/
+
+		if ((err = pthread_mutex_lock(&pool_mutex)) != 0) {
 			toLog(ERR,srvlog, "Error on pthread_mutex_lock()");
 			pthread_exit(NULL);
 		}
 
-		if ((connsd = accept(listensd, (struct sockaddr *) NULL, NULL)) < 0){
-			toLog(ERR,srvlog, "Error on accept()");
-			pthread_exit(NULL);
+		while ((sock = remove_head(&list_sock)) == NULL) {
+			if ((err = pthread_cond_wait(&pool_cond, &pool_mutex)) != 0) {
+				toLog(ERR, srvlog, "Error in pthread_cond_wait: %d : %s\n", err, strerror(err));
+				pthread_exit(NULL);
+			}
 		}
 
-		toLog(NFO,srvlog, "...connection accepted!");
+		toLog(NFO,srvlog, "...begin client service...");
 
-		struct timeval timeout;
+		connsd = *sock;
+		free(sock);
+
+		if ((err = pthread_mutex_unlock(&pool_mutex)) != 0) {
+			toLog(ERR, srvlog, "Error in pthread_mutex_unlock: %d : %s\n", err, strerror(err));
+			exit(EXIT_FAILURE);
+		}
+
 		timeout.tv_sec = 0;
 		timeout.tv_usec = 75000;
 
-		if (setsockopt(connsd, SOL_SOCKET, SO_RCVTIMEO, (char *) &timeout, sizeof(timeout)) < 0){
-			toLog(ERR, srvlog, "setsockopt SO_RCVTIMEO failed");
-			pthread_exit(NULL);
+		if (setsockopt(connsd, SOL_SOCKET, SO_RCVTIMEO, (char *) &timeout, sizeof(timeout)) < 0) {
+			toLog(ERR, srvlog, "Error in setsockopt: %d : %s\n", errno, strerror(errno));
+			exit(EXIT_FAILURE);
 		}
 
-		if (setsockopt(connsd, SOL_SOCKET, SO_SNDTIMEO, (char *) &timeout, sizeof(timeout)) < 0){
-			toLog(ERR, srvlog, "setsockopt SO_SNDTIMEO failed");
-			pthread_exit(NULL);
+		if (setsockopt(connsd, SOL_SOCKET, SO_SNDTIMEO, (char *) &timeout, sizeof(timeout)) < 0) {
+			toLog(ERR, srvlog, "Error in setsockopt: %d : %s\n", errno, strerror(errno));
+			exit(EXIT_FAILURE);
 		}
 
-		if (pthread_mutex_unlock(&mtx) < 0){
-			toLog(ERR, srvlog, "error on pthread_mutex_unlock()");
-			pthread_exit(NULL);
-		}
 
 
 		cdata = create_conndata();
@@ -95,20 +132,8 @@ void *thread_main(void *arg)
 		/******************************
 			Serve request to the client
 		*******************************/
-		retval = 1;
+		thread_job(cdata);
 
-		while (1) {
-			/*To be implemented: thread sleep until next client request */
-			retval = serve_request(cdata);
-			if (retval == ERROR) {
-				toLog(NFO,srvlog, "closing connection...");
-				Free(cdata);
-				close(cdata->socketint);
-				toLog(NFO,srvlog, "...connection closed.");
-				break;
-			}
-
-		}
 	}
 
 	return NULL;

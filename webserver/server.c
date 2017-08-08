@@ -21,6 +21,10 @@
 int listensd;
 char *request;
 
+pthread_mutex_t pool_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t pool_cond = PTHREAD_COND_INITIALIZER;
+struct list list_sock = { 0, NULL, NULL };
+
 void pr_cpu_time(void)
 {
 	double user, sys;
@@ -66,6 +70,8 @@ int main(int argc, char **argv)
 	int *sock;
 	int optval;
 	socklen_t optlen = sizeof(optval);
+	int connsd;
+	int err = 0;
 
 	if (argc > 1)
 		printf("\n %s : No arguments required. Use only server.cfg\n ", argv[0]);
@@ -128,12 +134,12 @@ int main(int argc, char **argv)
 	if (setsockopt(listensd, SOL_SOCKET, SO_REUSEPORT, &optval, optlen) < 0)
     toLog(WRN,srvlog, "Unable to set SO_REUSEPORT on listening socket\n");
 
-	if (setsockopt(listensd, SOL_SOCKET, SO_KEEPALIVE, &optval, optlen) < 0) {
-		perror("errore in setsockopt");
-    toLog(ERR,srvlog, "cannot set SO_KEEPALIVE option on socket. Abort.\n");
+	if ((err = setsockopt(listensd, SOL_SOCKET, SO_KEEPALIVE, &optval, optlen)) < 0) {
+		toLog(ERR, srvlog, "cannot set SO_KEEPALIVE option on socket. Abort.: %d : %s\n", err, strerror(err));
 		close(listensd);
 		exit(EXIT_FAILURE);
 	}
+
   toLog(NFO,srvlog ,"SO_KEEPALIVE set\n");
 
 	/* assegna l'indirizzo al socket */
@@ -149,25 +155,20 @@ int main(int argc, char **argv)
 
 	tptr = (struct Thread *) Calloc(nthreads + 1, sizeof(struct Thread));
 
-	/*mutex initializer */
-	if (pthread_mutex_init(&mtx, NULL) != 0){
-    toLog(ERR,srvlog, "Error on pthread_mutex_init()");
-    exit(EXIT_FAILURE);
-  }
-
 	for (i = 0; i < nthreads; i++)
 		thread_make(i);	/* only main thread returns */
 
+	/*to be erased*/
  	/*********************************THE LAST INSTRUCTION*******************************************/
-	/*for (;;) {
+	for (;;) {
 
 		len = sizeof(cliaddr);
 		if ((connsd = accept(listensd, (struct sockaddr *) &cliaddr, &len)) < 0) {
-			toLog(ERR,srvlog, "Error in accept");
+			toLog(ERR,srvlog, "Error in accept %d : %s\n", connsd, strerror(connsd));
 			exit(EXIT_FAILURE);
 		}
 
-		sock = Malloc(sizeof(int));
+		sock = malloc(sizeof(int));
 
 		*sock = connsd;
 
@@ -188,9 +189,7 @@ int main(int argc, char **argv)
 			exit(EXIT_FAILURE);
 		}
 
-	}*/
+	}
 /**************************************************************************************************/
-
-
 
 }
