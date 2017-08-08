@@ -1,0 +1,693 @@
+[NFO] [2017-08-08 15:00:18] [8973] Cache folder created
+[NFO] [2017-08-08 15:00:18] [8973] Cache manager initialized correctly
+[NFO] [2017-08-08 15:00:21] [8973] SO_KEEPALIVE set
+
+[NFO] [2017-08-08 15:00:21] [8991] Thread created [55836663]
+[NFO] [2017-08-08 15:00:21] [8988] Thread created [56297751]
+[NFO] [2017-08-08 15:00:21] [8989] Thread created [56264967]
+[NFO] [2017-08-08 15:00:21] [8990] Thread created [56232183]
+[NFO] [2017-08-08 15:00:21] [8992] Thread created [56199399]
+[NFO] [2017-08-08 15:00:21] [8993] Thread created [56166615]
+[NFO] [2017-08-08 15:00:21] [8994] Thread created [56133831]
+[NFO] [2017-08-08 15:00:21] [8995] Thread created [55803879]
+[NFO] [2017-08-08 15:00:21] [8996] Thread created [55771095]
+[NFO] [2017-08-08 15:00:21] [8997] Thread created [55738311]
+[NFO] [2017-08-08 15:00:25] [8991] ...begin client service...
+[NFO] [2017-08-08 15:00:25] [8991] Header HTTP OK
+[NFO] [2017-08-08 15:00:25] [8991] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:25] [8991] Request path: /
+[NFO] [2017-08-08 15:00:25] [8991] Accept = 
+[NFO] [2017-08-08 15:00:25] [8991] text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+[ERR] [2017-08-08 15:00:25] [8991] fileNotFound
+[NFO] [2017-08-08 15:00:25] [8991] file served
+[NFO] [2017-08-08 15:00:25] [8991] Header HTTP OK
+[NFO] [2017-08-08 15:00:25] [8991] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:25] [8991] Request path: /thumbs/picture1.png
+[NFO] [2017-08-08 15:00:25] [8991] Accept = 
+[NFO] [2017-08-08 15:00:25] [8991] */*
+[NFO] [2017-08-08 15:00:25] [8988] ...begin client service...
+[NFO] [2017-08-08 15:00:25] [8988] Header HTTP OK
+[NFO] [2017-08-08 15:00:25] [8988] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:25] [8988] Request path: /thumbs/picture2.png
+[NFO] [2017-08-08 15:00:25] [8988] Accept = 
+[NFO] [2017-08-08 15:00:25] [8988] */*
+[NFO] [2017-08-08 15:00:25] [8989] ...begin client service...
+[NFO] [2017-08-08 15:00:25] [8990] ...begin client service...
+[NFO] [2017-08-08 15:00:25] [8989] Header HTTP OK
+[NFO] [2017-08-08 15:00:25] [8989] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:25] [8989] Request path: /thumbs/picture3.png
+[NFO] [2017-08-08 15:00:25] [8989] Accept = 
+[NFO] [2017-08-08 15:00:25] [8989] */*
+[NFO] [2017-08-08 15:00:25] [8990] Header HTTP OK
+[NFO] [2017-08-08 15:00:25] [8990] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:25] [8990] Request path: /thumbs/picture4.png
+[NFO] [2017-08-08 15:00:25] [8990] Accept = 
+[NFO] [2017-08-08 15:00:25] [8990] */*
+[NFO] [2017-08-08 15:00:25] [8992] ...begin client service...
+[NFO] [2017-08-08 15:00:25] [8992] Header HTTP OK
+[NFO] [2017-08-08 15:00:25] [8992] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:25] [8992] Request path: /thumbs/picture5.png
+[NFO] [2017-08-08 15:00:25] [8992] Accept = 
+[NFO] [2017-08-08 15:00:25] [8992] */*
+[NFO] [2017-08-08 15:00:25] [8993] ...begin client service...
+[NFO] [2017-08-08 15:00:25] [8993] Header HTTP OK
+[NFO] [2017-08-08 15:00:25] [8993] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:25] [8993] Request path: /thumbs/picture6.png
+[NFO] [2017-08-08 15:00:25] [8993] Accept = 
+[NFO] [2017-08-08 15:00:25] [8993] */*
+[ERR] [2017-08-08 15:00:25] [8991] fileNotFound
+[NFO] [2017-08-08 15:00:25] [8991] file served
+[NFO] [2017-08-08 15:00:25] [8991] Header HTTP OK
+[NFO] [2017-08-08 15:00:25] [8991] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:25] [8991] Request path: /thumbs/picture7.png
+[NFO] [2017-08-08 15:00:25] [8991] Accept = 
+[NFO] [2017-08-08 15:00:25] [8991] */*
+[ERR] [2017-08-08 15:00:25] [8989] fileNotFound
+[NFO] [2017-08-08 15:00:25] [8989] file served
+[NFO] [2017-08-08 15:00:25] [8989] Header HTTP OK
+[NFO] [2017-08-08 15:00:25] [8989] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:25] [8989] Request path: /thumbs/picture8.png
+[NFO] [2017-08-08 15:00:25] [8989] Accept = 
+[NFO] [2017-08-08 15:00:25] [8989] */*
+[ERR] [2017-08-08 15:00:25] [8993] fileNotFound
+[NFO] [2017-08-08 15:00:25] [8993] file served
+[ERR] [2017-08-08 15:00:25] [8988] fileNotFound
+[NFO] [2017-08-08 15:00:25] [8988] file served
+[NFO] [2017-08-08 15:00:25] [8993] Header HTTP OK
+[NFO] [2017-08-08 15:00:25] [8993] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:25] [8993] Request path: /thumbs/picture9.png
+[NFO] [2017-08-08 15:00:25] [8993] Accept = 
+[NFO] [2017-08-08 15:00:25] [8993] */*
+[NFO] [2017-08-08 15:00:25] [8988] Header HTTP OK
+[NFO] [2017-08-08 15:00:25] [8988] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:25] [8988] Request path: /thumbs/picture10.png
+[NFO] [2017-08-08 15:00:25] [8988] Accept = 
+[NFO] [2017-08-08 15:00:25] [8988] */*
+[ERR] [2017-08-08 15:00:25] [8990] fileNotFound
+[NFO] [2017-08-08 15:00:25] [8990] file served
+[NFO] [2017-08-08 15:00:25] [8990] Header HTTP OK
+[NFO] [2017-08-08 15:00:25] [8990] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:25] [8990] Request path: /bgr.gif
+[NFO] [2017-08-08 15:00:25] [8990] Accept = 
+[NFO] [2017-08-08 15:00:25] [8990] */*
+[ERR] [2017-08-08 15:00:25] [8990] fileNotFound
+[NFO] [2017-08-08 15:00:25] [8990] file served
+[ERR] [2017-08-08 15:00:25] [8992] fileNotFound
+[NFO] [2017-08-08 15:00:25] [8992] file served
+[NFO] [2017-08-08 15:00:25] [8992] Header HTTP OK
+[NFO] [2017-08-08 15:00:25] [8992] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:25] [8992] Request path: /thumbs/picture11.png
+[NFO] [2017-08-08 15:00:25] [8992] Accept = 
+[NFO] [2017-08-08 15:00:25] [8992] */*
+[NFO] [2017-08-08 15:00:25] [8990] Header HTTP OK
+[NFO] [2017-08-08 15:00:25] [8990] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:25] [8990] Request path: /thumbs/picture12.png
+[NFO] [2017-08-08 15:00:25] [8990] Accept = 
+[NFO] [2017-08-08 15:00:25] [8990] */*
+[ERR] [2017-08-08 15:00:25] [8993] fileNotFound
+[NFO] [2017-08-08 15:00:25] [8993] file served
+[NFO] [2017-08-08 15:00:25] [8993] Header HTTP OK
+[NFO] [2017-08-08 15:00:25] [8993] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:25] [8993] Request path: /thumbs/picture13.png
+[NFO] [2017-08-08 15:00:25] [8993] Accept = 
+[NFO] [2017-08-08 15:00:25] [8993] */*
+[ERR] [2017-08-08 15:00:25] [8989] fileNotFound
+[NFO] [2017-08-08 15:00:25] [8989] file served
+[NFO] [2017-08-08 15:00:25] [8989] Header HTTP OK
+[NFO] [2017-08-08 15:00:25] [8989] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:25] [8989] Request path: /thumbs/picture14.png
+[NFO] [2017-08-08 15:00:25] [8989] Accept = 
+[NFO] [2017-08-08 15:00:25] [8989] */*
+[ERR] [2017-08-08 15:00:25] [8991] fileNotFound
+[NFO] [2017-08-08 15:00:25] [8991] file served
+[NFO] [2017-08-08 15:00:25] [8991] Header HTTP OK
+[NFO] [2017-08-08 15:00:25] [8991] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:25] [8991] Request path: /thumbs/picture15.png
+[NFO] [2017-08-08 15:00:25] [8991] Accept = 
+[NFO] [2017-08-08 15:00:25] [8991] */*
+[ERR] [2017-08-08 15:00:25] [8988] fileNotFound
+[NFO] [2017-08-08 15:00:25] [8988] file served
+[NFO] [2017-08-08 15:00:25] [8988] Header HTTP OK
+[NFO] [2017-08-08 15:00:25] [8988] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:25] [8988] Request path: /thumbs/picture16.png
+[NFO] [2017-08-08 15:00:25] [8988] Accept = 
+[NFO] [2017-08-08 15:00:25] [8988] */*
+[ERR] [2017-08-08 15:00:25] [8992] fileNotFound
+[NFO] [2017-08-08 15:00:25] [8992] file served
+[NFO] [2017-08-08 15:00:25] [8992] Header HTTP OK
+[NFO] [2017-08-08 15:00:25] [8992] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:25] [8992] Request path: /thumbs/picture17.png
+[NFO] [2017-08-08 15:00:25] [8992] Accept = 
+[NFO] [2017-08-08 15:00:25] [8992] */*
+[ERR] [2017-08-08 15:00:26] [8990] fileNotFound
+[NFO] [2017-08-08 15:00:26] [8990] file served
+[NFO] [2017-08-08 15:00:26] [8990] Header HTTP OK
+[NFO] [2017-08-08 15:00:26] [8990] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:26] [8990] Request path: /thumbs/picture18.png
+[NFO] [2017-08-08 15:00:26] [8990] Accept = 
+[NFO] [2017-08-08 15:00:26] [8990] */*
+[ERR] [2017-08-08 15:00:26] [8991] fileNotFound
+[NFO] [2017-08-08 15:00:26] [8991] file served
+[NFO] [2017-08-08 15:00:26] [8991] Header HTTP OK
+[NFO] [2017-08-08 15:00:26] [8991] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:26] [8991] Request path: /thumbs/picture19.png
+[NFO] [2017-08-08 15:00:26] [8991] Accept = 
+[NFO] [2017-08-08 15:00:26] [8991] */*
+[ERR] [2017-08-08 15:00:26] [8990] fileNotFound
+[NFO] [2017-08-08 15:00:26] [8990] file served
+[NFO] [2017-08-08 15:00:26] [8990] Header HTTP OK
+[NFO] [2017-08-08 15:00:26] [8990] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:26] [8990] Request path: /thumbs/picture20.png
+[NFO] [2017-08-08 15:00:26] [8990] Accept = 
+[NFO] [2017-08-08 15:00:26] [8990] */*
+[ERR] [2017-08-08 15:00:26] [8991] fileNotFound
+[NFO] [2017-08-08 15:00:26] [8991] file served
+[NFO] [2017-08-08 15:00:26] [8991] Header HTTP OK
+[NFO] [2017-08-08 15:00:26] [8991] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:26] [8991] Request path: /thumbs/picture21.png
+[NFO] [2017-08-08 15:00:26] [8991] Accept = 
+[NFO] [2017-08-08 15:00:26] [8991] */*
+[ERR] [2017-08-08 15:00:26] [8990] fileNotFound
+[NFO] [2017-08-08 15:00:26] [8990] file served
+[NFO] [2017-08-08 15:00:26] [8990] Header HTTP OK
+[NFO] [2017-08-08 15:00:26] [8990] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:26] [8990] Request path: /thumbs/picture22.png
+[NFO] [2017-08-08 15:00:26] [8990] Accept = 
+[NFO] [2017-08-08 15:00:26] [8990] */*
+[ERR] [2017-08-08 15:00:26] [8992] fileNotFound
+[NFO] [2017-08-08 15:00:26] [8992] file served
+[NFO] [2017-08-08 15:00:26] [8992] Header HTTP OK
+[NFO] [2017-08-08 15:00:26] [8992] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:26] [8992] Request path: /thumbs/picture23.png
+[NFO] [2017-08-08 15:00:26] [8992] Accept = 
+[NFO] [2017-08-08 15:00:26] [8992] */*
+[ERR] [2017-08-08 15:00:26] [8991] fileNotFound
+[NFO] [2017-08-08 15:00:26] [8991] file served
+[NFO] [2017-08-08 15:00:26] [8991] Header HTTP OK
+[NFO] [2017-08-08 15:00:26] [8991] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:26] [8991] Request path: /thumbs/picture24.png
+[NFO] [2017-08-08 15:00:26] [8991] Accept = 
+[NFO] [2017-08-08 15:00:26] [8991] */*
+[ERR] [2017-08-08 15:00:26] [8990] fileNotFound
+[NFO] [2017-08-08 15:00:26] [8990] file served
+[NFO] [2017-08-08 15:00:26] [8990] Header HTTP OK
+[NFO] [2017-08-08 15:00:26] [8990] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:26] [8990] Request path: /thumbs/picture25.png
+[NFO] [2017-08-08 15:00:26] [8990] Accept = 
+[NFO] [2017-08-08 15:00:26] [8990] */*
+[ERR] [2017-08-08 15:00:26] [8989] fileNotFound
+[NFO] [2017-08-08 15:00:26] [8989] file served
+[NFO] [2017-08-08 15:00:26] [8989] Header HTTP OK
+[NFO] [2017-08-08 15:00:26] [8989] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:26] [8989] Request path: /thumbs/picture26.png
+[NFO] [2017-08-08 15:00:26] [8989] Accept = 
+[NFO] [2017-08-08 15:00:26] [8989] */*
+[ERR] [2017-08-08 15:00:27] [8992] fileNotFound
+[NFO] [2017-08-08 15:00:27] [8992] file served
+[NFO] [2017-08-08 15:00:27] [8992] Header HTTP OK
+[NFO] [2017-08-08 15:00:27] [8992] HTTP/1.1 200 OK
+
+[NFO] [2017-08-08 15:00:27] [8992] Request path: /thumbs/picture27.png
+[NFO] [2017-08-08 15:00:27] [8992] Accept = 
+[NFO] [2017-08-08 15:00:27] [8992] */*
+[ERR] [2017-08-08 15:00:27] [8989] fileNotFound
+[NFO] [2017-08-08 15:00:27] [8989] file served
+[ERR] [2017-08-08 15:00:27] [8990] fileNotFound
+[NFO] [2017-08-08 15:00:27] [8990] file served
+[NFO] [2017-08-08 15:00:27] [8989] closing connection...
+[NFO] [2017-08-08 15:00:27] [8989] ...connection closed.
+[NFO] [2017-08-08 15:00:27] [8990] closing connection...
+[NFO] [2017-08-08 15:00:27] [8990] ...connection closed.
+[ERR] [2017-08-08 15:00:27] [8991] fileNotFound
+[NFO] [2017-08-08 15:00:27] [8991] file served
+[ERR] [2017-08-08 15:00:27] [8992] fileNotFound
+[NFO] [2017-08-08 15:00:27] [8992] file served
+[NFO] [2017-08-08 15:00:27] [8991] closing connection...
+[NFO] [2017-08-08 15:00:27] [8991] ...connection closed.
+[NFO] [2017-08-08 15:00:27] [8992] closing connection...
+[NFO] [2017-08-08 15:00:27] [8992] ...connection closed.
+[ERR] [2017-08-08 15:00:27] [8988] fileNotFound
+[NFO] [2017-08-08 15:00:27] [8988] file served
+[NFO] [2017-08-08 15:00:27] [8988] closing connection...
+[NFO] [2017-08-08 15:00:27] [8988] ...connection closed.
+[ERR] [2017-08-08 15:00:27] [8993] fileNotFound
+[NFO] [2017-08-08 15:00:27] [8993] file served
+[NFO] [2017-08-08 15:00:27] [8993] closing connection...
+[NFO] [2017-08-08 15:00:27] [8993] ...connection closed.
+[NFO] [2017-08-08 15:00:33] [8995] ...begin client service...
+[NFO] [2017-08-08 15:00:33] [8995] closing connection...
+[NFO] [2017-08-08 15:00:33] [8995] ...connection closed.
+[NFO] [2017-08-08 15:00:33] [8996] ...begin client service...
+[NFO] [2017-08-08 15:00:33] [8996] closing connection...
+[NFO] [2017-08-08 15:00:33] [8996] ...connection closed.
+[NFO] [2017-08-08 15:00:33] [8997] ...begin client service...
+[NFO] [2017-08-08 15:00:33] [8997] closing connection...
+[NFO] [2017-08-08 15:00:33] [8997] ...connection closed.
+[NFO] [2017-08-08 15:00:33] [8989] ...begin client service...
+[NFO] [2017-08-08 15:00:33] [8989] closing connection...
+[NFO] [2017-08-08 15:00:33] [8989] ...connection closed.
+[NFO] [2017-08-08 15:00:33] [8990] ...begin client service...
+[NFO] [2017-08-08 15:00:33] [8990] closing connection...
+[NFO] [2017-08-08 15:00:33] [8990] ...connection closed.
+[NFO] [2017-08-08 15:00:57] [8991] ...begin client service...
+[NFO] [2017-08-08 15:00:57] [8991] closing connection...
+[NFO] [2017-08-08 15:00:57] [8991] ...connection closed.
+closed.
+[NFO] [23213] closing connection...
+[NFO] [23213] ...connection closed.
+[NFO] [23219] closing connection...
+[NFO] [23219] ...connection closed.
+[NFO] [23215] closing connection...
+[NFO] [23215] ...connection closed.
+[NFO] [23222] closing connection...
+[NFO] [23222] ...connection closed.
+[ERR] [23217] Error opening: homepage/favicon.ico
+[ERR] [23217] Error insert in cache the file: homepage/favicon.ico
+
+[NFO] [23217] closing connection...
+[NFO] [23217] ...connection closed.
+!
+[NFO] [5889] closing connection...
+[NFO] [5889] ...connection closed.
+[NFO] [5890] closing connection...
+[NFO] [5890] ...connection closed.
+[NFO] [5889] ...connection accepted!
+[NFO] [5889] closing connection...
+[NFO] [5889] ...connection closed.
+[NFO] [5890] ...connection accepted!
+[NFO] [5889] ...connection accepted!
+[NFO] [5890] closing connection...
+[NFO] [5890] ...connection closed.
+[NFO] [5890] ...connection accepted!
+[NFO] [5889] closing connection...
+[NFO] [5889] ...connection closed.
+[NFO] [5890] closing connection...
+[NFO] [5890] ...connection closed.
+[NFO] [5889] ...connection accepted!
+[NFO] [5889] closing connection...
+[NFO] [5889] ...connection closed.
+[NFO] [5890] ...connection accepted!
+[NFO] [5890] closing connection...
+[NFO] [5890] ...connection closed.
+[NFO] [5889] ...connection accepted!
+[NFO] [5889] closing connection...
+[NFO] [5889] ...connection closed.
+[NFO] [5890] ...connection accepted!
+[NFO] [5889] ...connection accepted!
+[NFO] [5889] closing connection...
+[NFO] [5889] ...connection closed.
+[NFO] [5889] ...connection accepted!
+[NFO] [5890] closing connection...
+[NFO] [5890] ...connection closed.
+[NFO] [5890] ...connection accepted!
+[NFO] [5889] closing connection...
+[NFO] [5889] ...connection closed.
+[NFO] [5890] closing connection...
+[NFO] [5890] ...connection closed.
+[NFO] [5889] ...connection accepted!
+[NFO] [5890] ...connection accepted!
+[NFO] [5890] closing connection...
+[NFO] [5890] ...connection closed.
+[NFO] [5890] ...connection accepted!
+[NFO] [5890] closing connection...
+[NFO] [5890] ...connection closed.
+[NFO] [5890] ...connection accepted!
+[NFO] [5889] closing connection...
+[NFO] [5889] ...connection closed.
+[NFO] [5890] closing connection...
+[NFO] [5890] ...connection closed.
+[NFO] [5889] ...connection accepted!
+[NFO] [5889] closing connection...
+[NFO] [5889] ...connection closed.
+[NFO] [5890] ...connection accepted!
+[NFO] [5890] closing connection...
+[NFO] [5890] ...connection closed.
+[NFO] [5889] ...connection accepted!
+[NFO] [5889] closing connection...
+[NFO] [5889] ...connection closed.
+[NFO] [5890] ...connection accepted!
+[NFO] [5890] closing connection...
+[NFO] [5890] ...connection closed.
+[NFO] [5889] ...connection accepted!
+[NFO] [5889] closing connection...
+[NFO] [5889] ...connection closed.
+[NFO] [5890] ...connection accepted!
+[NFO] [5890] closing connection...
+[NFO] [5890] ...connection closed.
+[NFO] [5889] ...connection accepted!
+[NFO] [5889] closing connection...
+[NFO] [5889] ...connection closed.
+[NFO] [5890] ...connection accepted!
+[NFO] [5890] closing connection...
+[NFO] [5890] ...connection closed.
+[NFO] [5889] ...connection accepted!
+[NFO] [5889] closing connection...
+[NFO] [5889] ...connection closed.
+o
+[ERR] [12300] Error insert in cache the file: homepage/favicon.ico
+
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12299] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12299] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12299] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12300] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12300] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12299] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12299] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12299] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[ERR] [12300] Error opening: homepage/favicon.ico
+[ERR] [12300] Error insert in cache the file: homepage/favicon.ico
+
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12300] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12300] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12300] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12299] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12299] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
+[NFO] [12300] ...connection accepted!
+[NFO] [12300] closing connection...
+[NFO] [12300] ...connection closed.
+[NFO] [12299] ...connection accepted!
+[NFO] [12299] closing connection...
+[NFO] [12299] ...connection closed.
