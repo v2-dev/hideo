@@ -233,7 +233,7 @@ int uacheck(char *optstring, struct conndata *p)
 	 */
 	strcpy(p->messages, "User Agent = ");
 	strcat(p->messages, p->useragent);
-	print_message(p);
+	//print_message(p);
 	return 1;
 }
 
@@ -263,9 +263,7 @@ int accheck(char *optstring, struct conndata *p)
 
 	strcpy(p->acceptfld, optstring + 8);
 
-	fprintf(stdout, "ACCEPT FIELD HERE ---> %s\n", p->acceptfld);
-
-	char *strg = p->acceptfld;
+		char *strg = p->acceptfld;
 
 	p->extension = malloc(10 * sizeof(char));
 	int len = strlen("png");
@@ -282,7 +280,6 @@ int accheck(char *optstring, struct conndata *p)
 		p->quality_factor = find_quality(strg);
 	}
 
-	fprintf(stdout, "quality factor %d\n", p->quality_factor);
 	/*
 	   strcpy(p->useragent, "");
 	   for (buf_idx = 11; buf_idx <= strlen(optstring); buf_idx++) strcat(p->useragent, optstring[buf_idx]);
@@ -293,7 +290,6 @@ int accheck(char *optstring, struct conndata *p)
 	toLog(NFO, srvlog, p->acceptfld);
 	strcat(p->messages, p->acceptfld);
 
-	print_message(p);
 	return 1;
 }
 
@@ -354,7 +350,6 @@ int path_parse(char *optstring, struct conndata *p)
 	if (!strncmp(optstring + choffset, header, 8)) {
 		strcpy(p->messages, "Header HTTP mancante od incompleto!");
 		toLog(ERR, srvlog, "Missing header.\n");
-		print_message(p);
 		return ERROR;
 	}
 
@@ -362,13 +357,11 @@ int path_parse(char *optstring, struct conndata *p)
 	toLog(NFO, srvlog, "Header HTTP OK");
 
 	http_200(p);
-	print_message(p);
 
 	strcpy(p->messages, "Path richiesto: ");
 	toLog(NFO, srvlog, "Request path: %s", p->path);
 
 	strcat(p->messages, p->path);
-	print_message(p);
 
 	//strcpy(p->path_r, path_r);
 	return 0;
@@ -405,7 +398,6 @@ int serve_request(struct conndata *cdata)
 	/* Nothing read */
 	if (httpr->dimArray == 0) {
 		destroy_httpread(httpr);
-		printf("Niente da leggere\n");
 		toLog(ERR, srvlog, "Nothing to read\n");
 		return ERROR;
 	}
@@ -474,7 +466,7 @@ int send_response(struct conndata *p)
 
 		cache_set = 1;
 		strcpy(mypath, "homepage");
-		
+
 		strcat(mypath, p->path);
 		wurflrdt(hwurfl, p->useragent, &x, &y);
 		x = 1024; y=768;
@@ -492,7 +484,7 @@ int send_response(struct conndata *p)
 		wurflrdt(hwurfl, p->useragent, &x, &y);
 		x = (int)(x/3.4);
 		y = (int) (y/3.4);
-		
+
 		x = 300;
 		y = 300;
 
@@ -518,7 +510,6 @@ int send_response(struct conndata *p)
 		strcpy(p->messages, "File ");
 		strcat(p->messages, p->path);
 		strcat(p->messages, " non trovato, invio header 404\n");
-		print_message(p);
 		http_404(p);
 		fprintf(stderr, "\nNon presente il file: %s", p->path);
 	}
@@ -557,7 +548,6 @@ int send_response(struct conndata *p)
 
 		strcpy(p->messages, "File servito");
 		toLog(NFO, srvlog, "file served");
-		print_message(p);
 		return 0;
 	}
 

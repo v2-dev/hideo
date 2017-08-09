@@ -180,21 +180,21 @@ void compute_message(struct logger * myLogger, struct logNode * ln){
 
 	if ((ln->type==ERR)&&((ERR) & (myLogger->log_lvl))){
 
-		if(myLogger->printOnScreen) fprintf(stderr, "[ERR] [%d] %s\n", ln->tid, ln->text);
+		//if(myLogger->printOnScreen) fprintf(stderr, "[ERR] [%d] %s\n", ln->tid, ln->text);
 
 		write_on_file(myLogger, ln);
 	}
 
 	else if ((ln->type==WRN)&&((WRN) & (myLogger->log_lvl))){
 
-		if(myLogger->printOnScreen) fprintf(stdout, "[WRN] [%d] %s\n", ln->tid, ln->text);
+		//if(myLogger->printOnScreen) fprintf(stdout, "[WRN] [%d] %s\n", ln->tid, ln->text);
 
 		write_on_file(myLogger, ln);
 	}
 
 	else if ((ln->type==NFO)&&((NFO) & ((myLogger->log_lvl)>>2))){
 
-		if(myLogger->printOnScreen) fprintf(stdout, "[NFO] [%d] %s\n", ln->tid, ln->text);
+		//if(myLogger->printOnScreen) fprintf(stdout, "[NFO] [%d] %s\n", ln->tid, ln->text);
 
 		write_on_file(myLogger, ln);
 	}

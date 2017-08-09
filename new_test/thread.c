@@ -110,8 +110,8 @@ void *thread_main(void *arg)
 			exit(EXIT_FAILURE);
 		}
 
-		timeout.tv_sec = 0;
-		timeout.tv_usec = 75000;
+		timeout.tv_sec = 5;
+		timeout.tv_usec = 0;
 
 		if (setsockopt(connsd, SOL_SOCKET, SO_RCVTIMEO, (char *) &timeout, sizeof(timeout)) < 0) {
 			toLog(ERR, srvlog, "Error in setsockopt: %d : %s\n", errno, strerror(errno));
