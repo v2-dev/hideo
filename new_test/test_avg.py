@@ -3,10 +3,6 @@ import matplotlib.pyplot as plt
 
 from matplotlib.ticker import NullFormatter  # useful for `logit` scale
 
-# Fixing random state for reproducibility
-
-# make up some data in the interval ]0, 1[
-
 # values of hideo's perfomance test
 
 testo_ascissa = "req/s"
