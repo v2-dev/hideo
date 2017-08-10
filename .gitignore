@@ -1,8 +1,8 @@
 webserver/server
-.aux
-.lof
-.log
-.synctex.gz
-.toc
-.lot
+*.aux
+*.lof
+*.log
+*.synctex.gz
+*.toc
+*.lot
 
