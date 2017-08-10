@@ -1,6 +1,30 @@
 \documentclass{article}
 
+\usepackage{afterpage}
+
+%preamble of blankpage
+\def\blankpage{%
+      \clearpage%
+      \thispagestyle{empty}%
+      \addtocounter{page}{-1}%
+      \null%
+      \clearpage}
+      
+% preamble of title, authors and date
+\title{Hideo: Dynamic Image Adaptation Web Server}
+\author{Giulia Cassarà, Giorgio Iannone, Emanuele Savo}
+\date{ }
+
+%begin document
 \begin{document}
+
+\maketitle
+\vspace*{1\baselineskip}
+\today
+
+
+\blankpage
+
 
 \tableofcontents
 \newpage
