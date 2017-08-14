@@ -426,6 +426,7 @@ int serve_request(struct conndata *cdata)
 		destroy_httpread(httpr);
 		return ERROR;
 	}
+
 	//strcpy(cdata->messages, *(httpr->array));
 	//print_message(cdata);
 	int i;
@@ -443,6 +444,15 @@ int serve_request(struct conndata *cdata)
 		return ERROR;
 	}
 
+
+	/*for (i = 1; i < httpr->dimArray; i++) {
+		if(connection_close(*(httpr->array + i), cdata)){
+			http_connection_close(cdata);
+			destroy_httpread(httpr);
+			return ERROR;
+		}
+
+	}*/
 	if (send_response(cdata) != 0)
 		return ERROR;
 

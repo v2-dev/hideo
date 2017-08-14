@@ -61,6 +61,7 @@ void http_200(struct conndata *);
 void http_500(struct conndata *);
 void http_404(struct conndata *);
 void http_501(struct conndata *);
+void http_connection_close(struct conndata *);
 
 int find_quality(char *);
 char *get_ext(char *);
@@ -72,6 +73,7 @@ void init_conndata(struct conndata *);
 void print_message(struct conndata *);
 int uacheck(char *, struct conndata *);
 int accheck(char *, struct conndata *);
+int connection_close(char *, struct conndata *);
 int method_parse(char *, struct conndata *);
 int path_parse(char *optstring, struct conndata *);
 int client_request(struct conndata * );

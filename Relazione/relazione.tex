@@ -1,6 +1,10 @@
-\documentclass{article}
-
+\documentclass[italian,a4paper, 12pt]{article}
+\usepackage{babel}
+\usepackage[utf8]{inputenc}
 \usepackage{afterpage}
+\usepackage{graphicx}
+\usepackage{titling}
+\graphicspath{{immagini/}}
 
 %preamble of blankpage
 \def\blankpage{%
@@ -10,14 +14,36 @@
       \null%
       \clearpage}
       
+      
 % preamble of title, authors and date
 \title{Hideo: Dynamic Image Adaptation Web Server}
 \author{Giulia Cassarà, Giorgio Iannone, Emanuele Savo}
-\date{ }
+\date{}
 
-%begin document
 \begin{document}
 
+
+\makeatletter
+    \begin{titlepage}
+        \begin{center}
+            \includegraphics{uniroma2-logo}
+            \vfill
+            \vfill
+            {\huge \bfseries  \@title }\\[2ex] 
+            \vfill
+            \vfill
+            \vfill
+            {\LARGE  \@author}\\[50ex] 
+            {\large \@date}
+        \end{center}
+    \end{titlepage}
+\makeatother
+\thispagestyle{empty}
+\newpage
+%begin document
+
+\centering
+%\includegraphics{uniroma2-logo}
 \maketitle
 \vspace*{1\baselineskip}
 \today
