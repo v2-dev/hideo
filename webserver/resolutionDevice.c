@@ -50,12 +50,12 @@ void wurflpdt(wurfl_handle wurfldb, char *uastring)
 
 		if (hdevice == 0) {
 
-			printf("Device not found\n");
+			//printf("Device not found\n");
 		}
 
 		else {
-			printf("%d\tx\t", get_height(hdevice));
-			printf("%d\n", get_width(hdevice));
+			//printf("%d\tx\t", get_height(hdevice));
+			//printf("%d\n", get_width(hdevice));
 		}
 }
 

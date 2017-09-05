@@ -36,7 +36,7 @@ struct httpread
 ****************************************************************************************/
   struct conndata
     {
-			char http_req[MAXREQ];
+		char http_req[MAXREQ];
     	int process_id;			//tid del thread
     	int socketint;			//socket file descriptor
     	char path[512];		//request path
@@ -46,12 +46,12 @@ struct httpread
     	char messages[3000];	//
     	int msgtype;			//
     	int get1head2;
-			char *extension;
+		char *extension;
     	char imgext[8];			//image extension
     	float quality;			//image quality
-			char ext[10];
+		char ext[10];
     	int quality_factor;
-    	char options[3000];		//k
+    	char options[3000];		
     	int return_code;		//Return code
     	char return_path[512];	//Return path
     };

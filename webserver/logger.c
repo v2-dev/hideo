@@ -74,7 +74,7 @@ struct logger * create_logger(char * pathLog, int log_lvl, int printOnScreen){	/
 
 	myLogger->printOnScreen = printOnScreen;
 
-	myLogger->log_fd = open(pathLog, O_RDWR | O_CREAT, 0644);
+	myLogger->log_fd = open(pathLog, O_RDWR | O_CREAT | O_APPEND, 0644);
 	abort_on_error((myLogger->log_fd)==-1, "Error in open");
 
 	int rc;
@@ -113,7 +113,7 @@ void summary_logger(struct logger * myLogger){	/*stampa il testo di tutti i logN
 
 	while (temp_logNode != myLogger->head){
 
-		printf("%s\n", temp_logNode->text);
+		//printf("%s\n", temp_logNode->text);
 		temp_logNode = temp_logNode->next;
 	}
 }
@@ -180,21 +180,21 @@ void compute_message(struct logger * myLogger, struct logNode * ln){
 
 	if ((ln->type==ERR)&&((ERR) & (myLogger->log_lvl))){
 
-		if(myLogger->printOnScreen) fprintf(stderr, "[ERR] [%d] %s\n", ln->tid, ln->text);
+		//if(myLogger->printOnScreen) fprintf(stderr, "[ERR] [%d] %s\n", ln->tid, ln->text);
 
 		write_on_file(myLogger, ln);
 	}
 
 	else if ((ln->type==WRN)&&((WRN) & (myLogger->log_lvl))){
 
-		if(myLogger->printOnScreen) fprintf(stdout, "[WRN] [%d] %s\n", ln->tid, ln->text);
+		//if(myLogger->printOnScreen) fprintf(stdout, "[WRN] [%d] %s\n", ln->tid, ln->text);
 
 		write_on_file(myLogger, ln);
 	}
 
 	else if ((ln->type==NFO)&&((NFO) & ((myLogger->log_lvl)>>2))){
 
-		if(myLogger->printOnScreen) fprintf(stdout, "[NFO] [%d] %s\n", ln->tid, ln->text);
+		//if(myLogger->printOnScreen) fprintf(stdout, "[NFO] [%d] %s\n", ln->tid, ln->text);
 
 		write_on_file(myLogger, ln);
 	}

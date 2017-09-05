@@ -92,7 +92,7 @@ int main(int argc, char **argv)
     fprintf(stderr, "[WRN] %s will be executed with default values\n", argv[0]);
 	}
 
-	fprintf(stdout, "Final values:\n");
+	//fprintf(stdout, "Final values:\n");
 	fprintf(stdout, "Server port: %s, Number of threads: %s, backlog: %s, LOG_LEVEL: %s\n", config_file.port, config_file.threads, config_file.backlog, config_file.loglvl);
 
 	nthreads = atoi(config_file.threads);	/*number of thread in prethreading */
@@ -103,6 +103,8 @@ int main(int argc, char **argv)
 	srvlog = create_logger("server.log", loglvl, 1);
 
 	web_cache = create_cache();
+
+     toLog(NFO,srvlog, "Server port: %s, Number of threads: %s, backlog: %s, LOG_LEVEL: %s\n", config_file.port, config_file.threads, config_file.backlog, config_file.loglvl);
 
 	hwurfl = get_wurfldb("wurfl-eval.xml");
 	if (hwurfl == NULL) {
@@ -158,8 +160,7 @@ int main(int argc, char **argv)
 	for (i = 0; i < nthreads; i++)
 		thread_make(i);	/* only main thread returns */
 
-	/*to be erased*/
- 	/*********************************THE LAST INSTRUCTION*******************************************/
+
 	for (;;) {
 
 		len = sizeof(cliaddr);
@@ -190,6 +191,5 @@ int main(int argc, char **argv)
 		}
 
 	}
-/**************************************************************************************************/
 
 }

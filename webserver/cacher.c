@@ -182,7 +182,7 @@ void visit_hashLine(struct hashNode **ht, int key)
 
 	while (temp != NULL) {
 
-		printf("%s\n", temp->name);
+		//printf("%s\n", temp->name);
 		temp = temp->next;
 	}
 }
@@ -359,9 +359,9 @@ void associate(struct hashNode *hn, struct ramNode *rn)
 void summary_cache(struct cache *myCache)
 {				/* stampa varie informazioni sullo stato della cache */
 
-	printf("\n\n............RIEPILOGO STATO DELLA CACHE............\n\n");
+	//printf("\n\n............RIEPILOGO STATO DELLA CACHE............\n\n");
 
-	printf("In questo momento ci sono %d file caricati in ram.\n\n", myCache->lt->count);
+	//printf("In questo momento ci sono %d file caricati in ram.\n\n", myCache->lt->count);
 
 	struct hashNode *temp_hashNode = NULL;
 	struct ramNode *temp_ramNode = NULL;

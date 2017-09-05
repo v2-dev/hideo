@@ -78,7 +78,6 @@ void file_convert(char * path, char * ext, int width, int height, int q){
 	sprintf(x, "%d", width);
 	sprintf(quality, "%d", q);
 
-	/* 1280x720 */
 	strncpy(resolution, x, strlen(x)+1);
 	strncat(resolution, "x", 1);
 	strncat(resolution, y, strlen(y));
@@ -92,7 +91,6 @@ void file_convert(char * path, char * ext, int width, int height, int q){
 	strcat(destination, "/");
 	strcat(destination, quality);
 
-	/* fino a qua ci sta la costruzione di destination*/
 
 	int len2 = strlen(destination) + strlen("mkdir -p ") + 5;
 	char * create_folder_command = malloc(len2*sizeof(char));
@@ -100,7 +98,6 @@ void file_convert(char * path, char * ext, int width, int height, int q){
 	strncpy(create_folder_command, "mkdir -p ", strlen("mkdir -p ")+1);
 	strncat(create_folder_command, destination, strlen(destination));
 	int commRes = system(create_folder_command);
-	//cosa fare con commmRes?
 	if (commRes==-1){
 		fprintf(stderr, "Error in system\n");
 		exit(EXIT_FAILURE);

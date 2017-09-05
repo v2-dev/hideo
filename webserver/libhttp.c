@@ -219,6 +219,7 @@ int uacheck(char *optstring, struct conndata *p)
 	 * restituisce -1 in caso di errori
 	 *
 	 */
+	p=p;
 	char ua_head[] = "User-Agent:";
 	size_t buf_idx = 0;
 	while (buf_idx < 11) {
@@ -226,14 +227,7 @@ int uacheck(char *optstring, struct conndata *p)
 			return 0;
 		buf_idx++;
 	}
-	strcpy(p->useragent, optstring + 12);
-	/*
-	   strcpy(p->useragent, "");
-	   for (buf_idx = 11; buf_idx <= strlen(optstring); buf_idx++) strcat(p->useragent, optstring[buf_idx]);
-	 */
-	strcpy(p->messages, "User Agent = ");
-	strcat(p->messages, p->useragent);
-	print_message(p);
+
 	return 1;
 }
 
@@ -263,8 +257,6 @@ int accheck(char *optstring, struct conndata *p)
 
 	strcpy(p->acceptfld, optstring + 8);
 
-	fprintf(stdout, "ACCEPT FIELD HERE ---> %s\n", p->acceptfld);
-
 	char *strg = p->acceptfld;
 
 	p->extension = malloc(10 * sizeof(char));
@@ -281,19 +273,12 @@ int accheck(char *optstring, struct conndata *p)
 		find_extension(strg, p->extension);
 		p->quality_factor = find_quality(strg);
 	}
-
-	fprintf(stdout, "quality factor %d\n", p->quality_factor);
 	/*
 	   strcpy(p->useragent, "");
 	   for (buf_idx = 11; buf_idx <= strlen(optstring); buf_idx++) strcat(p->useragent, optstring[buf_idx]);
 	 */
-	strcpy(p->messages, "Accept = ");
 	toLog(NFO, srvlog, "Accept = ");
-
 	toLog(NFO, srvlog, p->acceptfld);
-	strcat(p->messages, p->acceptfld);
-
-	print_message(p);
 	return 1;
 }
 
@@ -352,23 +337,12 @@ int path_parse(char *optstring, struct conndata *p)
 
 	char header[] = "HTTP/1.1";
 	if (!strncmp(optstring + choffset, header, 8)) {
-		strcpy(p->messages, "Header HTTP mancante od incompleto!");
 		toLog(ERR, srvlog, "Missing header.\n");
-		print_message(p);
 		return ERROR;
 	}
-
-	strcpy(p->messages, "Header HTTP OK");
 	toLog(NFO, srvlog, "Header HTTP OK");
-
 	http_200(p);
-	print_message(p);
-
-	strcpy(p->messages, "Path richiesto: ");
 	toLog(NFO, srvlog, "Request path: %s", p->path);
-
-	strcat(p->messages, p->path);
-	print_message(p);
 
 	//strcpy(p->path_r, path_r);
 	return 0;
@@ -405,7 +379,6 @@ int serve_request(struct conndata *cdata)
 	/* Nothing read */
 	if (httpr->dimArray == 0) {
 		destroy_httpread(httpr);
-		printf("Niente da leggere\n");
 		toLog(ERR, srvlog, "Nothing to read\n");
 		return ERROR;
 	}
@@ -520,12 +493,8 @@ int send_response(struct conndata *p)
 	}
 
 	if (fileNotFound) {
-		strcpy(p->messages, "File ");
-		strcat(p->messages, p->path);
-		strcat(p->messages, " non trovato, invio header 404\n");
-		print_message(p);
 		http_404(p);
-		fprintf(stderr, "\nNon presente il file: %s", p->path);
+
 	}
 
 	else {
@@ -559,10 +528,7 @@ int send_response(struct conndata *p)
 		if (conndf_rv == -1) {
 				return 2;
 		}
-
-		strcpy(p->messages, "File servito");
 		toLog(NFO, srvlog, "file served");
-		print_message(p);
 		return 0;
 	}
 

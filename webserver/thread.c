@@ -46,7 +46,6 @@ void thread_job(struct conndata *cdata)
 	int retval = 1;
 
 	while (1) {
-		/*To be implemented: thread sleep until next client request */
 		retval = serve_request(cdata);
 
 		if (retval == ERROR) {
@@ -77,15 +76,6 @@ void *thread_main(void *arg)
 	toLog(NFO,srvlog, "Thread created [%u]", (unsigned int) thread_data->thread_tid);
 
 	for (;;) {
-
-		/*if (connsd != -1) {
-
-			if (close(connsd) < 0) {
-				fprintf(stderr, "Error in close: %d : %s\n", errno, strerror(errno));
-				exit(EXIT_FAILURE);
-			}
-
-		}*/
 
 		if ((err = pthread_mutex_lock(&pool_mutex)) != 0) {
 			toLog(ERR,srvlog, "Error on pthread_mutex_lock()");
@@ -128,9 +118,9 @@ void *thread_main(void *arg)
 		cdata->socketint = connsd;
 		cdata->process_id = thread_data->thread_tid;
 
-		/******************************
-			Serve request to the client
-		*******************************/
+		/*******************
+			Serving client
+		 *******************/
 		thread_job(cdata);
 
 	}

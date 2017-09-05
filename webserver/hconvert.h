@@ -190,7 +190,7 @@ void nConvert(char *old_path, char *new_path, char *namefile, char *format, char
 	strcat(strCommand, "/");
 	strcat(strCommand, nnamefile);
 
-	printf("%s", strCommand);
+	//printf("%s", strCommand);
 	ret = system(strCommand); /* esecuzione del programma convert */
 	if (WIFSIGNALED(ret) &&
 		(WTERMSIG(ret) == SIGINT || WTERMSIG(ret) == SIGQUIT)){
@@ -246,7 +246,7 @@ void convertPic(char *old_path, char *new_path, char *resolution, int colorNumbe
 	}
 
 	strcat(strCommand, new_path);
-	printf("%s", strCommand);
+	//printf("%s", strCommand);
 	ret = system(strCommand); /* esecuzione del programma convert */
 	if (WIFSIGNALED(ret) &&
 		(WTERMSIG(ret) == SIGINT || WTERMSIG(ret) == SIGQUIT)){
