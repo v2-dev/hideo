@@ -139,7 +139,7 @@ void mkthumbs(char *respath, char *thbpath, int maxsize)
 
 void homepagen(char *respt, char *thbpt, char *wrfpt, char *indxnam, int imgSize)
 {
-	
+	int i = 0;
 	char mthbpt[300];
 	char mkThPth[300];
 	char mkThPthi[300];
@@ -150,7 +150,7 @@ void homepagen(char *respt, char *thbpt, char *wrfpt, char *indxnam, int imgSize
 	strcat(mthbpt, "/");
 	strcat(mthbpt, strSize);
 	
-	strcpy(mkThPth, "mkdir ");
+	strcpy(mkThPth, "mkdir -p ");
 	strcat(mkThPth, thbpt);
 	/*
 	strcpy(mkThPthi, "mkdir ");
@@ -161,6 +161,7 @@ void homepagen(char *respt, char *thbpt, char *wrfpt, char *indxnam, int imgSize
 	strcat(mkThPthi, "/");
 	strcat(mkThPthi, strSize);
 
+/*
 	printf("\trespt:\t%s\n", respt);
 	printf("\tthbpt:\t%s\n", thbpt);
 	printf("\tstrSize:\t%s\n", strSize);
@@ -168,7 +169,7 @@ void homepagen(char *respt, char *thbpt, char *wrfpt, char *indxnam, int imgSize
 	printf("\timgSize:\t%d\n", imgSize);
 	printf("\tmkThPth:\t%s\n", mkThPth);
 	printf("\tmkThPthi:\t%s\n", mkThPthi);
-
+*/
 	
 	printf(ANSI_COLOR_RED "Executing [%s]\n"ANSI_COLOR_RESET, mkThPth);
 
@@ -186,16 +187,21 @@ void homepagen(char *respt, char *thbpt, char *wrfpt, char *indxnam, int imgSize
                    (WTERMSIG(ret) == SIGINT || WTERMSIG(ret) == SIGQUIT))
                        exit(EXIT_FAILURE);
                        
-	
-
+		ret = system("mkdir -p ./homepage/res");
+	if (WIFSIGNALED(ret) &&
+                   (WTERMSIG(ret) == SIGINT || WTERMSIG(ret) == SIGQUIT))
+                       exit(EXIT_FAILURE);
 
 	
 	mkthumbs(respt, mthbpt, imgSize);
-   
-
+	strcpy(mthbpt, "./thumbs/");
+	snprintf(strSize, 20, "%d", imgSize);
+	strcat(mthbpt, strSize);
+/*
 	char indxnum[20];
 	snprintf(indxnum, 20, "%d", imgSize);
 	strcat(indxnam, indxnum);
+*/
 	strcat(indxnam, ".html");
 	
 	printf(ANSI_COLOR_GREEN"\nGenerating "ANSI_COLOR_CYAN"%s\n"ANSI_COLOR_RESET, indxnam);
@@ -203,10 +209,11 @@ void homepagen(char *respt, char *thbpt, char *wrfpt, char *indxnam, int imgSize
 	FILE *fp;
 	
 	fp = fopen(indxnam, "w+");
-	fprintf(fp,"<HTML>\n<body background=\"bgr.gif\">\n<HEADER>\n<TITLE>Progetto Webserver - Homepage</TITLE>\n</HEADER>");
+//	fprintf(fp,"<HTML>\n<body background=\"bgr.gif\">\n<HEADER>\n<TITLE>Progetto Webserver - Homepage</TITLE>\n</HEADER>");
 	//fprintf(fp,"<BODY><table><tr><th>Anteprima File</th><th>Link</th><th>Opzioni</th></tr>");
-   	fprintf(fp,"\n\n<BODY>\n<table align=\"center\">\n<tr><th>Files disponibili per il download</th><th>Link Originale (No WURFL)</th></tr>");
-
+ //  	fprintf(fp,"\n\n<BODY>\n<table align=\"center\">\n<tr><th>Files disponibili per il download</th><th>Link Originale (No WURFL)</th></tr>");
+	fprintf(fp,"<HTML>\n<body background=\"bgr.gif\">\n<HEADER>\n<TITLE>Hideo Webserver - Homepage</TITLE>\n</HEADER>");
+   	fprintf(fp,"\n\n<BODY>\n<div style=\"text-align:center\"><p style=\"font-size:30px\">Files disponibili per il download</p></div>\n<table align=\"center\">\n<tr></tr>");
    	DIR *d;
 	struct dirent *dir;
 	//d = opendir(mthbpt);
@@ -218,6 +225,15 @@ void homepagen(char *respt, char *thbpt, char *wrfpt, char *indxnam, int imgSize
 	char *s = dir->d_name;
 	if ((strcmp(s, "..") != 0) && (strcmp(s, ".")!=0)) 
 		{
+			strcpy(mkThPth, "cp ");
+			strcat(mkThPth, s);
+			strcat(mkThPth, " homepage/res");
+			ret = system(mkThPth);
+			if (WIFSIGNALED(ret) &&
+                   (WTERMSIG(ret) == SIGINT || WTERMSIG(ret) == SIGQUIT))
+                       exit(EXIT_FAILURE);
+			i++;
+			
 			char strPath[300];
 			char thbPath[300];
 			char wrfPath[300];
@@ -241,18 +257,29 @@ void homepagen(char *respt, char *thbpt, char *wrfpt, char *indxnam, int imgSize
 			strcat(wrfPath, "/");
 			strcat(wrfPath, s);
 			
-			printf(ANSI_COLOR_GREEN"\nFile "ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN"\n\tResource link\t"ANSI_COLOR_MAGENTA"%s"ANSI_COLOR_GREEN"\n\tThumb link\t"ANSI_COLOR_MAGENTA"%s"ANSI_COLOR_GREEN"\n\tWURFL link\t"ANSI_COLOR_MAGENTA"%s" ANSI_COLOR_RESET"\n...done!\n",s, strPath, thbPath, wrfPath);
+			//printf(ANSI_COLOR_GREEN"\nFile "ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN"\n\tResource link\t"ANSI_COLOR_MAGENTA"%s"ANSI_COLOR_GREEN"\n\tThumb link\t"ANSI_COLOR_MAGENTA"%s"ANSI_COLOR_GREEN"\n\tWURFL link\t"ANSI_COLOR_MAGENTA"%s" ANSI_COLOR_RESET"\n...done!\n",s, strPath, thbPath, wrfPath);
+			printf(ANSI_COLOR_GREEN"\nFile "ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN"\n\tResource link\t"ANSI_COLOR_MAGENTA"%s"ANSI_COLOR_GREEN"\n\tThumb link\t"ANSI_COLOR_MAGENTA"%s"ANSI_COLOR_GREEN"\n...done!\n",s, strPath, thbPath);
+
 			/*
 			 * <a href=\"%s\"><img src=\"%s\" alt=\"%s\" style=\"width:%dpx;height:%dpx;border:0\"></a>
 			 */
 			 
 			//fprintf(fp,"<tr><td><a href=\"%s\"><img src=\"%s\" alt=\"%s\" align=\"middle\" style=\"width:100%%;height:100%%;border:0\"></a></td><td>Link</td><td>Options</td></tr>", strPath, strPath, s);
-			fprintf(fp,"\n<tr><td><a href=\"%s\"><img src=\"%s\" alt=\"%s\" style=\"width:100%%;height:100%%;border:0\"></a></td><td><a href=\"%s\">Link</a></td></tr>", wrfPath, thbPath, s, strPath);
+			if(i % 2) fprintf(fp, "\n</tr>\n<tr>");
+			fprintf(fp,"\n<td><a href=\"%s\"><img src=\"%s\" alt=\"%s\" style=\"width:100%%;height:100%%;border:0\"></a></td>", strPath, thbPath, s);
+		
+//			fprintf(fp,"\n<tr><td><a href=\"%s\"><img src=\"%s\" alt=\"%s\" style=\"width:100%%;height:100%%;border:0\"></a></td><td><a href=\"%s\">Link</a></td></tr>", wrfPath, thbPath, s, strPath);
 		}
 	}
 }
-	fprintf(fp,"\n</table>\n</BODY>\n\n</HTML>");
+	fprintf(fp,"\n</tr>\n</table>\n</BODY>\n\n</HTML>");
+
+	//fprintf(fp,"\n</table>\n</BODY>\n\n</HTML>");
 	fclose(fp);
+	ret = system("cp bgr.gif homepage/");
+	if (WIFSIGNALED(ret) &&
+                   (WTERMSIG(ret) == SIGINT || WTERMSIG(ret) == SIGQUIT))
+                       exit(EXIT_FAILURE);
 }
 
 int main(int argc, char** argv)
@@ -262,7 +289,7 @@ int main(int argc, char** argv)
 
 {
 	//Con WURFL si può ottenere un diverso valore 
-	int imgSize = 400;
+	int imgSize = 300;
 	if (argc > 1) 
 	{
 		if (isInt(argv[1])==0 )
@@ -272,13 +299,13 @@ int main(int argc, char** argv)
 			}
 		imgSize = atoi(argv[1]);
 	}
-	//printf(ANSI_COLOR_MAGENTA"    __    _     __         \n   / /_  (_)___/ /__  ____\n  / __ \\/ / __  / _ \\/ __ \\\n / / / / / /_/ /  __/ /_/ /\n/_/ /_/_/\\__,_/\\___/\\____/\n"ANSI_COLOR_CYAN"- index.html generator -\n\n"ANSI_COLOR_RESET); 
-	printf(ANSI_COLOR_MAGENTA"\n- index.html generator -\n\n"ANSI_COLOR_RESET); 
+	printf(ANSI_COLOR_MAGENTA"    __    _     __         \n   / /_  (_)___/ /__  ____\n  / __ \\/ / __  / _ \\/ __ \\\n / / / / / /_/ /  __/ /_/ /\n/_/ /_/_/\\__,_/\\___/\\____/\n"ANSI_COLOR_CYAN"- index.html generator -\n\n"ANSI_COLOR_RESET); 
+	//printf(ANSI_COLOR_MAGENTA"\n- index.html generator -\n\n"ANSI_COLOR_RESET); 
 	printf(ANSI_COLOR_GREEN"\nUsing "ANSI_COLOR_MAGENTA"%dx%d "ANSI_COLOR_GREEN"as thumbnail resolution limit\n\n"ANSI_COLOR_RESET,imgSize, imgSize);
-	char thbpt[] = "./thumbs";
+	char thbpt[] = "./homepage/thumbs";
 	char respt[] = "./res";
-	char wrfpt[] = "./wurfl";
-	char indxnam[] = "./index";
+	char wrfpt[] = "./homepage/wurfl";
+	char indxnam[] = "./homepage/index";
 
 	homepagen(respt, thbpt, wrfpt, indxnam, imgSize);
 

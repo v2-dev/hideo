@@ -12,6 +12,7 @@ all: $(TARGET)
 $(TARGET): $(CFILES) $(CHEADERS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
 
-cln:
+clean:
 	-rm -v $(TARGET) $(OBFILES) $(HTMLFILES) 
 	-rm -v -rf thumbs
+	-rm -v -rf homepage
