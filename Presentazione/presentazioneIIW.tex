@@ -87,6 +87,125 @@ Il codice sorgente è disponibile al seguente indirizzo:
 \end{frame}
 
 \begin{frame}
+\frametitle{Comportamento dell'applicazione}
+\framesubtitle{Inizializzazione}
+
+All'avvio del programma, attraverso la libreria \textit{parse\_conf\_file.h}, viene eseguita
+la lettura ed il parsing del file di configurazione \textit{server.cfg}, contenente i seguenti parametri:
+
+\begin{itemize}
+\item porta di ascolto
+\item numero di thread
+\item lunghezza del backlog
+\item livello di logging
+\end{itemize}
+
+
+Avvenuta l’eventuale sostituzione dei
+parametri di default, l’eseguibile inizializza la socket d’ascolto e le strutture dati
+relative al modulo WURFL (caricamento del database di User Agent), alla cache
+ed al logger.
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Comportamento dell'applicazione}
+\framesubtitle{Multithreading}
+
+Terminata con successo l’inizializzazione, vengono spawnati i worker thread che
+si occuperanno di servire i client: l’eseguibile entra in un loop non terminante nel
+quale:
+
+\begin{itemize}
+\item accetta le connessioni dalla socket d’ascolto
+\item accoda il file descriptor
+della connessione ad una lista FIFO acceduta in lettura dai worker thread in stato
+di IDLE
+\item Ai thread viene infatti segnalato che un nuovo file descriptor è stato
+aggiunto nella lista perciò, mediante l’utilizzo dei Pthread Mutex, uno dei thread
+prende l’esclusività su tale file descriptor (rappresentante la socket),
+rimuovendolo dalla lista e servendo il client ivi collegato mantenendo aperta e
+sfruttando tale socket (permanenza della connessione del protocollo HTTP/1.1).
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Comportamento dell'applicazione}
+\framesubtitle{Processamento della richiesta}
+
+Il thread, terminata la copiatura della socket ad un buffer interno, effettua un
+parsing del messaggio per:
+
+\begin{itemize}
+\item controllarne l’effettiva validità ed aderenza alle
+specifiche HTTP/1.1
+
+\item per discriminare tra i metodi GET ed HEAD (di cui
+veniva richiesta l’implementazione).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Comportamento dell'applicazione}
+\framesubtitle{Processamento della richiesta}
+
+\begin{itemize}
+
+\item In caso di esito positivo viene invocato il modulo WURFL che, ricevuto in input
+il campo User-Agent, restituisce ulteriori valori quali la risoluzione del
+dispositivo richiedente, nonché vengono memorizzati il percorso del file richiesto
+ed i parametri specificati nel campo HTTP Accept quali il fattore di qualità e
+l’estensione richiesta per l’immagine.
+
+\item Nel caso la richiesta riguardi un’immagine interviene il modulo cacher, che si
+occupa di inoltrare immediatamente il file se questi è presente in cache, senza
+dover così eseguire nuovamente alcuna operazione di conversione
+
+\item In caso di
+fallimento
+della
+ricerca
+l’immagine
+viene
+convertita
+dal
+programma
+ImageMagick, inviata al client e salvata nella cache.
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Comportamento dell'applicazione}
+\framesubtitle{Inoltro del contenuto \& Chiusura della connessione}
+\begin{itemize}
+\item Una volta intervenuto il cacher (nel caso delle immagini) od appurato che non vi
+siano errori di apertura della index.html l’applicativo si occupa di inoltrare una
+risposta al client, allegando o meno il file richiesto.
+
+\item In caso di errori con il file
+richiesto viene inoltrato un messaggio di errore HTTP 404 mentre, nel caso di un
+metodo non implementato, l’errore 501.
+
+\item La connessione verrà chiusa all’esplicita disconnessione del client od, in sua
+assenza, allo scadere di un timeout di connessione altrimenti resettato ad ogni
+nuova richiesta.
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+
+
+\begin{frame}
 \frametitle{WURFL}
 \framesubtitle{Introduzione}
 
