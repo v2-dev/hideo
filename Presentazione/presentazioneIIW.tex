@@ -12,13 +12,13 @@
 
 \title{\textbf{PROGETTO DI INGEGNERIA DI INTERNET E DEL WEB}}
 \subtitle{Web Server con Adattamento Dinamico di Contenuti Statici}
-\author{Giulia Cassara \\ 
+\author{Giulia Cassarà \\ 
  \medskip
 Giorgio Iannone
 \medskip
 \\ Emanuele Savo
 }
-\date{6 Gennaio 2016}
+\date{19 Settembre 2017}
 \setbeamertemplate{navigation symbols}{}
 
 
@@ -69,11 +69,6 @@ capace di gestire più connessioni simultaneamente ed adotta un sistema di loggi
 basato su livelli per discriminare i vari tipi di messaggi: \textit{information, warning,
 error}.
 
-\medskip
-
-Le scelte progettuali effettuate hanno avuto come obiettivo primario la
-minimizzazione dei tempi di risposta del server – senza tralasciare
-l’ottimizzazione nell’uso e rilascio delle risorse primarie di sistema.
 
 \medskip
 
@@ -90,7 +85,7 @@ Il codice sorgente è disponibile al seguente indirizzo:
 \frametitle{Comportamento dell'applicazione}
 \framesubtitle{Inizializzazione}
 
-All'avvio del programma, attraverso la libreria \textit{parse\_conf\_file.h}, viene eseguita
+All'avvio del programma viene eseguita
 la lettura ed il parsing del file di configurazione \textit{server.cfg}, contenente i seguenti parametri:
 
 \begin{itemize}
@@ -101,10 +96,8 @@ la lettura ed il parsing del file di configurazione \textit{server.cfg}, contene
 \end{itemize}
 
 
-Avvenuta l’eventuale sostituzione dei
-parametri di default, l’eseguibile inizializza la socket d’ascolto e le strutture dati
-relative al modulo WURFL (caricamento del database di User Agent), alla cache
-ed al logger.
+L’eseguibile inizializza la socket d’ascolto e le strutture dati
+relative al modulo WURFL (caricamento del database di \textit{User Agent}), alla cache ed al logger con i parametri scelti.
 
 \end{frame}
 
@@ -113,19 +106,17 @@ ed al logger.
 \frametitle{Comportamento dell'applicazione}
 \framesubtitle{Multithreading}
 
-Terminata con successo l’inizializzazione, vengono spawnati i worker thread che
-si occuperanno di servire i client: l’eseguibile entra in un loop non terminante nel
+Terminata l’inizializzazione, vengono spawnati i \textit{worker thread} che
+si occupano di servire i client. L’eseguibile entra in un loop non terminante nel
 quale:
 
 \begin{itemize}
-\item accetta le connessioni dalla socket d’ascolto
-\item accoda il file descriptor
-della connessione ad una lista FIFO acceduta in lettura dai worker thread in stato
-di IDLE
-\item Ai thread viene infatti segnalato che un nuovo file descriptor è stato
-aggiunto nella lista perciò, mediante l’utilizzo dei Pthread Mutex, uno dei thread
-prende l’esclusività su tale file descriptor (rappresentante la socket),
-rimuovendolo dalla lista e servendo il client ivi collegato mantenendo aperta e
+\item Accetta le connessioni dalla socket d’ascolto.
+\item Accoda il file descriptor ad una lista FIFO acceduta in lettura dai worker thread in stato
+di IDLE.
+\item Ai thread viene segnalato l'inserimento di nuovo file descriptor alla lista, e mediante l’utilizzo di un \textbf{mutex} uno dei thread
+prende l’esclusività su tale socket,
+rimuovendola dalla lista e servendo il client ivi collegato mantenendo aperta e
 sfruttando tale socket (permanenza della connessione del protocollo HTTP/1.1).
 \end{itemize}
 
@@ -140,10 +131,10 @@ Il thread, terminata la copiatura della socket ad un buffer interno, effettua un
 parsing del messaggio per:
 
 \begin{itemize}
-\item controllarne l’effettiva validità ed aderenza alle
+\item Controllarne l’effettiva validità ed aderenza alle
 specifiche HTTP/1.1
 
-\item per discriminare tra i metodi GET ed HEAD (di cui
+\item per discriminare tra i metodi \textbf{GET} ed \textbf{HEAD} (di cui
 veniva richiesta l’implementazione).
 \end{itemize}
 
@@ -155,15 +146,14 @@ veniva richiesta l’implementazione).
 
 \begin{itemize}
 
-\item In caso di esito positivo viene invocato il modulo WURFL che, ricevuto in input
-il campo User-Agent, restituisce ulteriori valori quali la risoluzione del
-dispositivo richiedente, nonché vengono memorizzati il percorso del file richiesto
-ed i parametri specificati nel campo HTTP Accept quali il fattore di qualità e
+\item Si ottiene dal modulo WURFL la risoluzione del
+dispositivo richiedente, e vengono memorizzati il percorso del file richiesto
+ed i parametri specificati nel campo HTTP \textit{Accept} quali il fattore di qualità e
 l’estensione richiesta per l’immagine.
 
 \item Nel caso la richiesta riguardi un’immagine interviene il modulo cacher, che si
 occupa di inoltrare immediatamente il file se questi è presente in cache, senza
-dover così eseguire nuovamente alcuna operazione di conversione
+dover così eseguire nuovamente alcuna operazione di conversione.
 
 \item In caso di
 fallimento
@@ -174,7 +164,7 @@ viene
 convertita
 dal
 programma
-ImageMagick, inviata al client e salvata nella cache.
+\textbf{ImageMagick}, inviata al client e salvata nella cache.
 \end{itemize}
 \end{frame}
 
@@ -185,12 +175,12 @@ ImageMagick, inviata al client e salvata nella cache.
 \framesubtitle{Inoltro del contenuto \& Chiusura della connessione}
 \begin{itemize}
 \item Una volta intervenuto il cacher (nel caso delle immagini) od appurato che non vi
-siano errori di apertura della index.html l’applicativo si occupa di inoltrare una
+siano errori di apertura della \textit{index.html} l’applicativo si occupa di inoltrare una
 risposta al client, allegando o meno il file richiesto.
 
 \item In caso di errori con il file
-richiesto viene inoltrato un messaggio di errore HTTP 404 mentre, nel caso di un
-metodo non implementato, l’errore 501.
+richiesto viene inoltrato un messaggio di errore \textbf{HTTP 404} mentre, nel caso di un
+metodo non implementato, l’errore \textbf{501}.
 
 \item La connessione verrà chiusa all’esplicita disconnessione del client od, in sua
 assenza, allo scadere di un timeout di connessione altrimenti resettato ad ogni
@@ -213,7 +203,7 @@ nuova richiesta.
     \includegraphics[width=.3\textwidth,right]{/home/giorgio/Scrivania/RelazioneIIW/miaParte/wurfl.png}
 \end{figure}
 
-WURFL è un DDR (Device Description Repository) sviluppato da ScientiaMobile, ed è composto da un set di API e librerie che permettono di consultare il proprio database e fornire, dato in input lo User Agent, il maggior
+\textbf{WURFL} è un \textit{DDR} (Device Description Repository) sviluppato da \textbf{ScientiaMobile}, ed è composto da un set di \textbf{API} e librerie che permettono di consultare il proprio database e fornire, dato in input lo \textit{User Agent}, il maggior
 numero di informazioni sul dispositivo che sta navigando su un sito web.
 
 \begin{itemize}
@@ -228,8 +218,8 @@ numero di informazioni sul dispositivo che sta navigando su un sito web.
 \frametitle{WURFL}
 \framesubtitle{Funzionamento \& Multithreading}
 
-Il funzionamento di WURFL consiste essenzialmente nel caricamento in memoria del database del programma (un file .xml rappresentato in C da una variabile opaca \textit{wurfl\_handle}) ed alla sua
-interrogazione riguardo i vari User Agent.
+Il funzionamento di \textbf{WURFL} consiste nel caricamento in memoria del database del programma (un file \textit{.xml} rappresentato in C da una variabile opaca \textit{wurfl\_handle}) ed alla sua
+interrogazione riguardo i vari \textit{User Agent}.
 
 \medskip
 
@@ -238,11 +228,11 @@ Dalla documentazione ufficiale si legge che:
 \medskip
 
 \textit{ ``WURFL engine is thread safe and the intended design is that multiple
-threads share the same wurfl\_handle. ''}
+threads share the same wurfl\_handle.''}
 
 \begin{itemize}
-\item Quindi \texttt{wurfl\_handle} è progettato per rispondere ad interrogazioni da più thread
-\item Essendo il nostro Web Server multi-thread, questo ci ha permesso di non gestire affatto il problema delle interrogazioni parallele
+\item Quindi \texttt{wurfl\_handle} è progettato per rispondere ad interrogazioni da più thread.
+\item Essendo il nostro Web Server \textbf{multi-thread}, questo ci ha permesso di non gestire  il problema delle interrogazioni parallele.
 \end{itemize}
 
 
@@ -254,9 +244,9 @@ threads share the same wurfl\_handle. ''}
 
 \begin{itemize}
 
-\item Il database di WURFL fornitoci è limitato e non aggiornato, contiene per lo più informazioni di User Agent di dispositivi mobili
-\item Per effettuare correttamente i test sull'adattamento dinamico delle immagini del nostro Web Server abbiamo utilizzato quindi un addon per Firefox: \href{https://addons.mozilla.org/it/firefox/addon/user-agent-switcher/}{\color{blue}  https://addons.mozilla.org/it/firefox/addon/user-agent-switcher/}
-\item User Agent Switcher permette di cambiare temporaneamente l'User Agent del browser con uno compatibile con il database di WURFL
+\item Il database di \textbf{WURFL} fornitoci è limitato e non aggiornato, contiene per lo più informazioni di User Agent di dispositivi mobili.
+\item Per effettuare correttamente i test sull'adattamento dinamico delle immagini del nostro Web Server abbiamo utilizzato un addon per Firefox: \href{https://addons.mozilla.org/it/firefox/addon/user-agent-switcher/}{\color{blue}  https://addons.mozilla.org/it/firefox/addon/user-agent-switcher/}
+\item \textbf{User Agent Switcher} permette di cambiare temporaneamente l'User Agent del browser con uno compatibile con il database di WURFL.
 
 \end{itemize}
 
@@ -309,8 +299,8 @@ threads share the same wurfl\_handle. ''}
 Per convertire le immagini abbiamo utilizzato il comando \texttt{convert} della suite di manipolazione delle immagini \textbf{ImageMagick}.
 \begin{itemize}
 \item Link: \href{https://www.imagemagick.org/script/convert.php}{\color{blue}  https://www.imagemagick.org/script/convert.php} 
-\item Il comando viene lanciato mediante la chiamata di sistema \texttt{system}, che è essenzialmente una \texttt{fork+execve+wait}
-\item Il thread che sta servendo il client crea quindi un processo figlio per eseguire il comando specificato, e rimane bloccato \textit{in attesa} che il figlio termini il suo lavoro, ovvero attende che la conversione dell'immagine sia completata
+\item Il comando viene lanciato mediante la chiamata di sistema \texttt{system}, che è essenzialmente una \texttt{fork+execve+wait}.
+\item Il thread che sta servendo il client crea quindi un processo figlio per eseguire il comando specificato, e rimane bloccato \textit{in attesa} che il figlio termini il suo lavoro, ovvero attende che la conversione dell'immagine sia completata.
 \end{itemize}
 \end{frame}
 
@@ -322,8 +312,8 @@ Per convertire le immagini abbiamo utilizzato il comando \texttt{convert} della 
 
 \textbf{Vantaggi:} 
 \begin{itemize}
-\item le conversioni non sono a carico \textit{diretto} del processo server, ma di processi creati \textit{ad hoc}
-\item implementazione relativamente facile
+\item le conversioni non sono a carico \textit{diretto} del processo server, ma di processi creati \textit{ad hoc}.
+\item implementazione relativamente facile.
 \end{itemize}
 
 
@@ -331,7 +321,7 @@ Per convertire le immagini abbiamo utilizzato il comando \texttt{convert} della 
 
 \textbf{Svantaggi:} 
 \begin{itemize}
-\item il thread deve comunque aspettare che la conversione \textit{i-esima} sia completata, prima di poter lanciare un nuovo processo per la conversione \textit{i+1-esima}
+\item il thread deve comunque aspettare che la conversione \textit{i-esima} sia completata, prima di poter lanciare un nuovo processo per la conversione \textit{i+1-esima}.
 
 \end{itemize}
 \end{frame}
@@ -340,16 +330,16 @@ Per convertire le immagini abbiamo utilizzato il comando \texttt{convert} della 
 \frametitle{Adattamento dell'Immagine}
 \framesubtitle{Un diverso approccio}
 
-Abbiamo anche studiato approcci migliori che, tuttavia, abbiamo deciso di
-abbandonare in fase progettuale per mantenere un codice più semplice e facile da debuggare. L'approccio alternativo consisteva nei seguenti passi:
+Abbiamo anche pensato ad \textbf{approcci migliori} che, tuttavia, abbiamo poi
+\textit{abbandonato} per mantenere un codice più semplice e facile da debuggare. L'approccio alternativo consisteva nei seguenti passi:
 
 \begin{itemize}
-\item Il thread che serve il client legge la prima richiesta, e fa partire la prima conversione
+\item Il thread che serve il client legge la prima richiesta, e fa partire la prima conversione.
 \item Senza aspettare che la conversione termini, legge la seconda richiesta, e fa partire la
-seconda conversione, e così via
-\item Tra una lettura di una richiesta e l'altra, il thread controlla quali sono le immagini che
+seconda conversione, e così via.
+\item Tra una lettura di una richiesta e l'altra, il thread \textit{controlla} quali sono le immagini che
 sono state convertite completamente (ovvero i processi figli che hanno terminato il
-proprio lavoro) ed evade le relative richieste.
+proprio lavoro) ed \textit{evade} le relative richieste.
 \
 \end{itemize}
 
@@ -360,12 +350,12 @@ proprio lavoro) ed evade le relative richieste.
 \framesubtitle{Un diverso approccio}
 
 \begin{itemize}
-\item Una singola conversione non blocca il thread, che risulterebbe così decisamente più
-veloce nel servire le richiese del client
+\item Una singola conversione \textit{non} blocca il thread, che risulterebbe così decisamente più
+veloce nel servire le richiese del client.
 \item Per creare il processo per la conversione anziché la chiamata system venivano
-utilizzate \texttt{fork + execve}
+utilizzate \texttt{fork + execve}.
 \item Per controllare se un processo è terminato basta eseguire la \texttt{waitpid} con parametro
-\texttt{WNOHANG} (per rendere la verifica non bloccante)
+\texttt{WNOHANG} (per rendere la verifica non bloccante).
 
 \medskip
 
@@ -387,27 +377,24 @@ accettando nuove connessioni;
 singola connessione;
 \end{itemize}
 
-Per migliorare il tempo di risposta si è deciso di utilizzare la tecnica del
-\textit{prethreading}, ovvero impostando staticamente il numero di thread del pool,
-specificandolo nel file di configurazione.
+
+Il server è \textbf{prethreaded} con  un numero di thread statico fissato nel file di configurazione.
+
 
 \medskip
-
-Nello scegliere il numero di thread ottimale si deve tenere conto delle
-caratteristiche fisiche del calcolatore che eseguirà l’applicazione; la trattazione di
-questo argomento esula dallo scopo di questo progetto, tuttavia alcuni test
-preliminari hanno individuato come ottimali i valori contenuti nel range 10-30.
-
 \end{frame}
 
 \begin{frame}
 \frametitle{Struttura e Architettura dell'Applicazione}
 \framesubtitle{Server Main}
+La funzione \textbf{main} del server svolge i seguenti compiti:
+
+\medskip
 
 \begin{itemize}
-\item Inizializzazione delle componenti Cacher, Logger, WURFL
-\item Inizializzazione e gestione della socket TCP sulla porta specificata nel file di configurazione
-\item Il main entra in un ciclo in cui accetta continuamente richieste di connessione in entrata, salvando la relativa connessione in una lista chiamata \textit{list\_sock} e \textit{sveglia} mediante una \texttt{signal} uno dei thread del pool in attesa sulla \texttt{condition}
+\item Inizializzazione delle componenti Cacher, Logger, WURFL.
+\item Inizializzazione e gestione della socket TCP sulla porta specificata nel file di configurazione.
+\item Il main entra in un ciclo in cui accetta continuamente richieste di connessione in entrata, salvando la relativa connessione in una lista chiamata \textit{list\_sock} e \textit{sveglia} mediante una \texttt{signal} uno dei thread del pool in attesa sulla \texttt{condition}.
 \end{itemize}
 
 \end{frame}
@@ -419,12 +406,12 @@ preliminari hanno individuato come ottimali i valori contenuti nel range 10-30.
 \framesubtitle{Thread job}
 
 \begin{itemize}
-\item Ogni thread del pool esegue la funzione \texttt{thread\_main}
+\item Ogni thread del pool esegue la funzione \texttt{thread\_main}.
 \item Se non vuota, il worker
 estrae una socket dalla lista \texttt{list\_sock}, altrimenti si mette in attesa di una nuova
-\texttt{signal} dal thread main
+\texttt{signal} dal thread main.
 \item   Il thread che è stato risvegliato chiama la funzione
-\texttt{thread\_job()} in cui serve in loop il client connesso alla socket
+\texttt{thread\_job()} in cui serve in loop il client connesso alla socket:
 \end{itemize}
 
 \medskip
@@ -465,11 +452,11 @@ estrae una socket dalla lista \texttt{list\_sock}, altrimenti si mette in attesa
 Nella funzione \texttt{serve\_request(socket\_client)} viene effettuato il parsing della richiesta HTTP:
 
 \begin{itemize}
-\item Viene fatto il parsing del metodo, accettando esclusivamente richieste GET o HEAD.
-\item Viene fatto il parsing del path richiesto, controllando sommariamente la presenza di errori.
-\item Viene fatto il parsing dei campi HTTP e vengono posti in buffer, se presenti, i campi Accept ed User Agent.
+\item Viene fatto il parsing del metodo, accettando esclusivamente richieste \textbf{GET} o \textbf{HEAD}.
+\item Viene fatto il parsing del path richiesto, verificando l'assenza di errori.
+\item Viene fatto il parsing dei campi HTTP e vengono posti in buffer, se presenti, i campi \textit{Accept} ed \textit{User Agent}.
 \item Se gli header sono corretti, viene passato lo User Agent al modulo
-WURFL, il quale interrogherà il suo database interno per restituire i
+\textbf{WURFL} per ricavare
 valori di altezza e larghezza ottimali per lo User-Agent ricevuto.
 \end{itemize}
 
@@ -483,18 +470,17 @@ valori di altezza e larghezza ottimali per lo User-Agent ricevuto.
 
 \begin{itemize}
 \item Il thread controlla la presenza di parametri riguardanti l’estensione ed il
-fattore di qualità del contenuto richiesto presenti nel campo Accept.
+fattore di qualità del contenuto richiesto presenti nel campo \textit{Accept}.
 \begin{itemize}
-\item Qualora nella transazione HTTP il client non specifica alcun campo
+\item Se il client non specifica alcun campo
 Accept (o specifica un generico Accept: */*) vengono assunti come
 valori di default il formato PNG ed un fattore di qualità q = 1.0.
 \end{itemize}
-\item Prima di effettuare la conversione di un’immagine si interroga la cache
+\item Si richiede l'immagine alla cache
 richiamando la funzione \texttt{obtain\_file(params)} specificando nome,
 risoluzione, fattore di qualità ed estensione del file richiesta.
 \item Se l’immagine richiesta non è presente in cache essa viene convertita
-chiamando la funzione esterna \texttt{nConvert} di ImageMagick, i cui parametri
-forniti sono gli stessi forniti alla cache. Dopo la conversione il file viene
+chiamando la funzione esterna \texttt{nConvert} di ImageMagick. Dopo la conversione il file viene
 aggiunto nella cache e inviato al client.
 \end{itemize}
 
@@ -564,11 +550,11 @@ L'inserimento iniziale di un' immagine nella cache consiste nel:
 
 \begin{itemize}
 \item Eseguire la conversione del file originale con i parametri specificati.
-\item Salvare il file convertito nella cartella cache, secondo lo schema: \textit{“./cache/fileA/x/y/q/fileA.jpg"}
+\item Salvare il file convertito nella cartella cache, secondo lo schema: \textit{“./cache/fileA/x/y/q/fileA.jpg"}.
 
 \item Una volta terminata la conversione viene creato l'\textit{hashNode} ed inserito nella
 tabella hash.
-\item Viene infine creato il \textit{ramNode}, che viene inserito in testa della coda LRU
+\item Viene infine creato il \textit{ramNode}, che viene inserito in testa della coda LRU.
 \end{itemize}
 \end{frame}
 
@@ -603,7 +589,7 @@ RAM:
 \begin{itemize}
 \item Il gestore ottiene immediatamente il \textit{ramNode} del file \textit{A}.
 \item Sposta il \textit{ramNode} del file \textit{A} in testa alla coda LRU, in quanto ultimo file
-richiesto
+richiesto.
 \item Restituisce l'indirizzo in RAM del file.
 \end{itemize}
 \item Se invece il campo puntatore è uguale a NULL, vuole dire che il file \textit{A} non è
@@ -611,7 +597,7 @@ caricato in RAM:
 \begin{itemize}
 \item Bisogna fare la \texttt{open} del file mediante il nome completo indicato.
 \item Eseguire una \texttt{mmap} del file descriptor ottenuto.
-\item Inizializzare un nuovo ramNode con i giusti parametri.
+\item Inizializzare un nuovo \textit{ramNode} con i giusti parametri.
 \item Inserire il \textit{ramNode} alla testa della coda LRU.
 \item Restituire al thread l’indirizzo del mapping.
 \end{itemize}
@@ -637,15 +623,15 @@ caricato in RAM:
 \framesubtitle{Osservazioni}
 
 
-L’implementazione della cache poteva limitarsi alla sola coda LRU, tuttavia
+L’implementazione della cache poteva \textit{limitarsi} alla sola coda LRU, tuttavia
 l’aggiunta di una tabella hash per i file non caricati in memoria ha apportato
 notevoli vantaggi:
 \begin{itemize}
 \item Essendo una struttura dati memorizzata in RAM ci permette di sapere in tempi
 rapidi quali file sono memorizzati su disco, evitando ad ogni richiesta una
-open(), chiamata di sistema che rappresenterebbe un collo di bottiglia nelle prestazioni generali del server.
-\item La tabella hash ci informa dell’eventuale presenza di tale file in RAM, evitando
-una scansione della coda LRU
+\texttt{open}, che \textit{rappresenterebbe} un collo di bottiglia nelle prestazioni generali del server.
+\item La tabella hash ci informa dell’eventuale presenza di tale file in RAM, \textit{evitando}
+una scansione della coda LRU.
 \end{itemize}
 \end{frame}
 
@@ -656,18 +642,18 @@ una scansione della coda LRU
 
 \textbf{Inserimento hashNode:}
 L'inserimento di un \textit{hashNode} nella tabella hash consiste nel trovare la lista
-di collisione a lui "prefissata" mediante la funzione hash sul nome del file,
-presentando quindi un costo O(1).
+di collisione a lui `` prefissata``  mediante la funzione hash sul nome del file,
+presentando quindi un costo $O(1)$.
 
 \medskip
 
 \textbf{Inserimento ramNode:}
-Anche l’inserimento di un ramNode ha costo O(1), in quanto consiste
+Anche l’inserimento di un \textit{ramNode} ha costo $O(1$), in quanto consiste
 nella modifica di puntatori nella testa della coda.
 
 \medskip
 
-\textbf{Cancellazione hashNode:} Gli hashNode non vengono mai cancellati.
+\textbf{Cancellazione hashNode:} Gli \textit{hashNode} non vengono mai cancellati.
 \end{frame}
 \begin{frame}
 \frametitle{Cache}
@@ -680,7 +666,7 @@ che si trovano in fondo alla coda LRU:
 
 
 \item Per trovare questi nodi è sufficiente
-accedere al nodo "Rear" della coda LRU e vedere all'indietro a quale
+accedere al nodo ``Rear''  della coda LRU e vedere all'indietro a quale
 \textit{ramNode} punta.
 
 \medskip
@@ -688,15 +674,14 @@ accedere al nodo "Rear" della coda LRU e vedere all'indietro a quale
 \item Una volta eliminato il \textit{ramNode} bisogna notificare all'\textit{hashNode} associato
 che il suo \textit{ramNode} non esiste più, bisogna cioè modificare il campo
 puntatore dell'\textit{hashNode} che punta al \textit{ramNode}, settandolo al valore
-NULL.
+\texttt{NULL}.
 
 \medskip
 
-\item Per velocizzare tale operazione abbiamo aggiunto un puntatore
-gemello che collega il \textit{ramNode} all'\textit{hashNode} associato, quindi anche in
-questo caso riusciamo immediatamente a trovare l'\textit{hashNode} che ci
+\item Grazie ad un puntatore
+gemello che collega il \textit{ramNode} all'\textit{hashNode} associato troviamo immediatamente l'\textit{hashNode} che ci
 interessa. Di conseguenza, anche la cancellazione presenta un costo
-costante O(1).
+costante $O(1)$.
 
 
 \end{itemize}
@@ -707,7 +692,7 @@ costante O(1).
 \frametitle{Cache}
 \framesubtitle{Prestazioni}
 \textbf{Ricerca ramNode:} il costo per la ricerca del \textit{ramNode} è dato dal costo della ricerca
-dell'\textit{hashNode}, infatti una volta trovato l'\textit{hashNode} riusciamo a recuperare
+dell'\textit{hashNode}, infatti una volta trovato l'\textit{hashNode} recuperiamo
 immediatamente il \textit{ramNode} associato, accedendo semplicemente al
 campo puntatore. Il costo per la ricerca di un \textit{hashNode} è dato da:
 
@@ -726,9 +711,8 @@ $m$: numero di liste di collisione della tabella
 
 \medskip
 
-Se il fattore di carico $\alpha$ si mantiene "stabile", ossia se il numero di collisioni tra gli elementi si mantiene
-abbastanza basso, il tempo di ricerca può essere considerato
-pari ad un costo costante O(1).
+Se il fattore di carico $\alpha$ si mantiene ``stabile'' (numero di collisioni) il tempo di ricerca può essere considerato
+pari ad un costo costante $O(1)$.
 
 \end{frame}
 
@@ -752,17 +736,17 @@ Dove:
 
 \begin{itemize} 
 
-\item web\_cache: indirizzo dell'istanza della cache
+\item \texttt{web\_cache}: indirizzo dell'istanza della cache
 
-\item name: nome del file da richiedere
+\item \texttt{name}: nome del file da richiedere
 
-\item ext: estensione del file da richiedere
+\item \texttt{ext}: estensione del file da richiedere
 
-\item x,y: risoluzione dell'immagine da richiedere
+\item \texttt{x,y}: risoluzione dell'immagine da richiedere
 
-\item size: puntatore alla dimensione del file
+\item \texttt{size}: puntatore alla dimensione del file
 
-\item file\_type: flag immagine o file html
+\item \texttt{file\_type}: flag immagine o file html
 
 
 \end{itemize}
@@ -781,12 +765,12 @@ Dove:
 
 
 \item L'interfaccia \texttt{obtain\_file} serve per richiedere un certo file al gestore della cache, e
-restituisce l'indirizzo al primo byte del file richiesto
+restituisce l'indirizzo al primo byte del file richiesto.
 
-\item L'interfaccia \texttt{release\_file} serve per rilasciare il file precedentemente richiesto
+\item L'interfaccia \texttt{release\_file} serve per rilasciare il file precedentemente richiesto.
 \end{itemize}
 
-In altre parole, ad ogni file è associato un contatore di utilizzo. Serve essenzialmente per evitare che un file finito in fondo alla coda LRU ma ancora utilizzato da qualche thread venga eliminato dal gestore della cache.
+In altre parole, ad ogni file è associato un \textbf{contatore di utilizzo}. Serve ad \textit{evitare} che un file finito in fondo alla coda LRU ma ancora utilizzato da qualche thread venga eliminato dal gestore della cache.
 
 
 \end{frame}
@@ -822,8 +806,8 @@ introdotto tre diversi flag ed abbiamo assegnato loro un valore numerico:
 \frametitle{Logger}
 \framesubtitle{Tabella Livelli}
 
-Ogni messaggio viene trascritto con il rispettivo flag associato. Il logger viene
-inizializzato ad uno degli otto livelli disponibili ed utilizza lo stesso meccanismo
+Il logger viene
+inizializzato ad uno degli \textbf{otto livelli} disponibili ed utilizza lo stesso meccanismo
 dei permessi nei file system \textit{Unix} per stabilire quale messaggi ignorare e quali
 copiare:
 
@@ -851,8 +835,7 @@ copiare:
 \frametitle{Logger}
 \framesubtitle{Approccio}
 
-In seguito ad una discussione all'interno del gruppo di lavoro è emerso che il
-logger avrebbe dovuto rispettare essenzialmente due punti:
+Abbiamo progettato il logger per rispettare due punti essenziali:
 
 \begin{itemize}
 \item \textbf{Flush:} I messaggi di log devono essere scritti su file il prima possibile,
@@ -877,14 +860,14 @@ messaggi.
 \item Un thread che vuole scrivere un messaggio sul file di log notifica ad un thread
 ad hoc, il garbage thread, il relativo messaggio
 \begin{itemize}
-\item Il thread continua a servire il client, senza preoccuparsi del resto
+\item Il thread continua a servire il client, senza preoccuparsi del resto.
 \end{itemize}
 \item Il messaggio viene inserito nella coda di messaggi ed al garbage thread viene
-notificato tale inserimento
+notificato tale inserimento.
 \item Il garbage thread esce dalla fase di IDLE e svuota la coda di messaggi,
-scrivendo ogni messaggio sul file di log mediante una \texttt{write}
+scrivendo ogni messaggio sul file di log mediante una \texttt{write}.
 \item Dopo aver svuotato la coda, il garbage thread torna in stato di IDLE, in attesa di
-nuovi inserimenti
+nuovi inserimenti.
 
 \end{itemize}
 
@@ -892,13 +875,13 @@ nuovi inserimenti
 \begin{frame}
 \frametitle{Logger}
 \framesubtitle{Osservazioni}
-Dal punto di visto di un thread la scrittura di un messaggio sul file di log risulta
+Dal punto di vista di un thread la scrittura di un messaggio sul file di log risulta
 quindi abbastanza veloce, consistendo solo in operazioni effettuate in RAM:
 \begin{itemize}
-\item Acquisione del lock della coda
-\item Inserimento del messaggio della coda
-\item Invio del segnale di "sveglia" al garbadge thread
-\item Rilascio del lock della coda
+\item Acquisione del lock della coda.
+\item Inserimento del messaggio della coda.
+\item Invio del segnale di "sveglia" al garbadge thread.
+\item Rilascio del lock della coda.
 \end{itemize}
 \end{frame}
 
@@ -941,9 +924,9 @@ struct logger * create_logger(char * pathLog, int log_lvl);
 con:
 
 \begin{itemize}
-\item pathLog: percorso dove creare il file di log
-\item log\_lvl: livello del log
-\item restituisce un puntatore all'istanza logger creata
+\item \texttt{pathLog}: percorso dove creare il file di log.
+\item \texttt{log\_lvl}: livello del log.
+\item restituisce un puntatore all'istanza logger creata.
 \end{itemize}
 \scriptsize
 \begin{lstlisting}
@@ -954,9 +937,9 @@ void toLog(int type, struct logger * myLogger, char * buf, ...);
 con:
 
 \begin{itemize}
-\item type: tipo di messaggio (Error, Warning o Info)
-\item myLogger: puntatore all'istanza del logger
-\item buf: messaggio da scrivere (testo formattato, parametri illimitati)
+\item \texttt{type}: tipo di messaggio (Error, Warning o Info).
+\item \texttt{myLogger}: puntatore all'istanza del logger.
+\item \texttt{buf}: messaggio da scrivere (testo formattato, parametri illimitati).
 \end{itemize}
 \end{frame}
 
@@ -989,8 +972,7 @@ connessione medio ).
 \framesubtitle{Test}
 
 \begin{itemize}
-\item Il plotting dei grafici è stato effettuato mediante la libreria Python \textbf{MatplotLib} e
-riassumono i risultati dei test, confrontandoli.
+\item Il plotting dei grafici è stato effettuato mediante la libreria Python \textbf{MatplotLib}.
 \item In ascissa è riportato il valore del tasso di arrivo, misurato in richieste al secondo
 (req/s); in ordinata, invece, è riportato il tempo corrispondente, misurato in
 millisecondi(ms); in blu le prestazioni di Hideo, in rosso quelle di Apache2.
@@ -1067,16 +1049,12 @@ millisecondi(ms); in blu le prestazioni di Hideo, in rosso quelle di Apache2.
 \framesubtitle{Analisi del Test}
 
 \begin{itemize}
-\item Per i test disponevamo di una macchina con preinstallata la distribuzione
-GNU/Linux Fedora sulla quale abbiamo hostato una macchina virtuale con un
-processore e due core virtuali
-\item Il motivo di tale decisione è dovuto in particolare
-al fatto che ScientiaMobile ci ha fornito un pacchetto .deb (quindi nativamente
+\item I test sono stati effettuati su macchina virtuale utilizzando la distribuzione \textit{GNU/Linux Xubuntu}.
+\item Il motivo di tale decisione è dovuto
+al fatto che \textbf{ScientiaMobile} ci ha fornito un pacchetto \textit{.deb} (quindi nativamente
 supportata nelle distribuzioni Debian e derivate), oltre alla volontà di fornire un
 ambiente pulito e minimale ad entrambi i server.
-\item Nonostante Apache2 abbia alle spalle dieci anni di sviluppo da parte dei
-sviluppatori della Apache Foundation i risultati dei test ci hanno sorpreso,
-soprattutto i numerosi casi di prestazioni simili e migliori.
+\item Dai risultati dei test, abbiamo constatato che i tempi di risposta fino ad un certo \textit{overhead} sono migliori di \textbf{Apache2}.
 \end{itemize}
 \end{frame}
 
@@ -1087,11 +1065,79 @@ soprattutto i numerosi casi di prestazioni simili e migliori.
 
 \begin{itemize}
 \item Una delle ipotesi per cui i tempi di risposta sono talvolta più stringenti è che
-l’architettura di Apache2 è molto più complessa (essendo multi-processo e multi-
-thread) rispetto all’architettura di Hideo.
+l’architettura di \textbf{Apache2} è molto più complessa (essendo multi-processo e multi-
+thread) rispetto all’architettura di \textbf{Hideo}.
 \item Questa complessità, tuttavia, si traduce in robustezza ed affidabilità nella risposta,
-permettendo ad Apache2 di mantenere prestazioni stabili anche oltre le 2000
+permettendo ad \textbf{Apache2} di mantenere prestazioni stabili molto oltre le 2000
 connessioni simultanee.
 \end{itemize}
 \end{frame}
+
+
+
+
+\begin{frame}
+\frametitle{Utilizzo dell'Applicazione}
+\framesubtitle{Prerequisiti}
+Per la compilazione del Web Server sono necessari:
+\begin{itemize}
+\item Compilatore \textbf{GCC} versione $4+$.
+\item Header C di sistema.
+\item Pacchetto Header di WURFL.
+\item Database di WURFL.
+\end{itemize}
+
+
+
+
+
+
+
+
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Utilizzo dell'Applicazione}
+\framesubtitle{Compilazione \& Configurazione}
+
+\begin{itemize}
+\item Per la compilazione del Web Server utilizzare i comandi \textit{make} e \textit{make clean}.
+
+\item Per configurare il server modificare oppurtunamente il file \textit{server.cfg} attraverso i parametri:
+\begin{itemize}
+\medskip
+\item \textbf{server}: Numero di porta sulla quale rimanere in ascolto.
+\medskip
+\item \textbf{threads}: Numero di thread del pool statico.
+\medskip
+\item \textbf{backlog}: Numero massimo di connessioni accettate in coda.
+\medskip
+\item \textbf{loglvl}: Tipologia di logging.
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+\frametitle{Utilizzo dell'Applicazione}
+\framesubtitle{Esecuzione}
+
+\begin{itemize}
+\item Una volta compilato e configurato, si può eseguire il server attraverso il comando \textit{./server}.
+\item Il server sarà  disponibile all’indirizzo: \textbf{http://127.0.0.1:porta\_configurata}.
+\item Il log del server sarà accodato al file \textit{server.log} (consultabile in tempo reale con il
+comando \textit{tail -f server.log}).
+\end{itemize}
+
+
+\end{frame}
+
+
+
 \end{document}
