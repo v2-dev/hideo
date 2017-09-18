@@ -209,6 +209,22 @@ void print_message(struct conndata *p)
 			User-Agent parsing
 ****************************/
 
+/*
+int uacheck(char *optstring, struct conndata *p)
+{
+
+	p=p;
+	char ua_head[] = "User-Agent:";
+	size_t buf_idx = 0;
+	while (buf_idx < 11) {
+		if (buf_idx > 0 && ua_head[buf_idx] != optstring[buf_idx])
+			return 0;
+		buf_idx++;
+	}
+
+	return 1;
+}*/
+
 int uacheck(char *optstring, struct conndata *p)
 {
 	/*
@@ -219,7 +235,6 @@ int uacheck(char *optstring, struct conndata *p)
 	 * restituisce -1 in caso di errori
 	 *
 	 */
-	p=p;
 	char ua_head[] = "User-Agent:";
 	size_t buf_idx = 0;
 	while (buf_idx < 11) {
@@ -227,7 +242,14 @@ int uacheck(char *optstring, struct conndata *p)
 			return 0;
 		buf_idx++;
 	}
-
+	strcpy(p->useragent, optstring + 12);
+	/*
+	   strcpy(p->useragent, "");
+	   for (buf_idx = 11; buf_idx <= strlen(optstring); buf_idx++) strcat(p->useragent, optstring[buf_idx]);
+	 */
+	strcpy(p->messages, "User Agent = ");
+	strcat(p->messages, p->useragent);
+	print_message(p);
 	return 1;
 }
 
@@ -458,7 +480,9 @@ int send_response(struct conndata *p)
 		cache_set = 1;
 		strcpy(mypath, "homepage");
 		strcat(mypath, p->path);
+		printf("User Agent: *%s*\n", p->useragent);
 		wurflrdt(hwurfl, p->useragent, &x, &y);
+		printf("User Agent: *%s*\n", p->useragent);
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
 		if (m != NULL){
 			fileNotFound = 0;
