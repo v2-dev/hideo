@@ -44,7 +44,7 @@ HTTP/1.1 realizzato in linguaggio C usando le API della socket Berkeley.
 \medskip
 
 Il suo scopo è offrire agli utenti la possibilità di scaricare immagini adattandole alle caratteristiche ed alle necessità del
-dispositivo richiedente.
+dispositivo richiedente:
 
 \footnotesize
 \begin{itemize}
@@ -81,111 +81,127 @@ Il codice sorgente è disponibile al seguente indirizzo:
 
 \end{frame}
 
+
+
 \begin{frame}
-\frametitle{Comportamento dell'applicazione}
-\framesubtitle{Inizializzazione}
+\frametitle{Struttura e Architettura dell'Applicazione}
+\framesubtitle{Server}
 
-All'avvio del programma viene eseguita
-la lettura ed il parsing del file di configurazione \textit{server.cfg}, contenente i seguenti parametri:
-
+Il Server è organizzato in due componenti principali:
 \begin{itemize}
-\item porta di ascolto
-\item numero di thread
-\item lunghezza del backlog
-\item livello di logging
+\item Una funzione main che si occupa della gestione della socket TCP
+accettando nuove connessioni;
+\item Un pool statico di thread worker che si occupa della gestione di ogni
+singola connessione;
 \end{itemize}
 
 
-L’eseguibile inizializza la socket d’ascolto e le strutture dati
-relative al modulo WURFL (caricamento del database di \textit{User Agent}), alla cache ed al logger con i parametri scelti.
+Il server è \textbf{prethreaded} con  un numero di thread statico fissato nel file di configurazione.
 
+
+\medskip
 \end{frame}
 
-
 \begin{frame}
-\frametitle{Comportamento dell'applicazione}
-\framesubtitle{Multithreading}
+\frametitle{Struttura e Architettura dell'Applicazione}
+\framesubtitle{Server Main}
+La funzione \textbf{main} del server svolge i seguenti compiti:
 
-Terminata l’inizializzazione, vengono spawnati i \textit{worker thread} che
-si occupano di servire i client. L’eseguibile entra in un loop non terminante nel
-quale:
+\medskip
 
 \begin{itemize}
-\item Accetta le connessioni dalla socket d’ascolto.
-\item Accoda il file descriptor ad una lista FIFO acceduta in lettura dai worker thread in stato
-di IDLE.
-\item Ai thread viene segnalato l'inserimento di nuovo file descriptor alla lista, e mediante l’utilizzo di un \textbf{mutex} uno dei thread
-prende l’esclusività su tale socket,
-rimuovendola dalla lista e servendo il client ivi collegato mantenendo aperta e
-sfruttando tale socket (permanenza della connessione del protocollo HTTP/1.1).
+\item Inizializzazione delle componenti Cacher, Logger, WURFL.
+\item Inizializzazione e gestione della socket TCP sulla porta specificata nel file di configurazione.
+\item Il main entra in un ciclo in cui accetta continuamente richieste di connessione in entrata, salvando la relativa connessione in una lista chiamata \textit{list\_sock} e \textit{sveglia} mediante una \texttt{signal} uno dei thread del pool in attesa sulla \texttt{condition}.
 \end{itemize}
 
 \end{frame}
 
 
-\begin{frame}
-\frametitle{Comportamento dell'applicazione}
-\framesubtitle{Processamento della richiesta}
 
-Il thread, terminata la copiatura della socket ad un buffer interno, effettua un
-parsing del messaggio per:
+\begin{frame}
+\frametitle{Struttura e Architettura dell'Applicazione}
+\framesubtitle{Thread job}
 
 \begin{itemize}
-\item Controllarne l’effettiva validità ed aderenza alle
-specifiche HTTP/1.1
+\item Ogni thread del pool esegue la funzione \texttt{thread\_main}.
+\item Se non vuota, il worker
+estrae una socket dalla lista \texttt{list\_sock}, altrimenti si mette in attesa di una nuova
+\texttt{signal} dal thread main.
+\item   Il thread che è stato risvegliato chiama la funzione
+\texttt{thread\_job()} in cui serve in loop il client connesso alla socket:
+\end{itemize}
 
-\item per discriminare tra i metodi \textbf{GET} ed \textbf{HEAD} (di cui
-veniva richiesta l’implementazione).
+\medskip
+\scriptsize
+\setlength{\parindent}{30pt} \textit{infinite loop}
+
+\setlength{\parindent}{32pt} \textit{\{}
+
+\setlength{\parindent}{50pt} \textit{serve\_request(socket\_client);}
+
+\setlength{\parindent}{50pt} \textit{if (some\_error)}
+
+\setlength{\parindent}{52pt} \textit{\{}
+
+
+\setlength{\parindent}{70pt} \textit{free(socket\_client);}
+
+\setlength{\parindent}{70pt} \textit{close(socket\_client);}
+
+\setlength{\parindent}{70pt} \textit{break loop;}
+
+
+\setlength{\parindent}{52pt} \textit{\}}
+
+\setlength{\parindent}{50pt} \textit{else}
+
+
+\setlength{\parindent}{70pt} \textit{continue loop serving client;}
+
+\setlength{\parindent}{32pt} \textit{\}}
+\normalsize
+\end{frame}
+
+\begin{frame}
+\frametitle{Struttura e Architettura dell'Applicazione}
+\framesubtitle{Funzione serve\_request}
+
+Nella funzione \texttt{serve\_request(socket\_client)} viene effettuato il parsing della richiesta HTTP:
+
+\begin{itemize}
+\item Viene fatto il parsing del metodo, accettando esclusivamente richieste \textbf{GET} o \textbf{HEAD}.
+\item Viene fatto il parsing del path richiesto, verificando l'assenza di errori.
+\item Viene fatto il parsing dei campi HTTP e vengono posti in buffer, se presenti, i campi \textit{Accept} ed \textit{User Agent}.
+\item Se gli header sono corretti, viene passato lo User Agent al modulo
+\textbf{WURFL} per ricavare
+valori di altezza e larghezza ottimali per lo User-Agent ricevuto.
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}
-\frametitle{Comportamento dell'applicazione}
-\framesubtitle{Processamento della richiesta}
-
-\begin{itemize}
-
-\item Si ottiene dal modulo WURFL la risoluzione del
-dispositivo richiedente, e vengono memorizzati il percorso del file richiesto
-ed i parametri specificati nel campo HTTP \textit{Accept} quali il fattore di qualità e
-l’estensione richiesta per l’immagine.
-
-\item Nel caso la richiesta riguardi un’immagine interviene il modulo cacher, che si
-occupa di inoltrare immediatamente il file se questi è presente in cache, senza
-dover così eseguire nuovamente alcuna operazione di conversione.
-
-\item In caso di
-fallimento
-della
-ricerca
-l’immagine
-viene
-convertita
-dal
-programma
-\textbf{ImageMagick}, inviata al client e salvata nella cache.
-\end{itemize}
-\end{frame}
-
-
 
 \begin{frame}
-\frametitle{Comportamento dell'applicazione}
-\framesubtitle{Inoltro del contenuto \& Chiusura della connessione}
+\frametitle{Struttura e Architettura dell'Applicazione}
+\framesubtitle{Funzione serve\_request}
+
+
 \begin{itemize}
-\item Una volta intervenuto il cacher (nel caso delle immagini) od appurato che non vi
-siano errori di apertura della \textit{index.html} l’applicativo si occupa di inoltrare una
-risposta al client, allegando o meno il file richiesto.
-
-\item In caso di errori con il file
-richiesto viene inoltrato un messaggio di errore \textbf{HTTP 404} mentre, nel caso di un
-metodo non implementato, l’errore \textbf{501}.
-
-\item La connessione verrà chiusa all’esplicita disconnessione del client od, in sua
-assenza, allo scadere di un timeout di connessione altrimenti resettato ad ogni
-nuova richiesta.
+\item Il thread controlla la presenza di parametri riguardanti l’estensione ed il
+fattore di qualità del contenuto richiesto presenti nel campo \textit{Accept}.
+\begin{itemize}
+\item Se il client non specifica alcun campo
+Accept (o specifica un generico Accept: */*) vengono assunti come
+valori di default il formato PNG ed un fattore di qualità q = 1.0.
 \end{itemize}
+\item Si richiede l'immagine alla cache
+richiamando la funzione \texttt{obtain\_file(params)} specificando nome,
+risoluzione, fattore di qualità ed estensione del file richiesta.
+\item Se l’immagine richiesta non è presente in cache essa viene convertita
+chiamando la funzione esterna \texttt{nConvert} di \textbf{ImageMagick}. Dopo la conversione il file viene
+aggiunto nella cache e inviato al client.
+\end{itemize}
+
 \end{frame}
 
 
@@ -362,131 +378,6 @@ utilizzate \texttt{fork + execve}.
 La \textbf{complessità} di questo approccio sta nel fatto che il thread deve \textit{ricordarsi} della storia passata, ovvero delle richieste ricevute ma non ancora evase.
 \end{itemize}
 \end{frame}
-
-
-
-\begin{frame}
-\frametitle{Struttura e Architettura dell'Applicazione}
-\framesubtitle{Server}
-
-Il Server è organizzato in due componenti principali:
-\begin{itemize}
-\item Una funzione main che si occupa della gestione della socket TCP
-accettando nuove connessioni;
-\item Un pool statico di thread worker che si occupa della gestione di ogni
-singola connessione;
-\end{itemize}
-
-
-Il server è \textbf{prethreaded} con  un numero di thread statico fissato nel file di configurazione.
-
-
-\medskip
-\end{frame}
-
-\begin{frame}
-\frametitle{Struttura e Architettura dell'Applicazione}
-\framesubtitle{Server Main}
-La funzione \textbf{main} del server svolge i seguenti compiti:
-
-\medskip
-
-\begin{itemize}
-\item Inizializzazione delle componenti Cacher, Logger, WURFL.
-\item Inizializzazione e gestione della socket TCP sulla porta specificata nel file di configurazione.
-\item Il main entra in un ciclo in cui accetta continuamente richieste di connessione in entrata, salvando la relativa connessione in una lista chiamata \textit{list\_sock} e \textit{sveglia} mediante una \texttt{signal} uno dei thread del pool in attesa sulla \texttt{condition}.
-\end{itemize}
-
-\end{frame}
-
-
-
-\begin{frame}
-\frametitle{Struttura e Architettura dell'Applicazione}
-\framesubtitle{Thread job}
-
-\begin{itemize}
-\item Ogni thread del pool esegue la funzione \texttt{thread\_main}.
-\item Se non vuota, il worker
-estrae una socket dalla lista \texttt{list\_sock}, altrimenti si mette in attesa di una nuova
-\texttt{signal} dal thread main.
-\item   Il thread che è stato risvegliato chiama la funzione
-\texttt{thread\_job()} in cui serve in loop il client connesso alla socket:
-\end{itemize}
-
-\medskip
-\scriptsize
-\setlength{\parindent}{30pt} \textit{infinite loop}
-
-\setlength{\parindent}{32pt} \textit{\{}
-
-\setlength{\parindent}{50pt} \textit{serve\_request(socket\_client);}
-
-\setlength{\parindent}{50pt} \textit{if (some\_error)}
-
-\setlength{\parindent}{52pt} \textit{\{}
-
-
-\setlength{\parindent}{70pt} \textit{free(socket\_client);}
-
-\setlength{\parindent}{70pt} \textit{close(socket\_client);}
-
-\setlength{\parindent}{70pt} \textit{break loop;}
-
-
-\setlength{\parindent}{52pt} \textit{\}}
-
-\setlength{\parindent}{50pt} \textit{else}
-
-
-\setlength{\parindent}{70pt} \textit{continue loop serving client;}
-
-\setlength{\parindent}{32pt} \textit{\}}
-\normalsize
-\end{frame}
-
-\begin{frame}
-\frametitle{Struttura e Architettura dell'Applicazione}
-\framesubtitle{Funzione serve\_request}
-
-Nella funzione \texttt{serve\_request(socket\_client)} viene effettuato il parsing della richiesta HTTP:
-
-\begin{itemize}
-\item Viene fatto il parsing del metodo, accettando esclusivamente richieste \textbf{GET} o \textbf{HEAD}.
-\item Viene fatto il parsing del path richiesto, verificando l'assenza di errori.
-\item Viene fatto il parsing dei campi HTTP e vengono posti in buffer, se presenti, i campi \textit{Accept} ed \textit{User Agent}.
-\item Se gli header sono corretti, viene passato lo User Agent al modulo
-\textbf{WURFL} per ricavare
-valori di altezza e larghezza ottimali per lo User-Agent ricevuto.
-\end{itemize}
-
-\end{frame}
-
-
-\begin{frame}
-\frametitle{Struttura e Architettura dell'Applicazione}
-\framesubtitle{Funzione serve\_request}
-
-
-\begin{itemize}
-\item Il thread controlla la presenza di parametri riguardanti l’estensione ed il
-fattore di qualità del contenuto richiesto presenti nel campo \textit{Accept}.
-\begin{itemize}
-\item Se il client non specifica alcun campo
-Accept (o specifica un generico Accept: */*) vengono assunti come
-valori di default il formato PNG ed un fattore di qualità q = 1.0.
-\end{itemize}
-\item Si richiede l'immagine alla cache
-richiamando la funzione \texttt{obtain\_file(params)} specificando nome,
-risoluzione, fattore di qualità ed estensione del file richiesta.
-\item Se l’immagine richiesta non è presente in cache essa viene convertita
-chiamando la funzione esterna \texttt{nConvert} di ImageMagick. Dopo la conversione il file viene
-aggiunto nella cache e inviato al client.
-\end{itemize}
-
-\end{frame}
-
-
 
 
 
@@ -793,7 +684,7 @@ introdotto tre diversi flag ed abbiamo assegnato loro un valore numerico:
 
 \medskip
 
-\textbf{Error} \hspace{1.2cm} \textbf{4} \hspace{1cm} Messaggi a puro scopo informativo
+\textbf{Info} \hspace{1.4cm} \textbf{4} \hspace{1cm} Messaggi a puro scopo informativo
 
 \medskip
 \medskip
@@ -1054,7 +945,7 @@ millisecondi(ms); in blu le prestazioni di Hideo, in rosso quelle di Apache2.
 al fatto che \textbf{ScientiaMobile} ci ha fornito un pacchetto \textit{.deb} (quindi nativamente
 supportata nelle distribuzioni Debian e derivate), oltre alla volontà di fornire un
 ambiente pulito e minimale ad entrambi i server.
-\item Dai risultati dei test, abbiamo constatato che i tempi di risposta fino ad un certo \textit{overhead} sono migliori di \textbf{Apache2}.
+\item Dai risultati dei test, abbiamo constatato che i tempi di risposta fino ad un certo \textit{overhead} sono confrontabili con quelli di \textbf{Apache2}.
 \end{itemize}
 \end{frame}
 
@@ -1065,8 +956,7 @@ ambiente pulito e minimale ad entrambi i server.
 
 \begin{itemize}
 \item Una delle ipotesi per cui i tempi di risposta sono talvolta più stringenti è che
-l’architettura di \textbf{Apache2} è molto più complessa (essendo multi-processo e multi-
-thread) rispetto all’architettura di \textbf{Hideo}.
+l’architettura di \textbf{Apache2} è molto più complessa (essendo multi-processo e multi-thread) rispetto all’architettura di \textbf{Hideo}.
 \item Questa complessità, tuttavia, si traduce in robustezza ed affidabilità nella risposta,
 permettendo ad \textbf{Apache2} di mantenere prestazioni stabili molto oltre le 2000
 connessioni simultanee.
