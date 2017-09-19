@@ -18,7 +18,7 @@ void thread_make(int i)
 	tptr[i].thread_count = i;
 
 	if ((pthread_attr_init(&attr)) != 0) {
-		toLog(ERR,srvlog, "Error in pthread_attr_init()");
+		toLog(ERR, srvlog, "Error in pthread_attr_init()");
 		exit(EXIT_FAILURE);
 	}
 
@@ -28,12 +28,12 @@ void thread_make(int i)
 	}
 
 	if ((pthread_create(&tptr[i].thread_tid, &attr, &thread_main, &tptr[i])) != 0) {
-		toLog(ERR,srvlog, "Error in pthread_create");
+		toLog(ERR, srvlog, "Error in pthread_create");
 		return;
 	}
 
 	if ((pthread_attr_destroy(&attr)) != 0) {
-		toLog(ERR,srvlog, "Error in pthread_attr_destroy()");
+		toLog(ERR, srvlog, "Error in pthread_attr_destroy()");
 		exit(EXIT_FAILURE);
 	}
 
@@ -49,10 +49,10 @@ void thread_job(struct conndata *cdata)
 		retval = serve_request(cdata);
 
 		if (retval == ERROR) {
-			toLog(NFO,srvlog, "closing connection...");
+			toLog(NFO, srvlog, "closing connection...");
 			Free(cdata);
 			close(cdata->socketint);
-			toLog(NFO,srvlog, "...connection closed.");
+			toLog(NFO, srvlog, "...connection closed.");
 			break;
 		}
 
@@ -73,12 +73,12 @@ void *thread_main(void *arg)
 
 	thread_data->thread_tid = pthread_self() / 256;
 
-	toLog(NFO,srvlog, "Thread created [%u]", (unsigned int) thread_data->thread_tid);
+	toLog(NFO, srvlog, "Thread created [%u]", (unsigned int) thread_data->thread_tid);
 
 	for (;;) {
 
 		if ((err = pthread_mutex_lock(&pool_mutex)) != 0) {
-			toLog(ERR,srvlog, "Error on pthread_mutex_lock()");
+			toLog(ERR, srvlog, "Error on pthread_mutex_lock()");
 			pthread_exit(NULL);
 		}
 
@@ -89,7 +89,7 @@ void *thread_main(void *arg)
 			}
 		}
 
-		toLog(NFO,srvlog, "...begin client service...");
+		toLog(NFO, srvlog, "...begin client service...");
 
 		connsd = *sock;
 		free(sock);

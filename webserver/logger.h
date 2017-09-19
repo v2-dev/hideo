@@ -41,24 +41,24 @@
  *
  */
 
-struct logNode {	/* rappresenta un messaggio che deve essere scritto nel file di log*/
+struct logNode {		/* rappresenta un messaggio che deve essere scritto nel file di log */
 
 	char *text;
 	char *timestamp;
-	struct logNode * next;
-	struct logNode * prev;
-	int type;	//ERR, WRN, NFO
+	struct logNode *next;
+	struct logNode *prev;
+	int type;		//ERR, WRN, NFO
 	int tid;
 
 };
 
-struct logger{ 		/* è una struttura che contiene una coda di logNode */
+struct logger {			/* è una struttura che contiene una coda di logNode */
 
 	int log_lvl;
 	int log_fd;
 
-	struct logNode * tail;
-	struct logNode * head;
+	struct logNode *tail;
+	struct logNode *head;
 
 	pthread_mutex_t log_mtx;
 	pthread_cond_t log_cond;
@@ -68,8 +68,8 @@ struct logger{ 		/* è una struttura che contiene una coda di logNode */
 	int printOnScreen;
 };
 
-struct logger * srvlog;
+struct logger *srvlog;
 
-void toLog(int type, struct logger * myLogger, char * buf, ...);
-struct logger * create_logger(char * pathLog, int log_lvl, int printOnScreen);
-char* getDateString();
+void toLog(int type, struct logger *myLogger, char *buf, ...);
+struct logger *create_logger(char *pathLog, int log_lvl, int printOnScreen);
+char *getDateString();

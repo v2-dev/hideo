@@ -209,22 +209,6 @@ void print_message(struct conndata *p)
 			User-Agent parsing
 ****************************/
 
-/*
-int uacheck(char *optstring, struct conndata *p)
-{
-
-	p=p;
-	char ua_head[] = "User-Agent:";
-	size_t buf_idx = 0;
-	while (buf_idx < 11) {
-		if (buf_idx > 0 && ua_head[buf_idx] != optstring[buf_idx])
-			return 0;
-		buf_idx++;
-	}
-
-	return 1;
-}*/
-
 int uacheck(char *optstring, struct conndata *p)
 {
 	/*
@@ -247,9 +231,6 @@ int uacheck(char *optstring, struct conndata *p)
 	   strcpy(p->useragent, "");
 	   for (buf_idx = 11; buf_idx <= strlen(optstring); buf_idx++) strcat(p->useragent, optstring[buf_idx]);
 	 */
-	strcpy(p->messages, "User Agent = ");
-	strcat(p->messages, p->useragent);
-	print_message(p);
 	return 1;
 }
 
@@ -421,7 +402,6 @@ int serve_request(struct conndata *cdata)
 		destroy_httpread(httpr);
 		return ERROR;
 	}
-
 	//strcpy(cdata->messages, *(httpr->array));
 	//print_message(cdata);
 	int i;
@@ -441,13 +421,13 @@ int serve_request(struct conndata *cdata)
 
 
 	/*for (i = 1; i < httpr->dimArray; i++) {
-		if(connection_close(*(httpr->array + i), cdata)){
-			http_connection_close(cdata);
-			destroy_httpread(httpr);
-			return ERROR;
-		}
+	   if(connection_close(*(httpr->array + i), cdata)){
+	   http_connection_close(cdata);
+	   destroy_httpread(httpr);
+	   return ERROR;
+	   }
 
-	}*/
+	   } */
 	if (send_response(cdata) != 0)
 		return ERROR;
 
@@ -469,8 +449,8 @@ int send_response(struct conndata *p)
 	p->return_code = 400;
 	int cache_set;
 	int x, y, len;
-	x=0;
-	y=0;
+	x = 0;
+	y = 0;
 	char mypath[300];
 	char *m;
 	int fileNotFound = 1;
@@ -480,26 +460,24 @@ int send_response(struct conndata *p)
 		cache_set = 1;
 		strcpy(mypath, "homepage");
 		strcat(mypath, p->path);
-		printf("User Agent: *%s*\n", p->useragent);
 		wurflrdt(hwurfl, p->useragent, &x, &y);
-		printf("User Agent: *%s*\n", p->useragent);
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
-		if (m != NULL){
+		if (m != NULL) {
 			fileNotFound = 0;
 			toLog(ERR, srvlog, "fileNotFound");
 		}
 	}
 
-	else if (strncmp("/thumbs", p->path, 7)==0){
+	else if (strncmp("/thumbs", p->path, 7) == 0) {
 		cache_set = 1;
 		strcpy(mypath, "homepage/res");
-		strcat(mypath, (p->path)+7);
+		strcat(mypath, (p->path) + 7);
 		wurflrdt(hwurfl, p->useragent, &x, &y);
-		x = (int)(x/3.4);
-		y = (int) (y/3.4);
+		x = (int) (x / 3.4);
+		y = (int) (y / 3.4);
 
 		m = obtain_file(web_cache, mypath, p->extension, x, y, p->quality_factor, &len, cache_set);
-		if (m != NULL){
+		if (m != NULL) {
 			fileNotFound = 0;
 			toLog(ERR, srvlog, "fileNotFound");
 		}
@@ -537,20 +515,20 @@ int send_response(struct conndata *p)
 
 		conndf_rv = writen(p->socketint, header200, strlen(header200));
 		if (conndf_rv == -1) {
-				releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor, cache_set);
-				return 2;
+			releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor, cache_set);
+			return 2;
 		}
 
-		if (p->get1head2 == 2){
-				releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor, cache_set);
-				return 2;
+		if (p->get1head2 == 2) {
+			releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor, cache_set);
+			return 2;
 		}
 
 
 		conndf_rv = writen(p->socketint, m, contlen);
 		releaseFile(web_cache, mypath, p->extension, x, y, p->quality_factor, cache_set);
 		if (conndf_rv == -1) {
-				return 2;
+			return 2;
 		}
 		toLog(NFO, srvlog, "file served");
 		return 0;
@@ -606,7 +584,7 @@ struct httpread *read_request(int fd)
 			break;
 		}
 		if (n == 0) {
-			httpr->dimArray = -1; //l'header non è terminato correttamente
+			httpr->dimArray = -1;	//l'header non è terminato correttamente
 			break;
 		}
 

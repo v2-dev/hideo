@@ -11,7 +11,7 @@ int get_width(wurfl_device_handle hdevice);
 wurfl_device_handle get_device(wurfl_handle hwurfl, char *userAgent);
 wurfl_handle get_wurfldb(char *root);
 void wurflpdt(wurfl_handle wurfldb, char *uastring);
-void wurflrdt(wurfl_handle wurfldb, char *uastring, int* heightv, int* widthv);
+void wurflrdt(wurfl_handle wurfldb, char *uastring, int *heightv, int *widthv);
 
 /*
 int main(){	TEST
@@ -45,5 +45,3 @@ wurfl_destroy(hwurfl);
 return 0;
 
 }*/
-
-

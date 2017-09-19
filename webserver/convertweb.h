@@ -8,28 +8,27 @@
 *****************************************************************************/
 
 /* separa il nome della cartella dal nome del file */
-void file_extension(char * path, char * res, char * name){
+void file_extension(char *path, char *res, char *name)
+{
 
-    int len = strlen(path);
-    //int nbyte_directory = 0;
-    char * last_slash = NULL;
+	int len = strlen(path);
+	//int nbyte_directory = 0;
+	char *last_slash = NULL;
 
-    for(int i = 0; i<len; i++){
-        if (path[i] == '/') last_slash = path+i;
-    }
+	for (int i = 0; i < len; i++) {
+		if (path[i] == '/')
+			last_slash = path + i;
+	}
 
-    if (last_slash != NULL)
-    {
-        strcpy(name, last_slash+1);
-        int len_name = strlen(name);
-        strncpy(res, path, len - len_name -1);
-        res[len-len_name-1] = '\0';
-    }
-    else
-    {
-        res = NULL;
-        name = path;
-    }
+	if (last_slash != NULL) {
+		strcpy(name, last_slash + 1);
+		int len_name = strlen(name);
+		strncpy(res, path, len - len_name - 1);
+		res[len - len_name - 1] = '\0';
+	} else {
+		res = NULL;
+		name = path;
+	}
 
 }
 
@@ -40,8 +39,8 @@ void file_name(char *filename)
 	int i;
 	int len = strlen(filename);
 
-	for(i = 0; i<len; i++){
-		if (filename[i] == '.'){
+	for (i = 0; i < len; i++) {
+		if (filename[i] == '.') {
 			filename[i] = '\0';
 			break;
 		}
@@ -49,13 +48,14 @@ void file_name(char *filename)
 }
 
 /* converte l'immagine */
-void file_convert(char * path, char * ext, int width, int height, int q){
+void file_convert(char *path, char *ext, int width, int height, int q)
+{
 
 	char res[200];
 	char name[200];
-	file_extension(path, res,name);
+	file_extension(path, res, name);
 
-	char name_alt[50]; /* nome del file senza estensione */
+	char name_alt[50];	/* nome del file senza estensione */
 	strcpy(name_alt, name);
 	file_name(name);
 
@@ -69,7 +69,7 @@ void file_convert(char * path, char * ext, int width, int height, int q){
 	len = strlen(quality) + strlen(y) + strlen(x) + strlen(name) + strlen("cache") + 10;
 
 	destination = malloc(len * sizeof(char));
-	if(destination == NULL){
+	if (destination == NULL) {
 		perror("");
 		exit(EXIT_FAILURE);
 	}
@@ -78,7 +78,7 @@ void file_convert(char * path, char * ext, int width, int height, int q){
 	sprintf(x, "%d", width);
 	sprintf(quality, "%d", q);
 
-	strncpy(resolution, x, strlen(x)+1);
+	strncpy(resolution, x, strlen(x) + 1);
 	strncat(resolution, "x", 1);
 	strncat(resolution, y, strlen(y));
 
@@ -93,12 +93,12 @@ void file_convert(char * path, char * ext, int width, int height, int q){
 
 
 	int len2 = strlen(destination) + strlen("mkdir -p ") + 5;
-	char * create_folder_command = malloc(len2*sizeof(char));
+	char *create_folder_command = malloc(len2 * sizeof(char));
 
-	strncpy(create_folder_command, "mkdir -p ", strlen("mkdir -p ")+1);
+	strncpy(create_folder_command, "mkdir -p ", strlen("mkdir -p ") + 1);
 	strncat(create_folder_command, destination, strlen(destination));
 	int commRes = system(create_folder_command);
-	if (commRes==-1){
+	if (commRes == -1) {
 		fprintf(stderr, "Error in system\n");
 		exit(EXIT_FAILURE);
 	}

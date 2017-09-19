@@ -31,7 +31,7 @@ void pr_cpu_time(void)
 	struct rusage myusage, childusage;
 
 	if (getrusage(RUSAGE_SELF, &myusage) < 0) {
-    		toLog(ERR, srvlog, "error in getrusage\n");
+		toLog(ERR, srvlog, "error in getrusage\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -45,9 +45,9 @@ void pr_cpu_time(void)
 	sys = (double) myusage.ru_stime.tv_sec + myusage.ru_stime.tv_usec / 1000000.0;
 	sys += (double) childusage.ru_stime.tv_sec + childusage.ru_stime.tv_usec / 1000000.0;
 
-  char buf[256];
+	char buf[256];
 	sprintf(buf, "\nuser time = %g, sys time = %g\n", user, sys);
-  toLog(NFO,srvlog ,buf);
+	toLog(NFO, srvlog, buf);
 }
 
 void sig_int()
@@ -89,9 +89,8 @@ int main(int argc, char **argv)
 	fprintf(stdout, "Reading config file " CONFIG_FILE "\n");
 	if (!parse_config()) {
 		fprintf(stderr, "Failed to read config file: %s\n", strerror(errno));
-    fprintf(stderr, "[WRN] %s will be executed with default values\n", argv[0]);
+		fprintf(stderr, "[WRN] %s will be executed with default values\n", argv[0]);
 	}
-
 	//fprintf(stdout, "Final values:\n");
 	fprintf(stdout, "Server port: %s, Number of threads: %s, backlog: %s, LOG_LEVEL: %s\n", config_file.port, config_file.threads, config_file.backlog, config_file.loglvl);
 
@@ -104,24 +103,24 @@ int main(int argc, char **argv)
 
 	web_cache = create_cache();
 
-     toLog(NFO,srvlog, "Server port: %s, Number of threads: %s, backlog: %s, LOG_LEVEL: %s\n", config_file.port, config_file.threads, config_file.backlog, config_file.loglvl);
+	toLog(NFO, srvlog, "Server port: %s, Number of threads: %s, backlog: %s, LOG_LEVEL: %s\n", config_file.port, config_file.threads, config_file.backlog, config_file.loglvl);
 
 	hwurfl = get_wurfldb("wurfl-eval.xml");
 	if (hwurfl == NULL) {
-    toLog(ERR,srvlog, "Error in wurlfd load database\n");
+		toLog(ERR, srvlog, "Error in wurlfd load database\n");
 		exit(EXIT_FAILURE);
 	}
 
 	signal(SIGPIPE, SIG_IGN);
 
 	if (signal(SIGINT, sig_int) == SIG_ERR) {
-		toLog(ERR,srvlog, "Error in signal\n");
+		toLog(ERR, srvlog, "Error in signal\n");
 		exit(EXIT_FAILURE);
 	}
 
 	if ((listensd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) {	/* crea il socket */
 		perror("error in socket()\n");
-    toLog(ERR,srvlog, "Error in socket()\n");
+		toLog(ERR, srvlog, "Error in socket()\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -134,7 +133,7 @@ int main(int argc, char **argv)
 	optlen = sizeof(optval);
 
 	if (setsockopt(listensd, SOL_SOCKET, SO_REUSEPORT, &optval, optlen) < 0)
-    toLog(WRN,srvlog, "Unable to set SO_REUSEPORT on listening socket\n");
+		toLog(WRN, srvlog, "Unable to set SO_REUSEPORT on listening socket\n");
 
 	if ((err = setsockopt(listensd, SOL_SOCKET, SO_KEEPALIVE, &optval, optlen)) < 0) {
 		toLog(ERR, srvlog, "cannot set SO_KEEPALIVE option on socket. Abort.: %d : %s\n", err, strerror(err));
@@ -142,18 +141,18 @@ int main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 
-  toLog(NFO,srvlog ,"SO_KEEPALIVE set\n");
+	toLog(NFO, srvlog, "SO_KEEPALIVE set\n");
 
 	/* assegna l'indirizzo al socket */
 	if ((bind(listensd, (struct sockaddr *) &servaddr, sizeof(servaddr))) < 0) {
-      toLog(ERR, srvlog, "error on bind()");
-      exit(EXIT_FAILURE);
-  }
+		toLog(ERR, srvlog, "error on bind()");
+		exit(EXIT_FAILURE);
+	}
 
 	if (listen(listensd, backlog) < 0) {
-    toLog(ERR,srvlog,"error on listen socket()");
-    exit(EXIT_FAILURE);
-  }
+		toLog(ERR, srvlog, "error on listen socket()");
+		exit(EXIT_FAILURE);
+	}
 
 	tptr = (struct Thread *) Calloc(nthreads + 1, sizeof(struct Thread));
 
@@ -165,7 +164,7 @@ int main(int argc, char **argv)
 
 		len = sizeof(cliaddr);
 		if ((connsd = accept(listensd, (struct sockaddr *) &cliaddr, &len)) < 0) {
-			toLog(ERR,srvlog, "Error in accept %d : %s\n", connsd, strerror(connsd));
+			toLog(ERR, srvlog, "Error in accept %d : %s\n", connsd, strerror(connsd));
 			exit(EXIT_FAILURE);
 		}
 
