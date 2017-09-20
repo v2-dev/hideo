@@ -17,8 +17,7 @@ When the user clicks on an image, based on the HTTP header requests, the image w
 * Pre-threaded server architecture with static worker threads (number of threads configurable).
 * LRU Cache.
 * Asynchronous and fast multilivel logging system.
-* Robust: no memory leaks, no crashes, no race conditions.
 
 ### Prerequisites
 
-* WURFL InFuze module
+* WURFL InFuze module.
